@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { 
   Palette, Code, Smartphone, Brain, Video, ShoppingCart, 
   TrendingUp, Search, MessageCircle, ChevronDown, Menu, X,
@@ -68,13 +69,13 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-premium-black/90 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <a href="#" className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-4">
             <Logo />
             <div>
               <span className="text-xl font-bold gold-text">Graphisme</span>
               <span className="text-xs text-gray-400 block">by ELECTRON</span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
@@ -92,10 +93,10 @@ const Navbar = () => {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-4">
-            <a href="#login" className="text-sm text-gray-300 hover:text-white transition-colors">Connexion</a>
-            <a href="#devis" className="glass-button text-sm">
+            <Link href="/login" className="text-sm text-gray-300 hover:text-white transition-colors">Connexion</Link>
+            <Link href="/login" className="glass-button text-sm">
               Devis Gratuit
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -122,8 +123,8 @@ const Navbar = () => {
               </a>
             ))}
             <div className="flex gap-4 mt-4">
-              <a href="#login" className="text-sm text-gray-300">Connexion</a>
-              <a href="#devis" className="glass-button text-sm">Devis Gratuit</a>
+              <Link href="/login" className="text-sm text-gray-300">Connexion</Link>
+              <Link href="/login" className="glass-button text-sm">Devis Gratuit</Link>
             </div>
           </motion.div>
         )}
