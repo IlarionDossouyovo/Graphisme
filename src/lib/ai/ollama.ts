@@ -3,7 +3,19 @@
 // ==============================================
 
 const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama2'
+
+// Available models on your system
+export const AVAILABLE_MODELS = {
+  'llama3.2': 'llama3.2:latest - 2.0GB',
+  'llama3.1:8b': 'llama3.1:8b - 4.9GB',
+  'qwen2.5-coder:7b': 'qwen2.5-coder:7b - 4.7GB',
+  'phi3:mini': 'phi3:mini - 2.2GB',
+} as const
+
+// Default model (fastest)
+const DEFAULT_MODEL = 'llama3.2'
+
+export type OllamaModel = keyof typeof AVAILABLE_MODELS
 
 export interface OllamaResponse {
   model: string
@@ -31,7 +43,7 @@ export async function generateCompletion(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: options?.model || OLLAMA_MODEL,
+        model: options?.model || DEFAULT_MODEL,
         prompt,
         temperature: options?.temperature || 0.7,
         max_tokens: options?.maxTokens || 500,

@@ -89,14 +89,12 @@ Nous proposons une gamme complète de services digitaux avec un fonctionnement a
 
 ### Backend & Base de données
 - **Node.js** - Runtime JavaScript
-- **PostgreSQL** - Base de données relationnelle
-- **Redis** - Cache et sessions
+- **JSON File Storage** - Base de données locale (fichiers JSON)
+- **API Routes Next.js** - Backend API
 
 ### IA & Automatisation
-- **Ollama** - LLM local
-- **Open WebUI** - Interface pour LLM
-- **n8n** - Automatisation des workflows
-- **LangChain** - Framework pour applications LLM
+- **Ollama** - LLM local (llama3.2, llama3.1, qwen2.5, phi3)
+- **12 Agents IA** - Chat en temps réel
 
 ### Infrastructure
 - **Docker** - Conteneurisation
@@ -111,7 +109,7 @@ Nous proposons une gamme complète de services digitaux avec un fonctionnement a
 ### Prérequis
 
 - Node.js 18+
-- Docker et Docker Compose
+- Ollama (pour l'IA)
 - Git
 
 ### Installation Locale
@@ -119,10 +117,16 @@ Nous proposons une gamme complète de services digitaux avec un fonctionnement a
 ```bash
 # Cloner le projet
 git clone https://github.com/IlarionDossouyovo/Graphisme.git
-cd Graphisme/e-graphisme
+cd Graphisme
 
 # Installer les dépendances
 npm install
+
+# Configurer les variables d'environnement
+copy .env.example .env
+
+# Lancer Ollama (dans un terminal séparé)
+ollama serve
 
 # Lancer en mode développement
 npm run dev
@@ -131,11 +135,8 @@ npm run dev
 ### Lancer avec Docker
 
 ```bash
-# Lancer tous les services
+# Lancer l'application
 docker-compose up -d
-
-# Ou construire et lancer
-docker-compose up --build
 ```
 
 ### URLs d'accès
@@ -145,34 +146,49 @@ docker-compose up --build
 | Application | http://localhost:3000 |
 | Admin | http://localhost:3000/admin |
 | Client | http://localhost:3000/client |
-| n8n | http://localhost:5678 |
-| Ollama | http://localhost:11434 |
-| Open WebUI | http://localhost:8080 |
-| Prometheus | http://localhost:9090 |
-| Grafana | http://localhost:3001 |
+| Ollama API | http://localhost:11434 |
 
 ---
 
 ## 📁 Structure du Projet
 
 ```
-e-graphisme/
+Graphisme/
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx      # Layout principal
-│   │   ├── page.tsx        # Page d'accueil
-│   │   ├── globals.css     # Styles globaux
-│   │   ├── admin/          # Dashboard Admin
-│   │   └── client/         # Dashboard Client
-│   └── components/         # Composants réutilisables
-├── public/                 # Fichiers statiques
-├── docker/                 # Configuration Docker
-├── .github/
-│   └── workflows/         # CI/CD GitHub Actions
-├── Dockerfile
-├── docker-compose.yml
+│   │   ├── api/           # Routes API
+│   │   │   ├── auth/     # Authentication
+│   │   │   ├── chat/     # AI Chat
+│   │   │   ├── projects/ # Projects CRUD
+│   │   │   ├── quotes/   # Quotes CRUD
+│   │   │   ├── invoices/ # Invoices CRUD
+│   │   │   └── contact/  # Contact form
+│   │   ├── admin/        # Admin dashboard
+│   │   ├── client/       # Client dashboard
+│   │   ├── login/        # Login page
+│   │   ├── portfolio/    # Portfolio page
+│   │   ├── ai-team/     # AI Team page
+│   │   ├── pricing/      # Pricing page
+│   │   ├── contact/      # Contact page
+│   │   ├── services/     # Services page
+│   │   ├── layout.tsx    # Main layout
+│   │   ├── page.tsx      # Home page
+│   │   └── globals.css   # Global styles
+│   ├── components/       # Reusable components
+│   │   ├── Button.tsx
+│   │   ├── Card.tsx
+│   │   ├── Input.tsx
+│   │   └── Modal.tsx
+│   └── lib/
+│       ├── db/           # JSON Database
+│       │   └── json-db.ts
+│       ├── ai/           # AI Integration
+│       │   └── ollama.ts
+│       └── auth.ts       # NextAuth config
+├── public/               # Static files
+├── .github/workflows/   # GitHub Actions
+├── .env.example         # Environment template
 ├── package.json
-├── tsconfig.json
 ├── tailwind.config.js
 └── README.md
 ```
