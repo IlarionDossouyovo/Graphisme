@@ -71,7 +71,7 @@ const Navbar = () => {
           <a href="#" className="flex items-center gap-4">
             <Logo />
             <div>
-              <span className="text-xl font-bold gold-text">E-Graphisme</span>
+              <span className="text-xl font-bold gold-text">Graphisme</span>
               <span className="text-xs text-gray-400 block">by ELECTRON</span>
             </div>
           </a>
@@ -154,7 +154,7 @@ const Hero = () => {
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="gold-text">E-Graphisme</span>
+            <span className="gold-text">Graphisme</span>
             <br />
             <span className="text-white">by ELECTRON</span>
           </h1>
@@ -649,7 +649,7 @@ const Footer = () => {
             <div className="flex items-center gap-4 mb-6">
               <Logo />
               <div>
-                <span className="text-xl font-bold gold-text">E-Graphisme</span>
+                <span className="text-xl font-bold gold-text">Graphisme</span>
                 <span className="text-xs text-gray-400 block">by ELECTRON</span>
               </div>
             </div>
@@ -684,7 +684,7 @@ const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            © 2026 E-Graphisme by ELECTRON. Tous droits réservés.
+            © 2026 Graphisme by ELECTRON. Tous droits réservés.
           </p>
           <p className="text-gray-500 text-sm flex items-center gap-2">
             Fait avec <span className="text-gold">❤</span> et l'IA

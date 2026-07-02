@@ -1,7 +1,7 @@
 {
   "name": "e-graphisme",
   "version": "1.0.0",
-  "description": "E-Graphisme by ELECTRON - Premium Digital Agency",
+  "description": "Graphisme by ELECTRON - Premium Digital Agency",
   "private": true,
   "scripts": {
     "dev": "next dev",

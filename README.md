@@ -1,4 +1,4 @@
-# E-Graphisme by ELECTRON
+# Graphisme by ELECTRON
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-2026-Enterprise-gold?style=for-the-badge&labelColor=141414&color=FFD700" alt="Version">
@@ -21,7 +21,7 @@
 
 ## 🚀 Vision
 
-**E-Graphisme by ELECTRON** est la première agence digitale intelligente fonctionnant avec une équipe d'Intelligences Artificielles collaboratives.
+**Graphisme by ELECTRON** est la première agence digitale intelligente fonctionnant avec une équipe d'Intelligences Artificielles collaboratives.
 
 > *"Là où la créativité rencontre la technologie"*
 
@@ -200,7 +200,7 @@ e-graphisme/
 
 ## 📞 Contact
 
-**E-Graphisme by ELECTRON**
+**Graphisme by ELECTRON**
 
 - 📞 +229 01 97 70 03 47
 - 📞 +229 01 49 80 22 02
@@ -211,5 +211,5 @@ e-graphisme/
 
 <p align="center">
   <strong>Fait avec ❤️ et l'IA</strong><br>
-  © 2026 E-Graphisme by ELECTRON
+  © 2026 Graphisme by ELECTRON
 </p>

@@ -34,7 +34,7 @@ const Sidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab:
           </div>
           <div>
             <span className="text-white font-bold">Admin</span>
-            <span className="text-xs text-gray-400 block">E-Graphisme</span>
+            <span className="text-xs text-gray-400 block">Graphisme</span>
           </div>
         </div>
       </div>
