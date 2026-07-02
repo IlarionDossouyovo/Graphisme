@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: 'Graphisme by ELECTRON | Là où la créativité rencontre la technologie',
   description: 'Agence digitale intelligente fonctionnant avec une équipe d\'Intelligences Artificielles collaboratives. Design, Développement Web, Marketing Digital, IA.',
   keywords: ['agence digitale', 'design', 'développement web', 'IA', 'marketing digital', 'Graphisme', 'ELECTRON'],
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

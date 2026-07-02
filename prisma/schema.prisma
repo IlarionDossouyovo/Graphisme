@@ -1,0 +1,375 @@
+// ==============================================
+// Graphisme by ELECTRON - Prisma Schema
+// ==============================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==============================================
+// User & Authentication
+// ==============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String?   // Hashed (nullable for OAuth)
+  avatar        String?
+  role          UserRole  @default(CLIENT)
+  phone         String?
+  company       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  projects      Project[] @relation("ClientProjects")
+  quotes        Quote[]
+  invoices      Invoice[]
+  messages      Message[]
+  tickets       Ticket[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  CLIENT
+}
+
+// ==============================================
+// Projects
+// ==============================================
+
+model Project {
+  id            String        @id @default(cuid())
+  name          String
+  description   String?
+  service       ServiceType
+  status        ProjectStatus @default(PENDING)
+  progress      Int           @default(0)
+  budget        Decimal?      @db.Decimal(10, 2)
+  startDate     DateTime?
+  endDate       DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Client (relation)
+  clientId      String
+  client        User          @relation("ClientProjects", fields: [clientId], references: [id])
+
+  // Quotes & Invoices
+  quotes        Quote[]
+  invoices      Invoice[]
+
+  // Tasks
+  tasks         Task[]
+
+  @@map("projects")
+}
+
+enum ServiceType {
+  DESIGN_GRAPHIC
+  WEB_DEVELOPMENT
+  MOBILE_DEVELOPMENT
+  AI_SERVICES
+  VIDEO_PRODUCTION
+  ECOMMERCE
+  MARKETING_DIGITAL
+  SEO_SEA
+  COMMUNITY_MANAGEMENT
+  CLOUD_DEVOPS
+  CYBERSECURITY
+  OTHER
+}
+
+enum ProjectStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+// ==============================================
+// Tasks
+// ==============================================
+
+model Task {
+  id            String      @id @default(cuid())
+  title         String
+  description   String?
+  status        TaskStatus  @default(TODO)
+  priority      Priority    @default(MEDIUM)
+  dueDate       DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Project (relation)
+  projectId     String
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Assigned to (AI Agent)
+  assignedTo    String?
+
+  @@map("tasks")
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ==============================================
+// Quotes (Devis)
+// ==============================================
+
+model Quote {
+  id            String        @id @default(cuid())
+  quoteNumber   String        @unique
+  title         String
+  description   String?
+  service       ServiceType
+  amount        Decimal       @db.Decimal(10, 2)
+  status        QuoteStatus   @default(PENDING)
+  validUntil    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Client (relation)
+  clientId      String
+  client        User          @relation(fields: [clientId], references: [id])
+
+  // Project (optional)
+  projectId     String?
+  project       Project?      @relation(fields: [projectId], references: [id])
+
+  // Line items
+  items         QuoteItem[]
+
+  @@map("quotes")
+}
+
+model QuoteItem {
+  id          String   @id @default(cuid())
+  description String
+  quantity    Int      @default(1)
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  total       Decimal  @db.Decimal(10, 2)
+
+  // Quote (relation)
+  quoteId     String
+  quote       Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@map("quote_items")
+}
+
+enum QuoteStatus {
+  PENDING
+  SENT
+  VIEWED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+// ==============================================
+// Invoices (Factures)
+// ==============================================
+
+model Invoice {
+  id            String          @id @default(cuid())
+  invoiceNumber String          @unique
+  title         String
+  description   String?
+  amount        Decimal         @db.Decimal(10, 2)
+  taxAmount     Decimal         @default(0) @db.Decimal(10, 2)
+  totalAmount   Decimal         @db.Decimal(10, 2)
+  status        InvoiceStatus   @default(PENDING)
+  dueDate       DateTime?
+  paidAt        DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Client (relation)
+  clientId      String
+  client        User            @relation(fields: [clientId], references: [id])
+
+  // Project (optional)
+  projectId     String?
+  project       Project?        @relation(fields: [projectId], references: [id])
+
+  // Line items
+  items         InvoiceItem[]
+
+  // PDF
+  pdfUrl        String?
+
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  description String
+  quantity    Int      @default(1)
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  total       Decimal  @db.Decimal(10, 2)
+
+  // Invoice (relation)
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_items")
+}
+
+enum InvoiceStatus {
+  PENDING
+  SENT
+  VIEWED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+// ==============================================
+// Messages (Chat)
+// ==============================================
+
+model Message {
+  id            String      @id @default(cuid())
+  content       String
+  sender        MessageType
+  readAt        DateTime?
+  createdAt     DateTime    @default(now())
+
+  // User (relation)
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+
+  // AI Agent (optional)
+  aiAgent       String?
+
+  @@map("messages")
+}
+
+enum MessageType {
+  USER
+  AI
+}
+
+// ==============================================
+// Support Tickets
+// ==============================================
+
+model Ticket {
+  id            String        @id @default(cuid())
+  subject       String
+  description   String
+  category      TicketCategory @default(GENERAL)
+  priority      Priority      @default(MEDIUM)
+  status        TicketStatus  @default(OPEN)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  closedAt      DateTime?
+
+  // User (relation)
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+
+  // Responses
+  responses     TicketResponse[]
+
+  @@map("tickets")
+}
+
+model TicketResponse {
+  id          String   @id @default(cuid())
+  content     String
+  isFromStaff Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  // Ticket (relation)
+  ticketId    String
+  ticket      Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@map("ticket_responses")
+}
+
+enum TicketCategory {
+  TECHNICAL
+  BILLING
+  GENERAL
+  BUG_REPORT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_USER
+  RESOLVED
+  CLOSED
+}
+
+// ==============================================
+// AI Agents Status
+// ==============================================
+
+model AIAgent {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  role          String
+  description   String?
+  status        AIAgentStatus @default(IDLE)
+  tasksCount    Int           @default(0)
+  lastActive    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("ai_agents")
+}
+
+enum AIAgentStatus {
+  ACTIVE
+  IDLE
+  ERROR
+  OFFLINE
+}
+
+// ==============================================
+// Contact Form Submissions
+// ==============================================
+
+model ContactSubmission {
+  id            String   @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  company       String?
+  service       String?
+  message       String
+  status        ContactStatus @default(NEW)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("contact_submissions")
+}
+
+enum ContactStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  ARCHIVED
+}
