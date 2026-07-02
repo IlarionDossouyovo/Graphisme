@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { contacts } from '@/lib/db/json-db'
 import { z } from 'zod'
 
 const contactSchema = z.object({
@@ -14,60 +14,27 @@ const contactSchema = z.object({
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    
-    // Validate input
     const validatedData = contactSchema.parse(body)
-    
-    // Create contact submission
-    const submission = await prisma.contactSubmission.create({
-      data: {
-        name: validatedData.name,
-        email: validatedData.email,
-        phone: validatedData.phone,
-        company: validatedData.company,
-        service: validatedData.service,
-        message: validatedData.message,
-        status: 'NEW',
-      }
-    })
-    
+
+    const contact = contacts.create(validatedData)
+
     return NextResponse.json({
       message: 'Message envoyé avec succès',
-      id: submission.id
+      id: contact.id
     }, { status: 201 })
-    
   } catch (error: any) {
     if (error.name === 'ZodError') {
-      return NextResponse.json(
-        { error: error.errors[0].message },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: error.errors[0].message }, { status: 400 })
     }
-    
-    console.error('Contact error:', error)
-    return NextResponse.json(
-      { error: 'Erreur lors de l\'envoi du message' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
 
-// GET - List submissions (admin only - should be protected)
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status')
-
-    const where = status ? { status: status as any } : {}
-
-    const submissions = await prisma.contactSubmission.findMany({
-      where,
-      orderBy: { createdAt: 'desc' }
-    })
-
-    return NextResponse.json(submissions)
+    const allContacts = contacts.getAll()
+    return NextResponse.json(allContacts)
   } catch (error) {
-    console.error('Contact GET error:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
