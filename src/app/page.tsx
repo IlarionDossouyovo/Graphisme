@@ -57,12 +57,12 @@ const Navbar = () => {
   }, [])
 
   const navItems = [
-    { name: 'Accueil', href: '#' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Équipe IA', href: '#ai-team' },
-    { name: 'Tarifs', href: '#pricing' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Accueil', href: '/' },
+    { name: 'Services', href: '/services' },
+    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Équipe IA', href: '/ai-team' },
+    { name: 'Tarifs', href: '/pricing' },
+    { name: 'Contact', href: '/contact' },
   ]
 
   return (
@@ -80,14 +80,14 @@ const Navbar = () => {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => (
-              <a 
+              <Link 
                 key={item.name}
                 href={item.href}
                 className="text-sm text-gray-300 hover:text-gold transition-colors relative group"
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all group-hover:w-full"></span>
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -113,14 +113,14 @@ const Navbar = () => {
             className="lg:hidden mt-4 pb-4"
           >
             {navItems.map((item) => (
-              <a 
+              <Link 
                 key={item.name}
                 href={item.href}
                 className="block py-2 text-gray-300 hover:text-gold transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
             <div className="flex gap-4 mt-4">
               <Link href="/login" className="text-sm text-gray-300">Connexion</Link>
