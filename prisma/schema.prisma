@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -53,7 +53,7 @@ model Project {
   service       ServiceType
   status        ProjectStatus @default(PENDING)
   progress      Int           @default(0)
-  budget        Decimal?      @db.Decimal(10, 2)
+  budget        Decimal?      String
   startDate     DateTime?
   endDate       DateTime?
   createdAt     DateTime      @default(now())
@@ -143,7 +143,7 @@ model Quote {
   title         String
   description   String?
   service       ServiceType
-  amount        Decimal       @db.Decimal(10, 2)
+  amount        Decimal       String
   status        QuoteStatus   @default(PENDING)
   validUntil    DateTime?
   createdAt     DateTime      @default(now())
@@ -167,8 +167,8 @@ model QuoteItem {
   id          String   @id @default(cuid())
   description String
   quantity    Int      @default(1)
-  unitPrice   Decimal  @db.Decimal(10, 2)
-  total       Decimal  @db.Decimal(10, 2)
+  unitPrice   Decimal  String
+  total       Decimal  String
 
   // Quote (relation)
   quoteId     String
@@ -195,9 +195,9 @@ model Invoice {
   invoiceNumber String          @unique
   title         String
   description   String?
-  amount        Decimal         @db.Decimal(10, 2)
-  taxAmount     Decimal         @default(0) @db.Decimal(10, 2)
-  totalAmount   Decimal         @db.Decimal(10, 2)
+  amount        Decimal         String
+  taxAmount     Decimal         @default(0) String
+  totalAmount   Decimal         String
   status        InvoiceStatus   @default(PENDING)
   dueDate       DateTime?
   paidAt        DateTime?
@@ -225,8 +225,8 @@ model InvoiceItem {
   id          String   @id @default(cuid())
   description String
   quantity    Int      @default(1)
-  unitPrice   Decimal  @db.Decimal(10, 2)
-  total       Decimal  @db.Decimal(10, 2)
+  unitPrice   Decimal  String
+  total       Decimal  String
 
   // Invoice (relation)
   invoiceId   String
