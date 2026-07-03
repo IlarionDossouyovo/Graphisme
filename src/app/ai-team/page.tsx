@@ -191,25 +191,41 @@ export default function AITeamPage() {
     setIsLoading(true)
 
     try {
+      // Show connection status
+      setChatMessages(prev => [...prev, { role: 'assistant', content: '🔄 Connexion à l\'IA en cours...' }])
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           agent: selectedAgent.id,
           message: userMessage,
-          history: chatMessages
+          history: chatMessages.filter(m => m.role !== 'assistant' || m.content !== '🔄 Connexion à l\'IA en cours...')
         })
       })
 
       const data = await response.json()
       
+      // Remove the "connecting" message
+      setChatMessages(prev => prev.filter(m => m.content !== '🔄 Connexion à l\'IA en cours...'))
+      
       if (data.response) {
         setChatMessages(prev => [...prev, { role: 'assistant', content: data.response }])
+      } else if (data.error) {
+        setChatMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: `⚠️ ${data.error}\n\n💡 Solution : Assurez-vous qu'Ollama est démarré sur votre machine avec la commande :\n\`ollama serve\`\n\nPuis rechargez la page.` 
+        }])
       } else {
-        setChatMessages(prev => [...prev, { role: 'assistant', content: 'Désolé, je rencontre un problème pour répondre. Veuillez vérifier qu\'Ollama est installé et lancé.' }])
+        setChatMessages(prev => [...prev, { role: 'assistant', content: 'Désolé, je rencontre un problème pour répondre.' }])
       }
     } catch (error) {
-      setChatMessages(prev => [...prev, { role: 'assistant', content: 'Erreur de connexion. Veuillez vérifier qu\'Ollama est installé sur votre machine.' }])
+      // Remove the "connecting" message
+      setChatMessages(prev => prev.filter(m => m.content !== '🔄 Connexion à l\'IA en cours...'))
+      setChatMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: `❌ Erreur de connexion.\n\nPour démarrer l'IA, ouvrez un terminal et exécutez :\n\`ollama serve\`\n\n Ensuite, vérifiez que les modèles sont installés :\n\`ollama list\`` 
+      }])
     } finally {
       setIsLoading(false)
     }
