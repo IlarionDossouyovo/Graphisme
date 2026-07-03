@@ -643,6 +643,11 @@ function AIAgentsContent() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
+              <Link href="/admin" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+                <ArrowLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">Dashboard</span>
+              </Link>
+              <div className="h-6 w-px bg-white/10"></div>
               <Link href="/admin" className="flex items-center gap-3">
                 <Logo />
                 <div>
@@ -650,7 +655,7 @@ function AIAgentsContent() {
                   <span className="text-xs text-gray-400 block">Graphisme</span>
                 </div>
               </Link>
-              <span className="px-3 py-1 bg-gold/20 text-gold text-xs rounded-full">Centre de Commande IA</span>
+              <span className="px-3 py-1 bg-gold/20 text-gold text-xs rounded-full hidden sm:inline">Centre de Commande IA</span>
             </div>
             <div className="flex items-center gap-4">
               <button className="text-gray-400 hover:text-gold transition-colors">

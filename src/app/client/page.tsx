@@ -544,6 +544,10 @@ export default function ClientPage() {
             </div>
           </div>
           <div className="flex items-center gap-4">
+            <Link href="/admin" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors text-sm">
+              <Settings className="w-4 h-4" />
+              <span className="hidden sm:inline">Admin</span>
+            </Link>
             <button className="relative text-gray-400 hover:text-white transition-colors">
               <Bell className="w-5 h-5" />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-electric rounded-full"></span>

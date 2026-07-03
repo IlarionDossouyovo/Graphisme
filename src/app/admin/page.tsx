@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { 
   LayoutDashboard, Users, FileText, CreditCard, Settings, 
   BarChart3, MessageSquare, Bell, Search, Menu, X,
   TrendingUp, TrendingDown, DollarSign, Eye, MousePointer,
   Calendar, CheckCircle, Clock, AlertCircle, Bot, Activity,
   Database, Shield, Cloud, Code, Palette, Video, Mail, Brain,
-  Zap, Play, Pause
+  Zap, Play, Pause, ArrowLeft
 } from 'lucide-react'
 
 // Sidebar Component
@@ -299,10 +300,14 @@ export default function AdminPage() {
         {/* Header */}
         <header className="bg-premium-dark border-b border-white/5 p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Accueil</span>
+            </Link>
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden text-white">
               {sidebarOpen ? <X /> : <Menu />}
             </button>
-            <div className="relative">
+            <div className="relative hidden md:block">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input 
                 type="text" 
@@ -311,7 +316,15 @@ export default function AdminPage() {
               />
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <Link href="/admin/ai-agents" className="text-gray-400 hover:text-gold transition-colors flex items-center gap-1 text-sm">
+              <Bot className="w-4 h-4" />
+              <span className="hidden sm:inline">Centre IA</span>
+            </Link>
+            <Link href="/client" className="text-gray-400 hover:text-gold transition-colors flex items-center gap-1 text-sm">
+              <FileText className="w-4 h-4" />
+              <span className="hidden sm:inline">Rapport</span>
+            </Link>
             <button className="relative text-gray-400 hover:text-white transition-colors">
               <Bell className="w-5 h-5" />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-gold rounded-full"></span>
