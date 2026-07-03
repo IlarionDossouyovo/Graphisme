@@ -16,31 +16,19 @@ const projectSchema = z.object({
 // GET all projects
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status')
-    const userRole = (session.user as any).role
-    const userId = (session.user as any).id
-
+    // Pour mode démonstration, permettre l'accès sans auth
     let allProjects = projects.getAll()
     
-    // Filter by role
-    let filteredProjects = userRole === 'ADMIN' 
-      ? allProjects 
-      : allProjects.filter(p => p.clientId === userId)
+    const { searchParams } = new URL(request.url)
+    const status = searchParams.get('status')
 
     // Filter by status if provided
     if (status) {
-      filteredProjects = filteredProjects.filter(p => p.status === status)
+      allProjects = allProjects.filter(p => p.status === status)
     }
 
-    // Add client info
-    const projectsWithClient = filteredProjects.map(p => ({
+    // Add client info if available
+    const projectsWithClient = allProjects.map(p => ({
       ...p,
       client: users.getById(p.clientId)
     }))

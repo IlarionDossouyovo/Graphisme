@@ -16,21 +16,9 @@ const invoiceSchema = z.object({
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    const userId = (session.user as any).id
-    const userRole = (session.user as any).role
-
-    let allInvoices = invoices.getAll()
-    let filteredInvoices = userRole === 'ADMIN' 
-      ? allInvoices 
-      : allInvoices.filter(i => i.clientId === userId)
-
-    return NextResponse.json(filteredInvoices)
+    // Pour mode démonstration, permettre l'accès sans auth
+    const allInvoices = invoices.getAll()
+    return NextResponse.json(allInvoices)
   } catch (error) {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }

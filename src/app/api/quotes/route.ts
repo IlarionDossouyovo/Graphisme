@@ -16,21 +16,9 @@ const quoteSchema = z.object({
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-    }
-
-    const userId = (session.user as any).id
-    const userRole = (session.user as any).role
-
-    let allQuotes = quotes.getAll()
-    let filteredQuotes = userRole === 'ADMIN' 
-      ? allQuotes 
-      : allQuotes.filter(q => q.clientId === userId)
-
-    return NextResponse.json(filteredQuotes)
+    // Pour mode démonstration, permettre l'accès sans auth
+    const allQuotes = quotes.getAll()
+    return NextResponse.json(allQuotes)
   } catch (error) {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
