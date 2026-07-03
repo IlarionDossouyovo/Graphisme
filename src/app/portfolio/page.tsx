@@ -52,7 +52,7 @@ const defaultPortfolioItems = [
     id: '1',
     title: 'TechCorp E-commerce',
     category: 'E-commerce',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
+    image: 'https://placehold.co/800x600/1a1a2e/FFD700?text=E-Commerce',
     description: 'Plateforme e-commerce complète avec paiement sécurisé',
     tags: ['Next.js', 'Stripe', 'Tailwind'],
     icon: 'ShoppingCart',
@@ -61,7 +61,7 @@ const defaultPortfolioItems = [
     id: '2',
     title: 'AfriTech Logo',
     category: 'Design Graphique',
-    image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&h=600&fit=crop',
+    image: 'https://placehold.co/800x600/1a1a2e/FFD700?text=Design',
     description: 'Identité visuelle complète pour startup technologique',
     tags: ['Logo', 'Brand', 'Figma'],
     icon: 'Palette',
@@ -70,7 +70,7 @@ const defaultPortfolioItems = [
     id: '3',
     title: 'Finance Dashboard',
     category: 'Développement Web',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
+    image: 'https://placehold.co/800x600/1a1a2e/FFD700?text=Web+Dev',
     description: 'Dashboard analytics pour gestion financière',
     tags: ['React', 'D3.js', 'API'],
     icon: 'Code',
@@ -79,7 +79,7 @@ const defaultPortfolioItems = [
     id: '4',
     title: 'HealthApp Mobile',
     category: 'Développement Mobile',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop',
+    image: 'https://placehold.co/800x600/1a1a2e/FFD700?text=Mobile',
     description: 'Application mobile de suivi santé',
     tags: ['React Native', 'Firebase', 'Health API'],
     icon: 'Smartphone',
@@ -88,7 +88,7 @@ const defaultPortfolioItems = [
     id: '5',
     title: 'AI Chatbot',
     category: 'Intelligence Artificielle',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
+    image: 'https://placehold.co/800x600/1a1a2e/FFD700?text=AI+Chatbot',
     description: 'Assistant virtuel propulsé par LLM',
     tags: ['LLM', 'RAG', 'Vector DB'],
     icon: 'Brain',
@@ -97,7 +97,7 @@ const defaultPortfolioItems = [
     id: '6',
     title: 'Brand Video',
     category: 'Production Vidéo',
-    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=600&fit=crop',
+    image: 'https://placehold.co/800x600/1a1a2e/FFD700?text=Video',
     description: 'Vidéo corporate avec motion design',
     tags: ['After Effects', 'Motion', '3D'],
     icon: 'Video',
@@ -226,10 +226,9 @@ export default function PortfolioPage() {
                   {/* Image */}
                   <div className="relative h-48 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-premium-black to-transparent z-10" />
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    <div 
+                      className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
+                      style={{ backgroundImage: `url(${item.image})` }}
                     />
                     <div className="absolute top-4 right-4 z-20">
                       <span className="px-3 py-1 bg-gold/20 backdrop-blur-sm rounded-full text-xs text-gold">
