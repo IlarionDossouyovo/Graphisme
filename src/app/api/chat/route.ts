@@ -97,7 +97,7 @@ export async function POST(request: Request) {
     }
 
     // Convert history format
-    const conversationHistory: ChatMessage[] = history?.map(h => ({
+    const conversationHistory: ChatMessage[] = (history || []).map(h => ({
       role: h.role as 'user' | 'assistant',
       content: h.content,
     }))
