@@ -29,8 +29,15 @@ const services = [
   'Design Graphique',
   'Développement Web',
   'Développement Mobile',
-  'Marketing Digital',
   'Intelligence Artificielle',
+  'Production Vidéo',
+  'E-commerce',
+  'Marketing Digital',
+  'SEO / SEA',
+  'Community Management',
+  'Cloud & DevOps',
+  'Base de données',
+  'Cybersécurité',
   'Autre'
 ]
 
@@ -89,7 +96,6 @@ export default function ContactPage() {
 
   const contactInfo = [
     { icon: Phone, label: 'Téléphone', value: '+229 01 97 70 03 47' },
-    { icon: Phone, label: 'Téléphone', value: '+229 01 49 80 22 02' },
     { icon: Mail, label: 'Email', value: 'electronbusiness07@gmail.com' },
     { icon: MapPin, label: 'Adresse', value: 'Cotonou, Benin' },
     { icon: Clock, label: 'Disponibilité', value: '24h/24 - 7j/7' },
@@ -300,7 +306,7 @@ export default function ContactPage() {
       <footer className="bg-premium-dark border-t border-white/5 py-8">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-gray-500 text-sm">
-            © 2026 Graphisme by ELECTRON. Tous droits réservés.
+            © 2025 Graphisme by ELECTRON. Tous droits réservés.
           </p>
         </div>
       </footer>

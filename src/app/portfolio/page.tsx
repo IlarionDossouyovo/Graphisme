@@ -297,7 +297,7 @@ export default function PortfolioPage() {
       <footer className="bg-premium-dark border-t border-white/5 py-8">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-gray-500 text-sm">
-            © 2026 Graphisme by ELECTRON. Tous droits réservés.
+            © 2025 Graphisme by ELECTRON. Tous droits réservés.
           </p>
         </div>
       </footer>
