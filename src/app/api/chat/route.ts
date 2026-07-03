@@ -108,9 +108,11 @@ export async function POST(request: Request) {
       content: agentPrompt
     }
 
-    const messages = conversationHistory 
-      ? [systemMessage, ...conversationHistory, { role: 'user', content: message }]
-      : [systemMessage, { role: 'user', content: message }]
+    const userMessage: ChatMessage = { role: 'user', content: message }
+    
+    const messages: ChatMessage[] = conversationHistory.length > 0
+      ? [systemMessage, ...conversationHistory, userMessage]
+      : [systemMessage, userMessage]
 
     // Get response from AI using agent's preferred model
     const response = await generateChatCompletion(messages, { model: model || 'llama3.2' })
@@ -118,7 +120,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ 
       response,
       agent,
-      model: model || agentConfig.model
+      model: model || 'llama3.2'
     })
   } catch (error: any) {
     if (error.name === 'ZodError') {
