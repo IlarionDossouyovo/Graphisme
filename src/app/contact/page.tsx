@@ -300,6 +300,47 @@ export default function ContactPage() {
               </div>
             </motion.div>
           </div>
+
+          {/* Map Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-12"
+          >
+            <div className="glass-card p-6">
+              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-gold" />
+                Notre localisation
+              </h3>
+              <div className="aspect-video rounded-xl overflow-hidden bg-white/5">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.5!2d2.39!3d6.37!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjInMDAuMCJOwrAyNScwMC4wIkU!5e0!3m2!1sfr!2sbj!4v1600000000000!5m2!1sfr!2sbj"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Localisation ELECTRON"
+                />
+              </div>
+              <div className="mt-4 flex flex-wrap gap-6">
+                <div className="flex items-center gap-2 text-gray-400">
+                  <MapPin className="w-4 h-4 text-gold" />
+                  <span>Cotonou, Benin</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400">
+                  <Phone className="w-4 h-4 text-gold" />
+                  <span>+229 01 97 70 03 47</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400">
+                  <Mail className="w-4 h-4 text-gold" />
+                  <span>electronbusiness07@gmail.com</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </main>
 
