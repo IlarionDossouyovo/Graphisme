@@ -390,9 +390,11 @@ export async function chatWithAgent(
     content: agent.prompt
   }
 
-  const messages = conversationHistory 
-    ? [systemMessage, ...conversationHistory, { role: 'user', content: userMessage }]
-    : [systemMessage, { role: 'user', content: userMessage }]
+  const userMsg: ChatMessage = { role: 'user', content: userMessage }
+  
+  const messages: ChatMessage[] = conversationHistory && conversationHistory.length > 0
+    ? [systemMessage, ...conversationHistory as ChatMessage[], userMsg]
+    : [systemMessage, userMsg]
 
   return generateChatCompletion(messages, { model: agent.model })
 }

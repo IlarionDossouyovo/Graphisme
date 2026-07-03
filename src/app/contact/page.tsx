@@ -2,9 +2,19 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Mail, Phone, MapPin, Clock, Send, Sparkles, CheckCircle } from 'lucide-react'
+
+// Loading fallback
+const LoadingFallback = () => (
+  <div className="min-h-screen bg-premium-black flex items-center justify-center">
+    <div className="text-center">
+      <div className="w-12 h-12 border-4 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-400">Chargement...</p>
+    </div>
+  </div>
+)
 
 const Logo = () => (
   <div className="relative w-12 h-12 flex items-center justify-center">
@@ -42,6 +52,14 @@ const services = [
 ]
 
 export default function ContactPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <ContactContent />
+    </Suspense>
+  )
+}
+
+function ContactContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({

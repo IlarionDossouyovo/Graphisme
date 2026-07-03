@@ -62,6 +62,7 @@ export async function POST(request: Request) {
       budget: validatedData.budget,
       clientId,
       status: 'PENDING',
+      progress: 0,
     })
 
     return NextResponse.json({

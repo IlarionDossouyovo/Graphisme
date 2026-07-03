@@ -135,7 +135,8 @@ export default function PortfolioPage() {
   }, [])
 
   // Get unique categories
-  const categories = ['Tous', ...new Set(portfolioItems.map(item => item.category))]
+  const uniqueCategories = Array.from(new Set(portfolioItems.map(item => item.category)))
+  const categories = ['Tous', ...uniqueCategories]
 
   // Filter items
   const filteredItems = activeCategory === 'Tous' 
