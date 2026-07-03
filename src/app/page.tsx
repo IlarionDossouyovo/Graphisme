@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { 
   Palette, Code, Smartphone, Brain, Video, ShoppingCart, 
   TrendingUp, Search, MessageCircle, ChevronDown, Menu, X,
@@ -527,6 +528,47 @@ const Pricing = () => {
 
 // Contact Section
 const Contact = () => {
+  const router = useRouter()
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    service: '',
+    message: ''
+  })
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de l\'envoi du message')
+      }
+
+      setStatus('success')
+      setFormData({ name: '', email: '', service: '', message: '' })
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setStatus('idle'), 5000)
+    } catch (error: any) {
+      setStatus('error')
+      setErrorMessage(error.message || 'Une erreur est survenue')
+    }
+  }
+
   const contactInfo = [
     { icon: Phone, label: 'Téléphone', value: '+229 01 97 70 03 47' },
     { icon: Phone, label: 'Téléphone', value: '+229 01 49 80 22 02' },
@@ -592,20 +634,52 @@ const Contact = () => {
           >
             <div className="glass-card p-8">
               <h3 className="text-2xl font-bold text-white mb-8">Envoyez-nous un message</h3>
-              <form className="space-y-6">
+              
+              {status === 'success' && (
+                <div className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-xl text-green-400">
+                  Message envoyé avec succès ! Nous vous répondrons rapidement.
+                </div>
+              )}
+              
+              {status === 'error' && (
+                <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-red-400">
+                  {errorMessage}
+                </div>
+              )}
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm text-gray-400 mb-2">Nom</label>
-                    <input type="text" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors" placeholder="Votre nom" />
+                    <input 
+                      type="text" 
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors" 
+                      placeholder="Votre nom" 
+                      required 
+                    />
                   </div>
                   <div>
                     <label className="block text-sm text-gray-400 mb-2">Email</label>
-                    <input type="email" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors" placeholder="votre@email.com" />
+                    <input 
+                      type="email" 
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors" 
+                      placeholder="votre@email.com" 
+                      required 
+                    />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">Service desired</label>
-                  <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors">
+                  <label className="block text-sm text-gray-400 mb-2">Service souhaité</label>
+                  <select 
+                    value={formData.service}
+                    onChange={(e) => setFormData({...formData, service: e.target.value})}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors"
+                  >
+                    <option value="">Sélectionner un service</option>
                     <option>Design Graphique</option>
                     <option>Développement Web</option>
                     <option>Développement Mobile</option>
@@ -616,12 +690,23 @@ const Contact = () => {
                 </div>
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">Message</label>
-                  <textarea rows={4} className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors resize-none" placeholder="Décrivez votre projet..."></textarea>
+                  <textarea 
+                    rows={4} 
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors resize-none" 
+                    placeholder="Décrivez votre projet..." 
+                    required
+                  ></textarea>
                 </div>
-                <button type="submit" className="w-full glass-button glow-gold">
+                <button 
+                  type="submit" 
+                  disabled={status === 'loading'}
+                  className="w-full glass-button glow-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <span className="flex items-center justify-center gap-2">
                     <Sparkles className="w-5 h-5" />
-                    Envoyer le message
+                    {status === 'loading' ? 'Envoi en cours...' : 'Envoyer le message'}
                   </span>
                 </button>
               </form>

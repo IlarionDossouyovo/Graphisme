@@ -1,0 +1,44 @@
+[
+  {
+    "id": "proj001",
+    "name": "Site E-commerce TechCorp",
+    "description": "Plateforme e-commerce complète avec paiement sécurisé",
+    "service": "Développement Web",
+    "status": "IN_PROGRESS",
+    "progress": 75,
+    "budget": 2500,
+    "clientId": "client001",
+    "startDate": "2026-01-10",
+    "endDate": "2026-02-28",
+    "createdAt": "2026-01-10T10:00:00.000Z",
+    "updatedAt": "2026-01-20T14:30:00.000Z"
+  },
+  {
+    "id": "proj002",
+    "name": "Logo Premium",
+    "description": "Identité visuelle complète pour startup technologique",
+    "service": "Design Graphique",
+    "status": "COMPLETED",
+    "progress": 100,
+    "budget": 350,
+    "clientId": "client001",
+    "startDate": "2026-01-05",
+    "endDate": "2026-01-15",
+    "createdAt": "2026-01-05T09:00:00.000Z",
+    "updatedAt": "2026-01-15T16:00:00.000Z"
+  },
+  {
+    "id": "proj003",
+    "name": "Application Mobile",
+    "description": "Application mobile de suivi santé",
+    "service": "Développement Mobile",
+    "status": "IN_PROGRESS",
+    "progress": 30,
+    "budget": 5000,
+    "clientId": "client001",
+    "startDate": "2026-01-20",
+    "endDate": "2026-04-15",
+    "createdAt": "2026-01-20T11:00:00.000Z",
+    "updatedAt": "2026-01-28T09:00:00.000Z"
+  }
+]
