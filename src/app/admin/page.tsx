@@ -133,6 +133,8 @@ const AgentStatus = ({ name, status, tasks, icon: Icon, color }: {
 
 // Dashboard Content
 const DashboardContent = () => {
+  const [showQuickAction, setShowQuickAction] = useState<string | null>(null)
+  
   const stats = [
     { title: 'Revenus du mois', value: '€12,450', change: '+12%', icon: DollarSign, color: 'gold' },
     { title: 'Visiteurs uniques', value: '3,847', change: '+8%', icon: Eye, color: 'electric' },
@@ -155,6 +157,15 @@ const DashboardContent = () => {
     { client: 'StartUp Africa', project: 'App Mobile', status: 'En cours', progress: 45 },
     { client: 'Digital Agency', project: 'Dashboard CRM', status: 'En attente', progress: 10 },
   ]
+
+  const handleQuickAction = (action: string) => {
+    setShowQuickAction(action)
+    // Show alert for demo
+    setTimeout(() => {
+      alert(`${action} - Fonctionnalité en cours d'initialisation...`)
+      setShowQuickAction(null)
+    }, 500)
+  }
 
   return (
     <div className="space-y-8">
@@ -220,12 +231,16 @@ const DashboardContent = () => {
       {/* Quick Actions */}
       <div className="grid md:grid-cols-4 gap-4">
         {[
-          { icon: FileText, label: 'Nouveau devis', color: 'gold' },
-          { icon: Users, label: 'Nouveau client', color: 'electric' },
-          { icon: Bot, label: 'Nouvelle tâche IA', color: 'violet' },
-          { icon: Calendar, label: 'Planifier RDV', color: 'green' },
+          { icon: FileText, label: 'Nouveau devis', color: 'gold', action: 'Nouveau devis' },
+          { icon: Users, label: 'Nouveau client', color: 'electric', action: 'Nouveau client' },
+          { icon: Bot, label: 'Nouvelle tâche IA', color: 'violet', action: 'Nouvelle tâche IA' },
+          { icon: Calendar, label: 'Planifier RDV', color: 'green', action: 'Planifier RDV' },
         ].map((action, i) => (
-          <button key={i} className="glass-card p-4 flex items-center gap-4 hover:border-gold/30 transition-all group">
+          <button 
+            key={i} 
+            onClick={() => handleQuickAction(action.action)}
+            className="glass-card p-4 flex items-center gap-4 hover:border-gold/30 transition-all group"
+          >
             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
               action.color === 'gold' ? 'bg-gold/10 text-gold' :
               action.color === 'electric' ? 'bg-electric/10 text-electric' :
@@ -375,82 +390,133 @@ const AIAgentsContent = () => (
 )
 
 // CRM Content
-const CRMContent = () => (
-  <div className="space-y-6">
-    <div className="flex items-center justify-between">
-      <h1 className="text-2xl font-bold text-white">CRM - Gestion Clients</h1>
-      <button className="glass-button">Nouveau client</button>
-    </div>
-    <div className="glass-card overflow-hidden">
-      <table className="w-full">
-        <thead className="bg-white/5">
-          <tr>
-            <th className="text-left p-4 text-gray-400 text-sm">Client</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Email</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Téléphone</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Statut</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            { name: 'TechCorp Benin', email: 'contact@techcorp.bj', phone: '+229 XX XXX XXXX', status: 'Actif' },
-            { name: 'AfriTech', email: 'hello@afritech.com', phone: '+229 XX XXX XXXX', status: 'Actif' },
-            { name: 'StartUp Africa', email: 'info@startup.africa', phone: '+229 XX XXX XXXX', status: 'Prospect' },
-          ].map((client, i) => (
-            <tr key={i} className="border-t border-white/5">
-              <td className="p-4 text-white font-medium">{client.name}</td>
-              <td className="p-4 text-gray-400">{client.email}</td>
-              <td className="p-4 text-gray-400">{client.phone}</td>
-              <td className="p-4">
-                <span className={`px-3 py-1 rounded-full text-xs ${
-                  client.status === 'Actif' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'
-                }`}>{client.status}</span>
-              </td>
-              <td className="p-4">
-                <button className="text-gold text-sm hover:underline">Voir</button>
-              </td>
+const CRMContent = () => {
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [clients, setClients] = useState([
+    { name: 'TechCorp Benin', email: 'contact@techcorp.bj', phone: '+229 01 97 70 03 47', status: 'Actif' },
+    { name: 'AfriTech', email: 'hello@afritech.com', phone: '+229 01 97 70 03 47', status: 'Actif' },
+    { name: 'StartUp Africa', email: 'info@startup.africa', phone: '+229 01 97 70 03 47', status: 'Prospect' },
+    { name: 'Digital Agency', email: 'contact@digital.bj', phone: '+229 01 97 70 03 47', status: 'Actif' },
+  ])
+
+  const handleViewClient = (client: typeof clients[0]) => {
+    alert(`Client: ${client.name}\nEmail: ${client.email}\nTéléphone: ${client.phone}\nStatut: ${client.status}`)
+  }
+
+  const handleAddClient = () => {
+    setShowAddModal(false)
+    alert('Nouveau client ajouté avec succès!')
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-white">CRM - Gestion Clients</h1>
+        <button onClick={() => setShowAddModal(true)} className="glass-button">Nouveau client</button>
+      </div>
+      <div className="glass-card overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-white/5">
+            <tr>
+              <th className="text-left p-4 text-gray-400 text-sm">Client</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Email</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Téléphone</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Statut</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {clients.map((client, i) => (
+              <tr key={i} className="border-t border-white/5 hover:bg-white/5">
+                <td className="p-4 text-white font-medium">{client.name}</td>
+                <td className="p-4 text-gray-400">{client.email}</td>
+                <td className="p-4 text-gray-400">{client.phone}</td>
+                <td className="p-4">
+                  <span className={`px-3 py-1 rounded-full text-xs ${
+                    client.status === 'Actif' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'
+                  }`}>{client.status}</span>
+                </td>
+                <td className="p-4">
+                  <button onClick={() => handleViewClient(client)} className="text-gold text-sm hover:underline mr-3">Voir</button>
+                  <button className="text-gray-400 text-sm hover:text-white mr-3">Modifier</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Add Client Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="glass-card max-w-md w-full p-6">
+            <h2 className="text-xl font-bold text-white mb-4">Nouveau Client</h2>
+            <div className="space-y-4">
+              <input type="text" placeholder="Nom de l'entreprise" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white" />
+              <input type="email" placeholder="Email" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white" />
+              <input type="tel" placeholder="Téléphone" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white" />
+              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white">
+                <option>Actif</option>
+                <option>Prospect</option>
+                <option>Inactif</option>
+              </select>
+              <div className="flex gap-4">
+                <button onClick={() => setShowAddModal(false)} className="flex-1 py-3 bg-white/5 text-gray-300 rounded-xl">Annuler</button>
+                <button onClick={handleAddClient} className="flex-1 py-3 bg-gold text-black rounded-xl font-semibold">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  </div>
-)
+  )
+}
 
 // Projects Content
-const ProjectsContent = () => (
-  <div className="space-y-6">
-    <div className="flex items-center justify-between">
-      <h1 className="text-2xl font-bold text-white">Projets</h1>
-      <button className="glass-button">Nouveau projet</button>
-    </div>
-    <div className="grid md:grid-cols-2 gap-4">
-      {[
-        { client: 'TechCorp Benin', project: 'Site E-commerce', status: 'En cours', progress: 75 },
-        { client: 'AfriTech', project: 'Logo Premium', status: 'Terminé', progress: 100 },
-        { client: 'StartUp Africa', project: 'App Mobile', status: 'En cours', progress: 45 },
-        { client: 'Digital Agency', project: 'Dashboard CRM', status: 'En attente', progress: 10 },
-      ].map((project, i) => (
-        <div key={i} className="glass-card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-white">{project.client}</h3>
-            <span className={`px-3 py-1 rounded-full text-xs ${
-              project.status === 'Terminé' ? 'bg-green-500/20 text-green-500' :
-              project.status === 'En cours' ? 'bg-blue-500/20 text-blue-500' :
-              'bg-yellow-500/20 text-yellow-500'
-            }`}>{project.status}</span>
+const ProjectsContent = () => {
+  const [projects, setProjects] = useState([
+    { id: 1, client: 'TechCorp Benin', project: 'Site E-commerce', status: 'En cours', progress: 75, budget: '€5,000' },
+    { id: 2, client: 'AfriTech', project: 'Logo Premium', status: 'Terminé', progress: 100, budget: '€800' },
+    { id: 3, client: 'StartUp Africa', project: 'App Mobile', status: 'En cours', progress: 45, budget: '€12,000' },
+    { id: 4, client: 'Digital Agency', project: 'Dashboard CRM', status: 'En attente', progress: 10, budget: '€3,500' },
+  ])
+
+  const handleViewProject = (p: typeof projects[0]) => {
+    alert(`Projet: ${p.project}\nClient: ${p.client}\nBudget: ${p.budget}\nProgression: ${p.progress}%\nStatut: ${p.status}`)
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-white">Projets</h1>
+        <button className="glass-button">Nouveau projet</button>
+      </div>
+      <div className="grid md:grid-cols-2 gap-4">
+        {projects.map((project) => (
+          <div key={project.id} className="glass-card p-6 hover:border-gold/30 transition-all">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-white">{project.client}</h3>
+              <span className={`px-3 py-1 rounded-full text-xs ${
+                project.status === 'Terminé' ? 'bg-green-500/20 text-green-500' :
+                project.status === 'En cours' ? 'bg-blue-500/20 text-blue-500' :
+                'bg-yellow-500/20 text-yellow-500'
+              }`}>{project.status}</span>
+            </div>
+            <p className="text-gray-400 text-sm mb-2">{project.project}</p>
+            <p className="text-gold text-sm font-semibold mb-4">{project.budget}</p>
+            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-gold to-yellow-400" style={{ width: `${project.progress}%` }}></div>
+            </div>
+            <div className="flex justify-between items-center mt-3">
+              <span className="text-xs text-gray-500">{project.progress}%</span>
+              <button onClick={() => handleViewProject(project)} className="text-gold text-sm hover:underline">Détails</button>
+            </div>
           </div>
-          <p className="text-gray-400 text-sm mb-4">{project.project}</p>
-          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-gold to-yellow-400" style={{ width: `${project.progress}%` }}></div>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">{project.progress}%</p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 // Invoices Content
 const InvoicesContent = () => (
