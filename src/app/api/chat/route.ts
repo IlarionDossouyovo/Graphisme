@@ -91,8 +91,8 @@ export async function POST(request: Request) {
     const { agent, message, model, history } = chatSchema.parse(body)
 
     // Get agent config
-    const agentConfig = agentPrompts[agent]
-    if (!agentConfig) {
+    const agentPrompt = agentPrompts[agent]
+    if (!agentPrompt) {
       return NextResponse.json({ error: `Agent ${agent} non trouvé` }, { status: 400 })
     }
 
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
     // Build messages with agent system prompt
     const systemMessage: ChatMessage = {
       role: 'system',
-      content: agentConfig.prompt
+      content: agentPrompt
     }
 
     const messages = conversationHistory 
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
       : [systemMessage, { role: 'user', content: message }]
 
     // Get response from AI using agent's preferred model
-    const response = await generateChatCompletion(messages, { model: model || agentConfig.model })
+    const response = await generateChatCompletion(messages, { model: model || 'llama3.2' })
 
     return NextResponse.json({ 
       response,
