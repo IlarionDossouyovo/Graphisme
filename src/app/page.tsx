@@ -220,7 +220,7 @@ const Hero = () => {
 
 // Services Section
 const Services = () => {
-  const services = [
+  const [services, setServices] = useState([
     { icon: Palette, title: 'Design Graphique', desc: 'Logo Premium, Identité visuelle, Charte graphique, Carte de visite, Flyers, Packaging...', color: 'gold' },
     { icon: Code, title: 'Développement Web', desc: 'Site vitrine, Landing Page, E-commerce, ERP, CRM, SaaS, Dashboard...', color: 'electric' },
     { icon: Smartphone, title: 'Développement Mobile', desc: 'Android, iOS, Flutter, React Native, PWA...', color: 'violet' },
@@ -233,7 +233,7 @@ const Services = () => {
     { icon: Cloud, title: 'Cloud & DevOps', desc: 'Docker, Kubernetes, CI/CD, Monitoring, Sauvegardes...', color: 'gold' },
     { icon: Database, title: 'Base de données', desc: 'PostgreSQL, Redis, Firebase, Migration, Optimisation...', color: 'electric' },
     { icon: Shield, title: 'Cybersécurité', desc: 'Pare-feu, Surveillance, Backups, Audit, Détection menaces...', color: 'violet' },
-  ]
+  ])
 
   return (
     <section id="services" className="py-24 relative">
@@ -255,24 +255,25 @@ const Services = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-card p-8 hover:border-gold/30 transition-all group"
-            >
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${
-                service.color === 'gold' ? 'bg-gold/10 text-gold' :
-                service.color === 'electric' ? 'bg-electric/10 text-electric' :
-                'bg-violet-IA/10 text-violet-IA'
-              }`}>
-                <service.icon className="w-7 h-7" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-white group-hover:text-gold transition-colors">{service.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{service.desc}</p>
-            </motion.div>
+            <Link key={i} href={`/contact?service=${encodeURIComponent(service.title)}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="glass-card p-8 hover:border-gold/30 transition-all group cursor-pointer"
+              >
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${
+                  service.color === 'gold' ? 'bg-gold/10 text-gold' :
+                  service.color === 'electric' ? 'bg-electric/10 text-electric' :
+                  'bg-violet-IA/10 text-violet-IA'
+                }`}>
+                  <service.icon className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-gold transition-colors">{service.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{service.desc}</p>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>
@@ -318,33 +319,34 @@ const AITeam = () => {
 
         <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
           {agents.map((agent, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="glass-card p-6 text-center hover:border-violet-IA/30 transition-all group cursor-pointer"
-            >
-              <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 ${
-                agent.color === 'gold' ? 'bg-gold/10' :
-                agent.color === 'electric' ? 'bg-electric/10' :
-                'bg-violet-IA/10'
-              }`}>
-                <agent.icon className={`w-8 h-8 ${
-                  agent.color === 'gold' ? 'text-gold' :
-                  agent.color === 'electric' ? 'text-electric' :
-                  'text-violet-IA'
-                }`} />
-              </div>
-              <h3 className="font-bold text-white mb-1 group-hover:text-violet-IA transition-colors">{agent.name}</h3>
-              <p className="text-xs text-gray-400">{agent.role}</p>
-              <div className={`mt-4 w-2 h-2 mx-auto rounded-full ${
-                agent.color === 'gold' ? 'bg-gold' :
-                agent.color === 'electric' ? 'bg-electric' :
-                'bg-violet-IA'
-              } animate-pulse`}></div>
-            </motion.div>
+            <Link key={i} href="/ai-team">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="glass-card p-6 text-center hover:border-violet-IA/30 transition-all group cursor-pointer"
+              >
+                <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 ${
+                  agent.color === 'gold' ? 'bg-gold/10' :
+                  agent.color === 'electric' ? 'bg-electric/10' :
+                  'bg-violet-IA/10'
+                }`}>
+                  <agent.icon className={`w-8 h-8 ${
+                    agent.color === 'gold' ? 'text-gold' :
+                    agent.color === 'electric' ? 'text-electric' :
+                    'text-violet-IA'
+                  }`} />
+                </div>
+                <h3 className="font-bold text-white mb-1 group-hover:text-violet-IA transition-colors">{agent.name}</h3>
+                <p className="text-xs text-gray-400">{agent.role}</p>
+                <div className={`mt-4 w-2 h-2 mx-auto rounded-full ${
+                  agent.color === 'gold' ? 'bg-gold' :
+                  agent.color === 'electric' ? 'bg-electric' :
+                  'bg-violet-IA'
+                } animate-pulse`}></div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>
@@ -354,14 +356,35 @@ const AITeam = () => {
 
 // Portfolio Section
 const Portfolio = () => {
-  const projects = [
+  const [projects, setProjects] = useState([
     { title: 'Logo Premium', category: 'Design', image: '🎨' },
     { title: 'Site E-commerce', category: 'Développement', image: '🛒' },
     { title: 'Application Mobile', category: 'Mobile', image: '📱' },
     { title: 'Branding Complete', category: 'Identité', image: '✨' },
     { title: 'Video Marketing', category: 'Vidéo', image: '🎬' },
     { title: 'Dashboard ERP', category: 'SaaS', image: '📊' },
-  ]
+  ])
+
+  useEffect(() => {
+    const loadPortfolio = async () => {
+      try {
+        const response = await fetch('/api/portfolio')
+        if (response.ok) {
+          const data = await response.json()
+          if (data.length > 0) {
+            setProjects(data.slice(0, 6).map((p: any) => ({
+              title: p.title,
+              category: p.category,
+              image: p.image
+            })))
+          }
+        }
+      } catch (error) {
+        console.error('Error loading portfolio:', error)
+      }
+    }
+    loadPortfolio()
+  }, [])
 
   return (
     <section id="portfolio" className="py-24 relative">
@@ -383,29 +406,30 @@ const Portfolio = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-card overflow-hidden group cursor-pointer"
-            >
-              <div className="h-64 bg-gradient-to-br from-premium-card to-premium-dark flex items-center justify-center text-8xl group-hover:scale-110 transition-transform duration-500">
-                {project.image}
-              </div>
-              <div className="p-6">
-                <span className="text-xs text-electric uppercase tracking-wider">{project.category}</span>
-                <h3 className="text-xl font-bold text-white mt-2 group-hover:text-electric transition-colors">{project.title}</h3>
-              </div>
-            </motion.div>
+            <Link key={i} href="/portfolio">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="glass-card overflow-hidden group cursor-pointer"
+              >
+                <div className="h-64 bg-gradient-to-br from-premium-card to-premium-dark flex items-center justify-center text-8xl group-hover:scale-110 transition-transform duration-500">
+                  {project.image}
+                </div>
+                <div className="p-6">
+                  <span className="text-xs text-electric uppercase tracking-wider">{project.category}</span>
+                  <h3 className="text-xl font-bold text-white mt-2 group-hover:text-electric transition-colors">{project.title}</h3>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <a href="#contact" className="inline-flex items-center gap-2 text-gold hover:text-gold-light transition-colors">
+          <Link href="/portfolio" className="inline-flex items-center gap-2 text-gold hover:text-gold-light transition-colors">
             Voir tous nos projets <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
