@@ -1,8 +1,22 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, ExternalLink, Github, Figma, Palette, Code, Smartphone, Brain, Video, ShoppingCart } from 'lucide-react'
+
+interface PortfolioItem {
+  id: string
+  title: string
+  category: string
+  image: string
+  description: string
+  tags: string[]
+  icon: string
+  client?: string
+  year?: string
+  link?: string
+}
 
 const Logo = () => (
   <div className="relative w-12 h-12 flex items-center justify-center">
@@ -23,66 +37,122 @@ const Logo = () => (
   </div>
 )
 
-const portfolioItems = [
+// Icon mapping
+const iconMap: Record<string, any> = {
+  ShoppingCart,
+  Palette,
+  Code,
+  Smartphone,
+  Brain,
+  Video,
+}
+
+const defaultPortfolioItems = [
   {
-    id: 1,
+    id: '1',
     title: 'TechCorp E-commerce',
     category: 'E-commerce',
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
     description: 'Plateforme e-commerce complète avec paiement sécurisé',
     tags: ['Next.js', 'Stripe', 'Tailwind'],
-    icon: ShoppingCart,
+    icon: 'ShoppingCart',
   },
   {
-    id: 2,
+    id: '2',
     title: 'AfriTech Logo',
     category: 'Design Graphique',
     image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&h=600&fit=crop',
     description: 'Identité visuelle complète pour startup technologique',
     tags: ['Logo', 'Brand', 'Figma'],
-    icon: Palette,
+    icon: 'Palette',
   },
   {
-    id: 3,
+    id: '3',
     title: 'Finance Dashboard',
     category: 'Développement Web',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
     description: 'Dashboard analytics pour gestion financière',
     tags: ['React', 'D3.js', 'API'],
-    icon: Code,
+    icon: 'Code',
   },
   {
-    id: 4,
+    id: '4',
     title: 'HealthApp Mobile',
     category: 'Développement Mobile',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop',
     description: 'Application mobile de suivi santé',
     tags: ['React Native', 'Firebase', 'Health API'],
-    icon: Smartphone,
+    icon: 'Smartphone',
   },
   {
-    id: 5,
+    id: '5',
     title: 'AI Chatbot',
     category: 'Intelligence Artificielle',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
     description: 'Assistant virtuel propulsé par LLM',
     tags: ['LLM', 'RAG', 'Vector DB'],
-    icon: Brain,
+    icon: 'Brain',
   },
   {
-    id: 6,
+    id: '6',
     title: 'Brand Video',
     category: 'Production Vidéo',
     image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=600&fit=crop',
     description: 'Vidéo corporate avec motion design',
     tags: ['After Effects', 'Motion', '3D'],
-    icon: Video,
+    icon: 'Video',
   },
 ]
 
-const categories = ['Tous', 'Design Graphique', 'Développement Web', 'Développement Mobile', 'E-commerce', 'Intelligence Artificielle', 'Production Vidéo']
-
 export default function PortfolioPage() {
+  const [activeCategory, setActiveCategory] = useState('Tous')
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Load portfolio data
+  useEffect(() => {
+    const loadPortfolio = async () => {
+      try {
+        const response = await fetch('/api/portfolio')
+        if (response.ok) {
+          const data = await response.json()
+          if (data.length > 0) {
+            setPortfolioItems(data)
+          } else {
+            setPortfolioItems(defaultPortfolioItems)
+          }
+        } else {
+          setPortfolioItems(defaultPortfolioItems)
+        }
+      } catch (error) {
+        console.error('Error loading portfolio:', error)
+        setPortfolioItems(defaultPortfolioItems)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadPortfolio()
+  }, [])
+
+  // Get unique categories
+  const categories = ['Tous', ...new Set(portfolioItems.map(item => item.category))]
+
+  // Filter items
+  const filteredItems = activeCategory === 'Tous' 
+    ? portfolioItems 
+    : portfolioItems.filter(item => item.category === activeCategory)
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-premium-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Chargement...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-premium-black">
       {/* Header */}
@@ -128,8 +198,9 @@ export default function PortfolioPage() {
             {categories.map((category, index) => (
               <button
                 key={index}
+                onClick={() => setActiveCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm transition-all ${
-                  index === 0
+                  activeCategory === category
                     ? 'bg-gold text-black'
                     : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
                 }`}
@@ -141,55 +212,67 @@ export default function PortfolioPage() {
 
           {/* Portfolio Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolioItems.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="group glass-card overflow-hidden hover:border-gold/30 transition-all"
-              >
-                {/* Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-premium-black to-transparent z-10" />
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 right-4 z-20">
-                    <span className="px-3 py-1 bg-gold/20 backdrop-blur-sm rounded-full text-xs text-gold">
-                      {item.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center">
-                      <item.icon className="w-5 h-5 text-gold" />
-                    </div>
-                    <h3 className="text-lg font-bold text-white">{item.title}</h3>
-                  </div>
-                  
-                  <p className="text-gray-400 text-sm mb-4">{item.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {item.tags.map((tag, i) => (
-                      <span key={i} className="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">
-                        {tag}
+            {filteredItems.map((item, index) => {
+              const IconComponent = iconMap[item.icon] || Code
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group glass-card overflow-hidden hover:border-gold/30 transition-all"
+                >
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-premium-black to-transparent z-10" />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute top-4 right-4 z-20">
+                      <span className="px-3 py-1 bg-gold/20 backdrop-blur-sm rounded-full text-xs text-gold">
+                        {item.category}
                       </span>
-                    ))}
+                    </div>
                   </div>
 
-                  <button className="flex items-center gap-2 text-gold text-sm hover:text-gold-light transition-colors">
-                    Voir le projet <ExternalLink className="w-4 h-4" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+                  {/* Content */}
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center">
+                        <IconComponent className="w-5 h-5 text-gold" />
+                      </div>
+                      <h3 className="text-lg font-bold text-white">{item.title}</h3>
+                    </div>
+                    
+                    <p className="text-gray-400 text-sm mb-4">{item.description}</p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {item.tags.map((tag, i) => (
+                        <span key={i} className="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {item.link && (
+                      <a href={item.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gold text-sm hover:text-gold-light transition-colors">
+                        Voir le projet <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                </motion.div>
+              )
+            })}
           </div>
+
+          {/* Empty state */}
+          {filteredItems.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-gray-400">Aucun projet dans cette catégorie.</p>
+            </div>
+          )}
 
           {/* CTA */}
           <motion.div
