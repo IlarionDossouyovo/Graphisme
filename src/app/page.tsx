@@ -64,6 +64,18 @@ const Navbar = () => {
     { name: 'Équipe IA', href: '/ai-team' },
     { name: 'Tarifs', href: '/pricing' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Admin', href: '/admin' },
+  ]
+
+  const navItemsMobile = [
+    { name: 'Accueil', href: '/' },
+    { name: 'Services', href: '/services' },
+    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Équipe IA', href: '/ai-team' },
+    { name: 'Tarifs', href: '/pricing' },
+    { name: 'Contact', href: '/contact' },
+    { name: 'Admin', href: '/admin' },
+    { name: 'Rapport', href: '/client' },
   ]
 
   return (
@@ -113,7 +125,7 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             className="lg:hidden mt-4 pb-4"
           >
-            {navItems.map((item) => (
+            {navItemsMobile.map((item) => (
               <Link 
                 key={item.name}
                 href={item.href}
@@ -745,6 +757,11 @@ const Contact = () => {
 const Footer = () => {
   const footerLinks = {
     Services: ['Design Graphique', 'Développement Web', 'Marketing Digital', 'IA & Automatisation'],
+    Espace: [
+      { name: 'Admin', href: '/admin' },
+      { name: 'Rapport Client', href: '/client' },
+      { name: 'Centre IA', href: '/admin/ai-agents' },
+    ],
     Entreprise: ['À propos', 'Carrières', 'Blog', 'Contact'],
     Legal: ['Mentions légales', 'CGV', 'Politique de confidentialité'],
   }
@@ -780,11 +797,15 @@ const Footer = () => {
             <div key={title}>
               <h4 className="text-white font-semibold mb-4">{title}</h4>
               <ul className="space-y-2">
-                {links.map((link, i) => (
+                {Array.isArray(links) && links.map((link: any, i: number) => (
                   <li key={i}>
-                    <a href="#" className="text-gray-400 hover:text-gold transition-colors text-sm">
-                      {link}
-                    </a>
+                    {typeof link === 'object' && link.href ? (
+                      <Link href={link.href} className="text-gray-400 hover:text-gold transition-colors text-sm">
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <span className="text-gray-400 text-sm">{link}</span>
+                    )}
                   </li>
                 ))}
               </ul>
