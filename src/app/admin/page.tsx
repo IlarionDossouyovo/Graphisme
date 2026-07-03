@@ -7,23 +7,31 @@ import {
   BarChart3, MessageSquare, Bell, Search, Menu, X,
   TrendingUp, TrendingDown, DollarSign, Eye, MousePointer,
   Calendar, CheckCircle, Clock, AlertCircle, Bot, Activity,
-  Database, Shield, Cloud, Code, Palette, Video, Mail
+  Database, Shield, Cloud, Code, Palette, Video, Mail, Brain
 } from 'lucide-react'
 
 // Sidebar Component
 const Sidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const menuItems = [
-    { id: 'dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
-    { id: 'crm', icon: Users, label: 'CRM' },
-    { id: 'projects', icon: FileText, label: 'Projets' },
-    { id: 'invoices', icon: CreditCard, label: 'Factures' },
-    { id: 'marketing', icon: BarChart3, label: 'Marketing' },
-    { id: 'analytics', icon: Activity, label: 'Analytics' },
-    { id: 'ai-agents', icon: Bot, label: 'Agents IA' },
-    { id: 'automation', icon: Settings, label: 'Automatisations' },
-    { id: 'support', icon: MessageSquare, label: 'Support' },
-    { id: 'settings', icon: Settings, label: 'Paramètres' },
+    { id: 'dashboard', icon: LayoutDashboard, label: 'Tableau de bord', href: null },
+    { id: 'crm', icon: Users, label: 'CRM', href: null },
+    { id: 'projects', icon: FileText, label: 'Projets', href: null },
+    { id: 'invoices', icon: CreditCard, label: 'Factures', href: null },
+    { id: 'marketing', icon: BarChart3, label: 'Marketing', href: null },
+    { id: 'analytics', icon: Activity, label: 'Analytics', href: null },
+    { id: 'ai-agents', icon: Bot, label: 'Agents IA', href: '/admin/ai-agents' },
+    { id: 'automation', icon: Settings, label: 'Automatisations', href: null },
+    { id: 'support', icon: MessageSquare, label: 'Support', href: null },
+    { id: 'settings', icon: Settings, label: 'Paramètres', href: null },
   ]
+
+  const handleClick = (item: typeof menuItems[0]) => {
+    if (item.href) {
+      window.location.href = item.href
+    } else {
+      setActiveTab(item.id)
+    }
+  }
 
   return (
     <aside className="w-64 bg-premium-dark border-r border-white/5 min-h-screen p-4 hidden lg:block">
@@ -42,7 +50,7 @@ const Sidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab:
         {menuItems.map((item) => (
           <button
             key={item.id}
-            onClick={() => setActiveTab(item.id)}
+            onClick={() => handleClick(item)}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
               activeTab === item.id 
                 ? 'bg-gold/10 text-gold' 
@@ -51,6 +59,7 @@ const Sidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab:
           >
             <item.icon className="w-5 h-5" />
             <span className="text-sm font-medium">{item.label}</span>
+            {item.href && <span className="ml-auto text-xs">↗</span>}
           </button>
         ))}
       </nav>
@@ -312,37 +321,53 @@ const AIAgentsContent = () => (
   <div className="space-y-6">
     <div className="flex items-center justify-between">
       <h1 className="text-2xl font-bold text-white">Agents IA</h1>
-      <button className="glass-button">Ajouter un agent</button>
+      <a href="/admin/ai-agents" className="glass-button flex items-center gap-2">
+        <Bot className="w-4 h-4" />
+        Ouvrir le Centre IA
+      </a>
     </div>
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
       {[
-        { name: 'CEO AI', status: 'active', tasks: 3, icon: Bot, color: 'gold' },
-        { name: 'Commercial AI', status: 'active', tasks: 8, icon: Users, color: 'electric' },
-        { name: 'Designer AI', status: 'active', tasks: 5, icon: Palette, color: 'violet' },
-        { name: 'Developer AI', status: 'idle', tasks: 0, icon: Code, color: 'blue' },
-        { name: 'Marketing AI', status: 'active', tasks: 4, icon: BarChart3, color: 'electric' },
-        { name: 'Support AI', status: 'active', tasks: 12, icon: MessageSquare, color: 'violet' },
+        { name: 'CEO AI', status: 'active', tasks: 3, icon: Brain, color: 'gold', desc: 'Direction & Décisions' },
+        { name: 'Commercial AI', status: 'active', tasks: 8, icon: TrendingUp, color: 'electric', desc: 'CRM & Prospection' },
+        { name: 'Designer AI', status: 'active', tasks: 5, icon: Palette, color: 'violet', desc: 'Création Graphique' },
+        { name: 'Developer AI', status: 'idle', tasks: 0, icon: Code, color: 'blue', desc: 'Développement Web' },
+        { name: 'Marketing AI', status: 'active', tasks: 4, icon: BarChart3, color: 'electric', desc: 'SEO & Campagnes' },
+        { name: 'Support AI', status: 'active', tasks: 12, icon: MessageSquare, color: 'green', desc: 'Support Client' },
       ].map((agent, i) => (
-        <div key={i} className="glass-card p-6">
+        <div key={i} className="glass-card p-6 hover:border-gold/30 transition-all">
           <div className="flex items-center gap-4 mb-4">
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-              agent.color === 'gold' ? 'bg-gold/10' : agent.color === 'electric' ? 'bg-electric/10' : 'bg-violet-IA/10'
+              agent.color === 'gold' ? 'bg-gold/10' : 
+              agent.color === 'electric' ? 'bg-electric/10' : 
+              agent.color === 'violet' ? 'bg-violet-IA/10' :
+              agent.color === 'blue' ? 'bg-blue-500/10' :
+              'bg-green-500/10'
             }`}>
               <agent.icon className={`w-6 h-6 ${
-                agent.color === 'gold' ? 'text-gold' : agent.color === 'electric' ? 'text-electric' : 'text-violet-IA'
+                agent.color === 'gold' ? 'text-gold' : 
+                agent.color === 'electric' ? 'text-electric' : 
+                agent.color === 'violet' ? 'text-violet-IA' :
+                agent.color === 'blue' ? 'text-blue-500' :
+                'text-green-500'
               }`} />
             </div>
             <div>
               <h3 className="font-bold text-white">{agent.name}</h3>
-              <p className="text-xs text-gray-400">{agent.tasks} tâches actives</p>
+              <p className="text-xs text-gray-400">{agent.desc}</p>
             </div>
             <div className={`ml-auto w-3 h-3 rounded-full ${
               agent.status === 'active' ? 'bg-green-500' : 'bg-yellow-500'
             }`}></div>
           </div>
-          <button className="w-full py-2 bg-white/5 rounded-lg text-sm text-gray-400 hover:text-white transition-colors">
-            Configurer
-          </button>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-400">{agent.tasks} tâches</span>
+            <span className={`text-xs px-2 py-1 rounded-full ${
+              agent.status === 'active' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'
+            }`}>
+              {agent.status === 'active' ? 'Actif' : 'Inactif'}
+            </span>
+          </div>
         </div>
       ))}
     </div>

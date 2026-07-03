@@ -934,11 +934,41 @@ function AIAgentsContent() {
 
               {/* Actions */}
               <div className="flex gap-4 pt-4 border-t border-white/5">
-                <button className="flex-1 glass-button flex items-center justify-center gap-2">
-                  <Play className="w-4 h-4" />
-                  Activer
+                <button 
+                  onClick={() => {
+                    // Toggle agent status
+                    const updatedAgents = allAgents.map(a => 
+                      a.id === selectedAgent.id 
+                        ? { ...a, status: a.status === 'active' ? 'paused' as const : 'active' as const }
+                        : a
+                    )
+                    alert(`${selectedAgent.name} ${selectedAgent.status === 'active' ? 'mis en pause' : 'activé'} avec succès!`)
+                    setShowModal(false)
+                  }}
+                  className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 transition-all ${
+                    selectedAgent.status === 'active' 
+                      ? 'bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30'
+                      : 'bg-green-500/20 text-green-500 hover:bg-green-500/30'
+                  }`}
+                >
+                  {selectedAgent.status === 'active' ? (
+                    <>
+                      <Pause className="w-4 h-4" />
+                      Mettre en pause
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4" />
+                      Activer
+                    </>
+                  )}
                 </button>
-                <button className="flex-1 px-4 py-3 bg-white/5 rounded-xl text-gray-300 hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+                <button 
+                  onClick={() => {
+                    alert(`Configuration de ${selectedAgent.name} - Cette fonctionnalité sera bientôt disponible!`)
+                  }}
+                  className="flex-1 px-4 py-3 bg-white/5 rounded-xl text-gray-300 hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+                >
                   <Settings className="w-4 h-4" />
                   Configurer
                 </button>
