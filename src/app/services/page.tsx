@@ -27,18 +27,90 @@ const Logo = () => (
 )
 
 const services = [
-  { icon: Palette, title: 'Design Graphique', description: 'Logo Premium, Identité visuelle, Charte graphique, Carte de visite, Flyers, Packaging...' },
-  { icon: Code, title: 'Développement Web', description: 'Site vitrine, Landing Page, E-commerce, ERP, CRM, SaaS, Dashboard...' },
-  { icon: Smartphone, title: 'Développement Mobile', description: 'Android, iOS, Flutter, React Native, PWA...' },
-  { icon: Brain, title: 'Intelligence Artificielle', description: 'Chatbots, Assistants IA, Agents IA, RAG, LLM, OCR, Vision AI...' },
-  { icon: Video, title: 'Production Vidéo', description: 'Montage, Motion Design, Animation 2D/3D, Voix IA, Sous-titrage...' },
-  { icon: ShoppingCart, title: 'E-commerce', description: 'Boutique en ligne, Marketplace, Paiement sécurisé, Gestion stocks...' },
-  { icon: TrendingUp, title: 'Marketing Digital', description: 'Facebook Ads, Google Ads, SEO, Email Marketing, Growth Hacking...' },
-  { icon: Search, title: 'SEO / SEA', description: 'Référencement naturel, Google Ads, Analytics, Audit SEO...' },
-  { icon: MessageCircle, title: 'Community Management', description: 'Gestion des réseaux sociaux, Calendrier éditorial, Campagnes...' },
-  { icon: Sparkles, title: 'Cloud & DevOps', description: 'Docker, Kubernetes, CI/CD, Monitoring, Sauvegardes...' },
-  { icon: Database, title: 'Base de données', description: 'PostgreSQL, Redis, Firebase, Migration, Optimisation...' },
-  { icon: Shield, title: 'Cybersécurité', description: 'Pare-feu, Surveillance, Backups, Audit, Détection menaces...' },
+  { 
+    icon: Palette, 
+    title: 'Design Graphique', 
+    description: 'Logo Premium, Identité visuelle, Charte graphique, Carte de visite, Flyers, Packaging...',
+    features: ['Logo & Identité de marque', 'Charte graphique complète', 'Print Design', 'UI/UX Design', 'Packaging'],
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Code, 
+    title: 'Développement Web', 
+    description: 'Site vitrine, Landing Page, E-commerce, ERP, CRM, SaaS, Dashboard...',
+    features: ['Sites vitrines professionnels', 'Applications web sur mesure', 'E-commerce & Boutique en ligne', 'Dashboards Analytics', 'API & Intégrations'],
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Smartphone, 
+    title: 'Développement Mobile', 
+    description: 'Android, iOS, Flutter, React Native, PWA...',
+    features: ['Applications iOS & Android', 'PWA Progressive Web App', 'Flutter & React Native', 'Maintenance & Mise à jour', 'Publication App Store'],
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Brain, 
+    title: 'Intelligence Artificielle', 
+    description: 'Chatbots, Assistants IA, Agents IA, RAG, LLM, OCR, Vision AI...',
+    features: ['Chatbots intelligents', 'Agents IA automatisés', 'Intégration LLM', 'OCR & Reconnaissance', 'Vision par ordinateur'],
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Video, 
+    title: 'Production Vidéo', 
+    description: 'Montage, Motion Design, Animation 2D/3D, Voix IA, Sous-titrage...',
+    features: ['Vidéos corporatives', 'Motion Design', 'Animation 2D/3D', 'Voix IA & Sous-titrage', 'Montage vidéo'],
+    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: ShoppingCart, 
+    title: 'E-commerce', 
+    description: 'Boutique en ligne, Marketplace, Paiement sécurisé, Gestion stocks...',
+    features: ['Boutiques Shopify/WooCommerce', 'Paiements sécurisés Stripe', 'Gestion des stocks', 'Marketplace intégration', 'SEO E-commerce'],
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: TrendingUp, 
+    title: 'Marketing Digital', 
+    description: 'Facebook Ads, Google Ads, SEO, Email Marketing, Growth Hacking...',
+    features: ['Publicités Facebook/Instagram', 'Google Ads & Display', 'Email Marketing', 'Stratégie de croissance', 'Analytics & Reporting'],
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Search, 
+    title: 'SEO / SEA', 
+    description: 'Référencement naturel, Google Ads, Analytics, Audit SEO...',
+    features: ['Audit SEO complet', 'Optimisation On-Page', ' backlinks & Off-Page', 'Google Ads management', 'Suivi Analytics'],
+    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: MessageCircle, 
+    title: 'Community Management', 
+    description: 'Gestion des réseaux sociaux, Calendrier éditorial, Campagnes...',
+    features: ['Gestion Facebook/Instagram', 'Contenu LinkedIn', 'Calendrier éditorial', 'Création de contenu', 'Rapports mensuels'],
+    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Sparkles, 
+    title: 'Cloud & DevOps', 
+    description: 'Docker, Kubernetes, CI/CD, Monitoring, Sauvegardes...',
+    features: ['Infrastructure AWS/Azure', 'Docker & Kubernetes', 'CI/CD Pipeline', 'Monitoring 24/7', 'Sauvegardes automatisées'],
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Database, 
+    title: 'Base de données', 
+    description: 'PostgreSQL, Redis, Firebase, Migration, Optimisation...',
+    features: ['Design de schéma', 'PostgreSQL & MySQL', 'Firebase & NoSQL', 'Migration de données', 'Optimisation performance'],
+    image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&h=400&fit=crop'
+  },
+  { 
+    icon: Shield, 
+    title: 'Cybersécurité', 
+    description: 'Pare-feu, Surveillance, Backups, Audit, Détection menaces...',
+    features: ['Audit de sécurité', 'Pare-feu & Protection', 'Surveillance continue', 'Sauvegardes sécurisées', 'Formation équipes'],
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=400&fit=crop'
+  },
 ]
 
 export default function ServicesPage() {
@@ -89,13 +161,38 @@ export default function ServicesPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="glass-card p-6 hover:border-gold/30 transition-colors cursor-pointer h-full"
+                  className="glass-card overflow-hidden hover:border-gold/30 transition-all cursor-pointer h-full group"
                 >
-                  <div className="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center mb-4">
-                    <service.icon className="w-7 h-7 text-gold" />
+                  {/* Image */}
+                  <div className="relative h-40 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-premium-black to-transparent z-10" />
+                    <div 
+                      className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
+                      style={{ backgroundImage: `url(${service.image})` }}
+                    />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
-                  <p className="text-gray-400">{service.description}</p>
+                  
+                  <div className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center mb-4">
+                      <service.icon className="w-6 h-6 text-gold" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
+                    <p className="text-gray-400 text-sm mb-4">{service.description}</p>
+                    
+                    {/* Features */}
+                    <div className="flex flex-wrap gap-2">
+                      {service.features.slice(0, 3).map((feature, i) => (
+                        <span key={i} className="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">
+                          {feature}
+                        </span>
+                      ))}
+                      {service.features.length > 3 && (
+                        <span className="px-2 py-1 bg-gold/10 rounded text-xs text-gold">
+                          +{service.features.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </motion.div>
               </Link>
             ))}
