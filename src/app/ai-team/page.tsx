@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Brain, Users, Code, Palette, Video, MessageSquare, TrendingUp, Shield, Database, Bot, Zap, Activity } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { ArrowLeft, Brain, Users, Code, Palette, Video, MessageSquare, TrendingUp, Shield, Database, Bot, Zap, Activity, X, Send, Loader2 } from 'lucide-react'
 
 const Logo = () => (
   <div className="relative w-12 h-12 flex items-center justify-center">
@@ -25,7 +27,7 @@ const Logo = () => (
 
 const aiAgents = [
   {
-    id: 1,
+    id: 'CEO',
     name: 'CEO AI',
     role: 'Direction Stratégique',
     description: 'Supervision et décisions stratégiques pour l\'entreprise. Analyse des données marché et planification.',
@@ -35,7 +37,7 @@ const aiAgents = [
     capabilities: ['Analyse stratégique', 'Prise de décision', 'Planification', 'Reporting'],
   },
   {
-    id: 2,
+    id: 'Commercial',
     name: 'Commercial AI',
     role: 'CRM & Prospection',
     description: 'Gestion des relations clients et prospection automatique. Suivi des leads et conversion.',
@@ -45,7 +47,7 @@ const aiAgents = [
     capabilities: ['CRM automatique', 'Prospection', 'Suivi leads', 'Conversion'],
   },
   {
-    id: 3,
+    id: 'Marketing',
     name: 'Marketing AI',
     role: 'SEO & Publicité',
     description: 'Stratégies marketing digital, SEO, SEA et campagnes publicitaires intelligentes.',
@@ -55,7 +57,7 @@ const aiAgents = [
     capabilities: ['SEO', 'Google Ads', 'Facebook Ads', 'Analytics'],
   },
   {
-    id: 4,
+    id: 'Designer',
     name: 'Designer AI',
     role: 'Création Graphique',
     description: 'Création de logos, identités visuelles, charte graphique et designs adaptés à votre marque.',
@@ -65,7 +67,7 @@ const aiAgents = [
     capabilities: ['Logo design', 'Identité visuelle', 'Charte graphique', 'UI/UX'],
   },
   {
-    id: 5,
+    id: 'Developer',
     name: 'Developer AI',
     role: 'Développement',
     description: 'Développement frontend et backend pour sites web, applications et solutions personnalisées.',
@@ -75,7 +77,7 @@ const aiAgents = [
     capabilities: ['Frontend', 'Backend', 'API', 'Base de données'],
   },
   {
-    id: 6,
+    id: 'Motion',
     name: 'Motion AI',
     role: 'Vidéo & Animation',
     description: 'Production vidéo, montage, motion design et animations 2D/3D pour tous vos supports.',
@@ -85,7 +87,7 @@ const aiAgents = [
     capabilities: ['Montage vidéo', 'Motion Design', 'Animation 3D', 'Voix IA'],
   },
   {
-    id: 7,
+    id: 'CommunityManager',
     name: 'Community Manager AI',
     role: 'Réseaux Sociaux',
     description: 'Gestion complète des réseaux sociaux avec publication, engagement et croissance de communauté.',
@@ -95,7 +97,7 @@ const aiAgents = [
     capabilities: ['Publication', 'Engagement', 'Croissance', 'Calendrier éditorial'],
   },
   {
-    id: 8,
+    id: 'Finance',
     name: 'Finance AI',
     role: 'Facturation & Comptabilité',
     description: 'Gestion des factures, devis, trésorerie et rapports financiers automatisés.',
@@ -105,7 +107,7 @@ const aiAgents = [
     capabilities: ['Facturation', 'Devis', 'Trésorerie', 'Rapports'],
   },
   {
-    id: 9,
+    id: 'Support',
     name: 'Support AI',
     role: 'Assistance Client',
     description: 'Support client 24/7 avec tickets, FAQ et résolution rapide des problèmes.',
@@ -115,7 +117,7 @@ const aiAgents = [
     capabilities: ['Support 24/7', 'Tickets', 'FAQ', 'Chatbot'],
   },
   {
-    id: 10,
+    id: 'DevOps',
     name: 'DevOps AI',
     role: 'Infrastructure & CI/CD',
     description: 'Gestion d\'infrastructure, déploiements automatisés et monitoring des applications.',
@@ -125,7 +127,7 @@ const aiAgents = [
     capabilities: ['Docker', 'CI/CD', 'Monitoring', 'Cloud'],
   },
   {
-    id: 11,
+    id: 'CyberSecurity',
     name: 'CyberSecurity AI',
     role: 'Sécurité & Audit',
     description: 'Sécurité des systèmes, audits et surveillance continue contre les menaces.',
@@ -135,7 +137,7 @@ const aiAgents = [
     capabilities: ['Audit', 'Surveillance', 'Backups', 'Détection menaces'],
   },
   {
-    id: 12,
+    id: 'DataAnalyst',
     name: 'Data Analyst AI',
     role: 'Business Intelligence',
     description: 'Analyse de données, rapports et tableaux de bord pour des décisions éclairées.',
@@ -147,6 +149,52 @@ const aiAgents = [
 ]
 
 export default function AITeamPage() {
+  const router = useRouter()
+  const [selectedAgent, setSelectedAgent] = useState<typeof aiAgents[0] | null>(null)
+  const [isChatOpen, setIsChatOpen] = useState(false)
+  const [chatMessages, setChatMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([])
+  const [chatInput, setChatInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleAgentClick = (agent: typeof aiAgents[0]) => {
+    setSelectedAgent(agent)
+    setIsChatOpen(true)
+    setChatMessages([])
+  }
+
+  const handleSendMessage = async () => {
+    if (!chatInput.trim() || !selectedAgent || isLoading) return
+
+    const userMessage = chatInput.trim()
+    setChatInput('')
+    setChatMessages(prev => [...prev, { role: 'user', content: userMessage }])
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agent: selectedAgent.id,
+          message: userMessage,
+          history: chatMessages
+        })
+      })
+
+      const data = await response.json()
+      
+      if (data.response) {
+        setChatMessages(prev => [...prev, { role: 'assistant', content: data.response }])
+      } else {
+        setChatMessages(prev => [...prev, { role: 'assistant', content: 'Désolé, je rencontre un problème pour répondre. Veuillez vérifier qu\'Ollama est installé et lancé.' }])
+      }
+    } catch (error) {
+      setChatMessages(prev => [...prev, { role: 'assistant', content: 'Erreur de connexion. Veuillez vérifier qu\'Ollama est installé sur votre machine.' }])
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-premium-black">
       {/* Header */}
@@ -217,7 +265,8 @@ export default function AITeamPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="glass-card p-6 hover:border-gold/30 transition-all group"
+                className="glass-card p-6 hover:border-gold/30 transition-all group cursor-pointer"
+                onClick={() => handleAgentClick(agent)}
               >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
@@ -293,6 +342,92 @@ export default function AITeamPage() {
           </p>
         </div>
       </footer>
+
+      {/* Chat Modal */}
+      {isChatOpen && selectedAgent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsChatOpen(false)}></div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative w-full max-w-lg bg-premium-dark border border-white/10 rounded-2xl overflow-hidden"
+          >
+            {/* Chat Header */}
+            <div className="flex items-center justify-between p-4 border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                  selectedAgent.color === 'gold' ? 'bg-gold/10' :
+                  selectedAgent.color === 'electric' ? 'bg-electric/10' :
+                  'bg-violet-IA/10'
+                }`}>
+                  <selectedAgent.icon className={`w-5 h-5 ${
+                    selectedAgent.color === 'gold' ? 'text-gold' :
+                    selectedAgent.color === 'electric' ? 'text-electric' :
+                    'text-violet-IA'
+                  }`} />
+                </div>
+                <div>
+                  <h3 className="text-white font-bold">{selectedAgent.name}</h3>
+                  <p className="text-xs text-gray-400">{selectedAgent.role}</p>
+                </div>
+              </div>
+              <button onClick={() => setIsChatOpen(false)} className="text-gray-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="h-80 overflow-y-auto p-4 space-y-4">
+              {chatMessages.length === 0 && (
+                <div className="text-center text-gray-400 py-8">
+                  <selectedAgent.icon className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>Discutez avec {selectedAgent.name}</p>
+                  <p className="text-xs mt-2">Cet agent utilise l'IA pour vous répondre</p>
+                </div>
+              )}
+              {chatMessages.map((msg, i) => (
+                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] p-3 rounded-xl ${
+                    msg.role === 'user' 
+                      ? 'bg-gold/20 text-white' 
+                      : 'bg-white/5 text-gray-300'
+                  }`}>
+                    {msg.content}
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-white/5 p-3 rounded-xl">
+                    <Loader2 className="w-5 h-5 text-gold animate-spin" />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Chat Input */}
+            <div className="p-4 border-t border-white/10">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder="Tapez votre message..."
+                  className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none"
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={isLoading || !chatInput.trim()}
+                  className="px-4 py-2 bg-gold/20 text-gold rounded-xl hover:bg-gold/30 disabled:opacity-50"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }
