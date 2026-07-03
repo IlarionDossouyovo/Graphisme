@@ -506,8 +506,43 @@ function AIAgentsContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [showConfigModal, setShowConfigModal] = useState(false)
   const [activeTab, setActiveTab] = useState('all')
   const [founderKey, setFounderKey] = useState('')
+
+  // Configuration state
+  const [agentName, setAgentName] = useState('')
+  const [agentRole, setAgentRole] = useState('')
+  const [agentPrompt, setAgentPrompt] = useState('')
+  const [agentCapabilities, setAgentCapabilities] = useState<string[]>([])
+  const [newCapability, setNewCapability] = useState('')
+
+  // Update config form when agent is selected
+  useEffect(() => {
+    if (selectedAgent) {
+      setAgentName(selectedAgent.name)
+      setAgentRole(selectedAgent.role)
+      setAgentPrompt(selectedAgent.instructions.join('\n'))
+      setAgentCapabilities(selectedAgent.capabilities)
+    }
+  }, [selectedAgent])
+
+  const handleSaveConfig = () => {
+    alert(`Configuration de ${selectedAgent?.name} enregistrée avec succès!`)
+    setShowConfigModal(false)
+    setShowModal(false)
+  }
+
+  const addCapability = () => {
+    if (newCapability.trim() && !agentCapabilities.includes(newCapability.trim())) {
+      setAgentCapabilities([...agentCapabilities, newCapability.trim()])
+      setNewCapability('')
+    }
+  }
+
+  const removeCapability = (cap: string) => {
+    setAgentCapabilities(agentCapabilities.filter(c => c !== cap))
+  }
 
   // Check authorization
   useEffect(() => {
@@ -965,12 +1000,125 @@ function AIAgentsContent() {
                 </button>
                 <button 
                   onClick={() => {
-                    alert(`Configuration de ${selectedAgent.name} - Cette fonctionnalité sera bientôt disponible!`)
+                    // Show configuration modal
+                    setShowConfigModal(true)
                   }}
                   className="flex-1 px-4 py-3 bg-white/5 rounded-xl text-gray-300 hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
                 >
                   <Settings className="w-4 h-4" />
                   Configurer
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Configuration Modal */}
+      {showConfigModal && selectedAgent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+          >
+            {/* Config Header */}
+            <div className="p-6 bg-gradient-to-r from-gold/20 to-transparent border-b border-white/5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <span className="text-4xl">{selectedAgent.avatar}</span>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">Configuration</h2>
+                    <p className="text-gray-400">{selectedAgent.name}</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowConfigModal(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Config Content */}
+            <div className="p-6 space-y-6">
+              {/* Name */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Nom de l'agent</label>
+                <input
+                  type="text"
+                  value={agentName}
+                  onChange={(e) => setAgentName(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none"
+                />
+              </div>
+
+              {/* Role */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Rôle</label>
+                <input
+                  type="text"
+                  value={agentRole}
+                  onChange={(e) => setAgentRole(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none"
+                />
+              </div>
+
+              {/* Instructions/Prompt */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Instructions (une par ligne)</label>
+                <textarea
+                  value={agentPrompt}
+                  onChange={(e) => setAgentPrompt(e.target.value)}
+                  rows={6}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none resize-none"
+                  placeholder="Entrez les instructions pour l'agent..."
+                />
+              </div>
+
+              {/* Capabilities */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Capacités</label>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {agentCapabilities.map((cap, i) => (
+                    <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-sm text-gray-300 flex items-center gap-2">
+                      {cap}
+                      <button onClick={() => removeCapability(cap)} className="text-red-400 hover:text-red-300">×</button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newCapability}
+                    onChange={(e) => setNewCapability(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && addCapability()}
+                    placeholder="Ajouter une capacité..."
+                    className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none"
+                  />
+                  <button
+                    onClick={addCapability}
+                    className="px-4 py-2 bg-gold/20 text-gold rounded-xl hover:bg-gold/30"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-4 pt-4 border-t border-white/5">
+                <button
+                  onClick={() => setShowConfigModal(false)}
+                  className="flex-1 py-3 bg-white/5 rounded-xl text-gray-300 hover:bg-white/10 transition-colors"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleSaveConfig}
+                  className="flex-1 py-3 bg-gold text-black rounded-xl font-semibold hover:bg-gold-light transition-colors"
+                >
+                  Enregistrer
                 </button>
               </div>
             </div>
