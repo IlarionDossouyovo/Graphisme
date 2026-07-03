@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { 
   Palette, Code, Smartphone, Brain, Video, ShoppingCart, 
-  TrendingUp, Search, MessageCircle, Sparkles, ArrowLeft
+  TrendingUp, Search, MessageCircle, Sparkles, ArrowLeft, Shield, Database
 } from 'lucide-react'
 
 const Logo = () => (
@@ -37,7 +37,7 @@ const services = [
   { icon: Search, title: 'SEO / SEA', description: 'Référencement naturel, Google Ads, Analytics, Audit SEO...' },
   { icon: MessageCircle, title: 'Community Management', description: 'Gestion des réseaux sociaux, Calendrier éditorial, Campagnes...' },
   { icon: Sparkles, title: 'Cloud & DevOps', description: 'Docker, Kubernetes, CI/CD, Monitoring, Sauvegardes...' },
-  { icon: TrendingUp, title: 'Base de données', description: 'PostgreSQL, Redis, Firebase, Migration, Optimisation...' },
+  { icon: Database, title: 'Base de données', description: 'PostgreSQL, Redis, Firebase, Migration, Optimisation...' },
   { icon: Shield, title: 'Cybersécurité', description: 'Pare-feu, Surveillance, Backups, Audit, Détection menaces...' },
 ]
 
