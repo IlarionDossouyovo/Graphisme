@@ -7,7 +7,8 @@ import {
   BarChart3, MessageSquare, Bell, Search, Menu, X,
   TrendingUp, TrendingDown, DollarSign, Eye, MousePointer,
   Calendar, CheckCircle, Clock, AlertCircle, Bot, Activity,
-  Database, Shield, Cloud, Code, Palette, Video, Mail, Brain
+  Database, Shield, Cloud, Code, Palette, Video, Mail, Brain,
+  Zap, Play, Pause
 } from 'lucide-react'
 
 // Sidebar Component
@@ -20,7 +21,7 @@ const Sidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab:
     { id: 'marketing', icon: BarChart3, label: 'Marketing', href: null },
     { id: 'analytics', icon: Activity, label: 'Analytics', href: null },
     { id: 'ai-agents', icon: Bot, label: 'Agents IA', href: '/admin/ai-agents' },
-    { id: 'automation', icon: Settings, label: 'Automatisations', href: null },
+    { id: 'automation', icon: Zap, label: 'Automatisations', href: null },
     { id: 'support', icon: MessageSquare, label: 'Support', href: null },
     { id: 'settings', icon: Settings, label: 'Paramètres', href: null },
   ]
@@ -269,6 +270,8 @@ export default function AdminPage() {
         return <DashboardContent />
       case 'ai-agents':
         return <AIAgentsContent />
+      case 'automation':
+        return <AutomationContent />
       case 'crm':
         return <CRMContent />
       case 'projects':
@@ -388,6 +391,114 @@ const AIAgentsContent = () => (
     </div>
   </div>
 )
+
+// Automation Content
+const AutomationContent = () => {
+  const [automations, setAutomations] = useState([
+    { id: 1, name: 'Rapport quotidien IA', trigger: 'Quotidien 9h00', status: 'active', lastRun: 'Il y a 2h', type: 'Rapport' },
+    { id: 2, name: 'Suivi des leads', trigger: 'Chaque 6h', status: 'active', lastRun: 'Il y a 4h', type: 'CRM' },
+    { id: 3, name: 'Backup automatique', trigger: 'Quotidien 2h00', status: 'active', lastRun: 'Hier', type: 'Système' },
+    { id: 4, name: 'Newsletter hebdo', trigger: 'Chaque lundi 10h', status: 'paused', lastRun: 'Il y a 3j', type: 'Marketing' },
+    { id: 5, name: 'Alerte budget projet', trigger: 'Temps réel', status: 'active', lastRun: 'Il y a 1h', type: 'Finance' },
+  ])
+
+  const [showAddModal, setShowAddModal] = useState(false)
+
+  const handleToggle = (id: number) => {
+    setAutomations(automations.map(a => 
+      a.id === id ? { ...a, status: a.status === 'active' ? 'paused' as const : 'active' as const } : a
+    ))
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-white">Automatisations</h1>
+        <button onClick={() => setShowAddModal(true)} className="glass-button flex items-center gap-2">
+          <Settings className="w-4 h-4" />
+          Nouvelle automatisation
+        </button>
+      </div>
+
+      {/* Stats */}
+      <div className="grid md:grid-cols-4 gap-4">
+        <div className="glass-card p-6">
+          <h3 className="text-gray-400 text-sm mb-2">Total</h3>
+          <p className="text-3xl font-bold text-white">{automations.length}</p>
+        </div>
+        <div className="glass-card p-6">
+          <h3 className="text-gray-400 text-sm mb-2">Actives</h3>
+          <p className="text-3xl font-bold text-green-500">{automations.filter(a => a.status === 'active').length}</p>
+        </div>
+        <div className="glass-card p-6">
+          <h3 className="text-gray-400 text-sm mb-2">En pause</h3>
+          <p className="text-3xl font-bold text-yellow-500">{automations.filter(a => a.status === 'paused').length}</p>
+        </div>
+        <div className="glass-card p-6">
+          <h3 className="text-gray-400 text-sm mb-2">Exécutions</h3>
+          <p className="text-3xl font-bold text-gold">24</p>
+        </div>
+      </div>
+
+      {/* List */}
+      <div className="glass-card overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-white/5">
+            <tr>
+              <th className="text-left p-4 text-gray-400 text-sm">Automatisation</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Déclencheur</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Type</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Dernière exécution</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Statut</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {automations.map((automation) => (
+              <tr key={automation.id} className="border-t border-white/5 hover:bg-white/5">
+                <td className="p-4 text-white font-medium">{automation.name}</td>
+                <td className="p-4 text-gray-400">{automation.trigger}</td>
+                <td className="p-4"><span className="px-3 py-1 rounded-full text-xs bg-gold/20 text-gold">{automation.type}</span></td>
+                <td className="p-4 text-gray-400">{automation.lastRun}</td>
+                <td className="p-4"><span className={`px-3 py-1 rounded-full text-xs ${automation.status === 'active' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'}`}>{automation.status === 'active' ? 'Actif' : 'Pause'}</span></td>
+                <td className="p-4">
+                  <div className="flex gap-2">
+                    <button onClick={() => handleToggle(automation.id)} className={`p-2 rounded-lg ${automation.status === 'active' ? 'bg-yellow-500/20 text-yellow-500' : 'bg-green-500/20 text-green-500'}`}>
+                      {automation.status === 'active' ? '⏸' : '▶'}
+                    </button>
+                    <button onClick={() => alert(`Exécution de "${automation.name}"...`)} className="p-2 rounded-lg bg-blue-500/20 text-blue-500">▶</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="glass-card max-w-md w-full p-6">
+            <h2 className="text-xl font-bold text-white mb-4">Nouvelle Automatisation</h2>
+            <div className="space-y-4">
+              <input type="text" placeholder="Nom" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white" />
+              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white">
+                <option>Rapport</option><option>CRM</option><option>Marketing</option><option>Finance</option><option>Système</option>
+              </select>
+              <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white">
+                <option>Quotidien 9h00</option><option>Hebdomadaire</option><option>Toutes les 6h</option><option>Manuel</option>
+              </select>
+              <div className="flex gap-4">
+                <button onClick={() => setShowAddModal(false)} className="flex-1 py-3 bg-white/5 text-gray-300 rounded-xl">Annuler</button>
+                <button onClick={() => { setShowAddModal(false); alert('Créé!') }} className="flex-1 py-3 bg-gold text-black rounded-xl font-semibold">Créer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 // CRM Content
 const CRMContent = () => {
