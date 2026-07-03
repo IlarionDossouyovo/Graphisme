@@ -5,6 +5,26 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Brain, Users, Code, Palette, Video, MessageSquare, TrendingUp, Shield, Database, Bot, Zap, Activity, X, Send, Loader2 } from 'lucide-react'
+import { AGENTS, AVAILABLE_MODELS } from '@/lib/ai/ollama'
+
+// Map icons to agents
+const getAgentIcon = (id: string) => {
+  const icons: Record<string, any> = {
+    CEO: Brain,
+    Commercial: Users,
+    Marketing: TrendingUp,
+    Designer: Palette,
+    Developer: Code,
+    Motion: Video,
+    CommunityManager: MessageSquare,
+    Finance: Activity,
+    Support: Bot,
+    DevOps: Zap,
+    CyberSecurity: Shield,
+    DataAnalyst: Database,
+  }
+  return icons[id] || Bot
+}
 
 const Logo = () => (
   <div className="relative w-12 h-12 flex items-center justify-center">

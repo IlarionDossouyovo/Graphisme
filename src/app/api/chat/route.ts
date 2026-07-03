@@ -90,6 +90,12 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { agent, message, model, history } = chatSchema.parse(body)
 
+    // Get agent config
+    const agentConfig = agentPrompts[agent]
+    if (!agentConfig) {
+      return NextResponse.json({ error: `Agent ${agent} non trouvé` }, { status: 400 })
+    }
+
     // Convert history format
     const conversationHistory: ChatMessage[] = history?.map(h => ({
       role: h.role as 'user' | 'assistant',
@@ -99,20 +105,20 @@ export async function POST(request: Request) {
     // Build messages with agent system prompt
     const systemMessage: ChatMessage = {
       role: 'system',
-      content: agentPrompts[agent]
+      content: agentConfig.prompt
     }
 
     const messages = conversationHistory 
       ? [systemMessage, ...conversationHistory, { role: 'user', content: message }]
       : [systemMessage, { role: 'user', content: message }]
 
-    // Get response from AI
-    const response = await generateChatCompletion(messages, { model })
+    // Get response from AI using agent's preferred model
+    const response = await generateChatCompletion(messages, { model: model || agentConfig.model })
 
     return NextResponse.json({ 
       response,
       agent,
-      model: model || 'llama3.2'
+      model: model || agentConfig.model
     })
   } catch (error: any) {
     if (error.name === 'ZodError') {
