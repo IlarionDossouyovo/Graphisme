@@ -351,7 +351,7 @@ export async function generateChatCompletion(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: options?.model || OLLAMA_MODEL,
+        model: options?.model || 'llama3.2',
         messages,
         temperature: options?.temperature || 0.7,
         max_tokens: options?.maxTokens || 500,
