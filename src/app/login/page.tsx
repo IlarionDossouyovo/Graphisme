@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { Mail, Lock, User, ArrowRight, Sparkles, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 
@@ -25,6 +26,7 @@ const Logo = () => (
 )
 
 export default function LoginPage() {
+  const router = useRouter()
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -34,7 +36,8 @@ export default function LoginPage() {
     email: '',
     password: '',
     name: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'client' // 'client' or 'admin'
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,18 +59,21 @@ export default function LoginPage() {
     setIsLoading(true)
     
     try {
-      // Simulate API call - replace with actual API endpoint
+      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500))
       
       console.log('Form submitted:', formData)
       
-      // Here you would normally make an API call to register or login
       if (!isLogin) {
-        // Registration logic
-        alert('Inscription réussie ! Bienvenue ' + formData.name)
+        // Inscription réussie - rediriger vers le dashboard client
+        router.push('/client')
       } else {
-        // Login logic  
-        alert('Connexion réussie !')
+        // Connexion - rediriger selon le rôle
+        if (formData.email.includes('admin')) {
+          router.push('/admin')
+        } else {
+          router.push('/client')
+        }
       }
     } catch (err) {
       setError('Une erreur est survenue. Veuillez réessayer.')
