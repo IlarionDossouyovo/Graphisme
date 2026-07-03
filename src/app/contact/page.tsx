@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Mail, Phone, MapPin, Clock, Send, Sparkles, CheckCircle } from 'lucide-react'
 
 const Logo = () => (
@@ -35,6 +35,7 @@ const services = [
 ]
 
 export default function ContactPage() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     name: '',
@@ -51,7 +52,9 @@ export default function ContactPage() {
   useEffect(() => {
     const serviceParam = searchParams.get('service')
     if (serviceParam) {
-      setFormData(prev => ({ ...prev, service: serviceParam }))
+      // Décoder le paramètre URL
+      const decodedService = decodeURIComponent(serviceParam)
+      setFormData(prev => ({ ...prev, service: decodedService }))
     }
   }, [searchParams])
 
