@@ -84,19 +84,20 @@ export default function ServicesPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="glass-card p-6 hover:border-gold/30 transition-colors"
-              >
-                <div className="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center mb-4">
-                  <service.icon className="w-7 h-7 text-gold" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
-                <p className="text-gray-400">{service.description}</p>
-              </motion.div>
+              <Link href={`/contact?service=${encodeURIComponent(service.title)}`} key={index}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="glass-card p-6 hover:border-gold/30 transition-colors cursor-pointer h-full"
+                >
+                  <div className="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center mb-4">
+                    <service.icon className="w-7 h-7 text-gold" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
+                  <p className="text-gray-400">{service.description}</p>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>
