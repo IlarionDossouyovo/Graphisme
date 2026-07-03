@@ -28,6 +28,8 @@ export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -35,9 +37,43 @@ export default function LoginPage() {
     confirmPassword: ''
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    setError('')
+    
+    // Validation
+    if (!isLogin) {
+      if (formData.password !== formData.confirmPassword) {
+        setError('Les mots de passe ne correspondent pas')
+        return
+      }
+      if (formData.password.length < 6) {
+        setError('Le mot de passe doit contenir au moins 6 caractères')
+        return
+      }
+    }
+
+    setIsLoading(true)
+    
+    try {
+      // Simulate API call - replace with actual API endpoint
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      
+      console.log('Form submitted:', formData)
+      
+      // Here you would normally make an API call to register or login
+      if (!isLogin) {
+        // Registration logic
+        alert('Inscription réussie ! Bienvenue ' + formData.name)
+      } else {
+        // Login logic  
+        alert('Connexion réussie !')
+      }
+    } catch (err) {
+      setError('Une erreur est survenue. Veuillez réessayer.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -157,10 +193,20 @@ export default function LoginPage() {
               </div>
             )}
 
-            <button type="submit" className="w-full glass-button glow-gold py-4">
+            {error && (
+              <div className="p-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
+            <button type="submit" disabled={isLoading} className="w-full glass-button glow-gold py-4 disabled:opacity-50">
               <span className="flex items-center justify-center gap-2">
-                <Sparkles className="w-5 h-5" />
-                {isLogin ? 'Se connecter' : 'Créer un compte'}
+                {isLoading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <Sparkles className="w-5 h-5" />
+                )}
+                {isLoading ? 'Chargement...' : (isLogin ? 'Se connecter' : 'Créer un compte')}
               </span>
             </button>
           </form>
