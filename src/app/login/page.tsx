@@ -59,24 +59,53 @@ export default function LoginPage() {
     setIsLoading(true)
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      console.log('Form submitted:', formData)
-      
-      if (!isLogin) {
-        // Inscription réussie - rediriger vers le dashboard client
-        router.push('/client')
-      } else {
-        // Connexion - rediriger selon le rôle
-        if (formData.email.includes('admin')) {
+      if (isLogin) {
+        // Connexion - utiliser NextAuth
+        const response = await fetch('/api/auth/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Erreur de connexion')
+        }
+
+        // Rediriger selon le rôle
+        if (formData.email.includes('admin') || data.user?.role === 'admin') {
           router.push('/admin')
         } else {
           router.push('/client')
         }
+      } else {
+        // Inscription
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            role: formData.role,
+          }),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.error || "Erreur lors de l'inscription")
+        }
+
+        // Inscription réussie - rediriger vers le dashboard client
+        router.push('/client')
       }
-    } catch (err) {
-      setError('Une erreur est survenue. Veuillez réessayer.')
+    } catch (err: any) {
+      setError(err.message || 'Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setIsLoading(false)
     }

@@ -12,35 +12,68 @@ const quoteSchema = z.object({
   clientId: z.string().optional(),
   projectId: z.string().optional(),
   validUntil: z.string().optional(),
+  status: z.enum(['PENDING', 'ACCEPTED', 'EXPIRED', 'REJECTED']).optional(),
 })
 
-export async function GET() {
+// GET all quotes or single quote
+export async function GET(request: Request) {
   try {
-    // Pour mode démonstration, permettre l'accès sans auth
-    const allQuotes = quotes.getAll()
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    const status = searchParams.get('status')
+    const clientId = searchParams.get('clientId')
+    
+    let allQuotes = quotes.getAll()
+    
+    // Filter by ID
+    if (id) {
+      const quote = quotes.getById(id)
+      if (!quote) {
+        return NextResponse.json({ error: 'Devis non trouvé' }, { status: 404 })
+      }
+      return NextResponse.json(quote)
+    }
+    
+    // Filter by clientId
+    if (clientId) {
+      allQuotes = allQuotes.filter(q => q.clientId === clientId)
+    }
+
+    // Filter by status
+    if (status) {
+      allQuotes = allQuotes.filter(q => q.status === status)
+    }
+
     return NextResponse.json(allQuotes)
   } catch (error) {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
 
+// POST create new quote
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions)
     
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+    // Mode démonstration
+    let userId = 'demo-user'
+    if (session?.user) {
+      userId = (session.user as any).id
     }
 
     const body = await request.json()
     const validatedData = quoteSchema.parse(body)
-    const userId = (session.user as any).id
 
     const quote = quotes.create({
-      ...validatedData,
-      quoteNumber: 'QT-' + Date.now(),
-      status: 'PENDING',
+      title: validatedData.title,
+      description: validatedData.description,
+      service: validatedData.service,
+      amount: validatedData.amount,
       clientId: validatedData.clientId || userId,
+      projectId: validatedData.projectId,
+      validUntil: validatedData.validUntil,
+      quoteNumber: 'QT-' + Date.now(),
+      status: validatedData.status || 'PENDING',
     })
 
     return NextResponse.json(quote, { status: 201 })
@@ -48,6 +81,58 @@ export async function POST(request: Request) {
     if (error.name === 'ZodError') {
       return NextResponse.json({ error: error.errors[0].message }, { status: 400 })
     }
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+// PUT update quote
+export async function PUT(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    
+    if (!id) {
+      return NextResponse.json({ error: 'ID du devis requis' }, { status: 400 })
+    }
+
+    const body = await request.json()
+    const validatedData = quoteSchema.partial().parse(body)
+
+    const updatedQuote = quotes.update(id, validatedData)
+    
+    if (!updatedQuote) {
+      return NextResponse.json({ error: 'Devis non trouvé' }, { status: 404 })
+    }
+
+    return NextResponse.json(updatedQuote)
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      return NextResponse.json({ error: error.errors[0].message }, { status: 400 })
+    }
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+// DELETE quote
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    
+    if (!id) {
+      return NextResponse.json({ error: 'ID du devis requis' }, { status: 400 })
+    }
+
+    // Check if quote exists
+    const quote = quotes.getById(id)
+    if (!quote) {
+      return NextResponse.json({ error: 'Devis non trouvé' }, { status: 404 })
+    }
+
+    quotes.delete(id)
+    
+    return NextResponse.json({ message: 'Devis supprimé avec succès' })
+  } catch (error) {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
