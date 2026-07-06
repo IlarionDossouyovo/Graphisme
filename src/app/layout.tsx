@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { CartProvider } from '@/lib/cart-context'
 
 export const metadata: Metadata = {
   title: 'Graphisme by ELECTRON | Là où la créativité rencontre la technologie',
@@ -54,7 +55,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="antialiased">
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   )

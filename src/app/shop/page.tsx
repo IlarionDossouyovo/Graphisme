@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { 
   Search, Filter, Grid, List, ShoppingCart, Heart, 
-  Eye, Star, ChevronDown, X, ShoppingBag, ArrowRight
+  Eye, Star, ChevronDown, X, ShoppingBag, ArrowRight, Home
 } from 'lucide-react'
+import { AddToCartButton } from '@/components/cart-button'
+import CartButton from '@/components/cart-button'
 
 interface Product {
   id: string
@@ -93,10 +95,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <Link href="/cart" className="relative p-2 text-gray-300 hover:text-gold transition-colors">
-              <ShoppingCart className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold text-black text-xs rounded-full flex items-center justify-center">0</span>
-            </Link>
+            <CartButton />
             <Link href="/login" className="glass-button text-sm py-2 px-4">Connexion</Link>
           </div>
         </div>
@@ -145,10 +144,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         {/* Add to cart button */}
         <div className={`absolute bottom-3 left-3 right-3 transition-all duration-300 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <button className="w-full py-3 bg-gold/90 hover:bg-gold text-black font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors">
-            <ShoppingBag className="w-4 h-4" />
-            Ajouter au panier
-          </button>
+          <AddToCartButton product={product} />
         </div>
       </div>
 
@@ -252,10 +248,16 @@ export default function ShopPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Notre <span className="gold-text">Boutique</span>
             </h1>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-400 max-w-2xl mx-auto mb-6">
               Découvez notre collection exclusive de tableaux, miroirs et objets décoratifs 
               pour sublimer votre intérieur.
             </p>
+            <div className="flex items-center justify-center gap-4">
+              <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+                <Home className="w-4 h-4" />
+                Retour à l'accueil
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

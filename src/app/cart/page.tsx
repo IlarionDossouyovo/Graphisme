@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { 
   ShoppingCart, Trash2, Minus, Plus, ArrowRight, ArrowLeft,
-  CreditCard, ShieldCheck, Truck
+  CreditCard, ShieldCheck, Truck, Home
 } from 'lucide-react'
+import CartButton from '@/components/cart-button'
+import { useCart } from '@/lib/cart-context'
 
 interface CartItem {
   id: string
@@ -59,6 +61,7 @@ const Navbar = () => (
         </div>
 
         <div className="flex items-center gap-4">
+          <CartButton />
           <Link href="/login" className="glass-button text-sm py-2 px-4">Connexion</Link>
         </div>
       </div>
@@ -111,48 +114,14 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: {
 
 // Main Cart Page
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const { items: cartItems, updateQuantity, removeItem, totalPrice } = useCart()
   const [isLoading, setIsLoading] = useState(true)
 
-  // Demo cart items
   useEffect(() => {
-    // Simulate loading cart
-    setTimeout(() => {
-      setCartItems([
-        {
-          id: '1',
-          name: 'Tableau Abstrait Doré - Horizon',
-          price: 45000,
-          quantity: 1,
-          image: '/products/tableau-1.jpg',
-          slug: 'tableau-abstract-dore-horizon'
-        },
-        {
-          id: '2',
-          name: 'Vase Céramique Artisanal - Bleu Majorelle',
-          price: 22000,
-          quantity: 2,
-          image: '/products/vase-1.jpg',
-          slug: 'vase-ceramique-bleu-majorelle'
-        }
-      ])
-      setIsLoading(false)
-    }, 500)
+    setIsLoading(false)
   }, [])
 
-  const updateQuantity = (id: string, quantity: number) => {
-    setCartItems(items => 
-      items.map(item => 
-        item.id === id ? { ...item, quantity } : item
-      )
-    )
-  }
-
-  const removeItem = (id: string) => {
-    setCartItems(items => items.filter(item => item.id !== id))
-  }
-
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const subtotal = totalPrice
   const shipping = subtotal > 50000 ? 0 : 5000
   const total = subtotal + shipping
 
@@ -174,9 +143,19 @@ export default function CartPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Votre <span className="gold-text">Panier</span>
             </h1>
-            <p className="text-gray-400">
+            <p className="text-gray-400 mb-6">
               Gérez vos articles avant de passer commande
             </p>
+            <div className="flex items-center justify-center gap-4">
+              <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+                <Home className="w-4 h-4" />
+                Retour à l'accueil
+              </Link>
+              <Link href="/shop" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+                <ArrowRight className="w-4 h-4" />
+                Voir la boutique
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

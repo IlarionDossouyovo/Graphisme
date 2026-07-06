@@ -5,9 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { 
-  Calendar, Clock, Eye, ArrowLeft, Share2, Heart, 
-  ChevronRight, User, MessageCircle
+  Calendar, Clock, Eye, ArrowLeft, ArrowRight, Share2, Heart, 
+  ChevronRight, User, MessageCircle, Home, ShoppingCart
 } from 'lucide-react'
+import CartButton from '@/components/cart-button'
 
 interface Article {
   id: string
@@ -68,6 +69,7 @@ const Navbar = () => (
         </div>
 
         <div className="flex items-center gap-4">
+          <CartButton />
           <Link href="/login" className="glass-button text-sm py-2 px-4">Connexion</Link>
         </div>
       </div>
@@ -284,6 +286,27 @@ function ArticleDetailContent() {
               J'aime
             </button>
           </div>
+        </motion.div>
+
+        {/* Navigation Links */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="flex flex-wrap gap-4 mb-12 pt-8 border-t border-white/10"
+        >
+          <Link href="/blog" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+            Retour au blog
+          </Link>
+          <Link href="/shop" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+            <ShoppingCart className="w-4 h-4" />
+            Voir la boutique
+          </Link>
+          <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+            <Home className="w-4 h-4" />
+            Retour à l'accueil
+          </Link>
         </motion.div>
 
         {/* Related Articles */}

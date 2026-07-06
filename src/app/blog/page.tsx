@@ -5,8 +5,9 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { 
   Search, Calendar, Clock, Eye, ArrowRight, ChevronRight,
-  User, MessageCircle
+  User, MessageCircle, Home, ShoppingCart
 } from 'lucide-react'
+import CartButton from '@/components/cart-button'
 
 interface Article {
   id: string
@@ -78,6 +79,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4">
+            <CartButton />
             <Link href="/login" className="glass-button text-sm py-2 px-4">Connexion</Link>
           </div>
         </div>
@@ -264,9 +266,19 @@ export default function BlogPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Notre <span className="violet-text">Blog</span>
             </h1>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-400 max-w-2xl mx-auto mb-6">
               Actualités, conseils et inspirations pour votre intérieur et vos projets digitaux.
             </p>
+            <div className="flex items-center justify-center gap-4">
+              <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+                <Home className="w-4 h-4" />
+                Retour à l'accueil
+              </Link>
+              <Link href="/shop" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+                <ShoppingCart className="w-4 h-4" />
+                Voir la boutique
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

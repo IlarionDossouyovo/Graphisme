@@ -5,9 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
 import { 
-  ShoppingCart, Heart, Share2, ArrowLeft, Check, Star,
+  ShoppingCart, Heart, Share2, ArrowLeft, ArrowRight, Check, Star,
   Truck, Shield, RotateCcw, Minus, Plus, ChevronRight
 } from 'lucide-react'
+import { useCart } from '@/lib/cart-context'
 
 interface Product {
   id: string
@@ -89,12 +90,14 @@ function ProductDetailContent() {
   const params = useParams()
   const searchParams = useSearchParams()
   const slug = params.slug as string
+  const { addItem } = useCart()
   
   const [product, setProduct] = useState<Product | null>(null)
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
   const [selectedSize, setSelectedSize] = useState('')
+  const [addedToCart, setAddedToCart] = useState(false)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -276,9 +279,29 @@ function ProductDetailContent() {
 
             {/* Actions */}
             <div className="flex gap-4 mb-8">
-              <button className="flex-1 glass-button glow-gold py-4 flex items-center justify-center gap-2">
+              <button 
+                onClick={() => {
+                  if (product) {
+                    addItem({
+                      id: product.id,
+                      name: product.name,
+                      slug: product.slug,
+                      price: product.price,
+                      quantity: quantity,
+                      image: ''
+                    })
+                    setAddedToCart(true)
+                    setTimeout(() => setAddedToCart(false), 3000)
+                  }
+                }}
+                className={`flex-1 py-4 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
+                  addedToCart 
+                    ? 'bg-green-500 text-white'
+                    : 'glass-button glow-gold'
+                }`}
+              >
                 <ShoppingCart className="w-5 h-5" />
-                Ajouter au panier
+                {addedToCart ? 'Ajouté au panier !' : 'Ajouter au panier'}
               </button>
               <button className="p-4 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-gold hover:border-gold/50 transition-colors">
                 <Heart className="w-5 h-5" />
@@ -286,6 +309,18 @@ function ProductDetailContent() {
               <button className="p-4 bg-white/5 border border-white/10 rounded-xl text-gray-400 hover:text-electric hover:border-electric/50 transition-colors">
                 <Share2 className="w-5 h-5" />
               </button>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="flex gap-4 mb-6">
+              <Link href="/shop" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
+                <ArrowLeft className="w-4 h-4" />
+                Retour à la boutique
+              </Link>
+              <Link href="/cart" className="flex items-center gap-2 text-gold hover:text-white transition-colors">
+                Voir le panier
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
 
             {/* Features */}
