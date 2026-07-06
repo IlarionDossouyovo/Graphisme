@@ -94,6 +94,45 @@ export interface Message {
   createdAt: string
 }
 
+export interface Product {
+  id: string
+  name: string
+  slug: string
+  description: string
+  shortDescription?: string
+  price: number
+  originalPrice?: number | null
+  category: string
+  subcategory: string
+  images: string[]
+  stock: number
+  inStock: boolean
+  featured: boolean
+  newArrival: boolean
+  tags: string[]
+  dimensions?: string
+  material?: string
+  weight?: string
+  createdAt: string
+}
+
+export interface Article {
+  id: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  category: string
+  author: string
+  authorAvatar?: string | null
+  image: string
+  featured: boolean
+  publishedAt: string
+  readTime: number
+  tags: string[]
+  views: number
+}
+
 // Helper functions
 function readJson<T>(filename: string): T[] {
   const filepath = path.join(DB_DIR, filename)
@@ -321,5 +360,123 @@ export const messages = {
     messages.push(newMessage)
     writeJson('messages.json', messages)
     return newMessage
+  }
+}
+
+// Products
+export const products = {
+  getAll: () => readJson<Product>('products.json'),
+  
+  getById: (id: string) => readJson<Product>('products.json').find(p => p.id === id),
+  
+  getBySlug: (slug: string) => readJson<Product>('products.json').find(p => p.slug === slug),
+  
+  getByCategory: (category: string) => readJson<Product>('products.json').filter(p => p.category === category),
+  
+  getFeatured: () => readJson<Product>('products.json').filter(p => p.featured),
+  
+  getNewArrivals: () => readJson<Product>('products.json').filter(p => p.newArrival),
+  
+  search: (query: string) => {
+    const q = query.toLowerCase()
+    return readJson<Product>('products.json').filter(p => 
+      p.name.toLowerCase().includes(q) || 
+      p.description.toLowerCase().includes(q) ||
+      p.tags.some(t => t.toLowerCase().includes(q))
+    )
+  },
+  
+  create: (product: Omit<Product, 'id' | 'createdAt'>) => {
+    const products = readJson<Product>('products.json')
+    const newProduct: Product = {
+      ...product,
+      id: generateId(),
+      createdAt: now()
+    }
+    products.push(newProduct)
+    writeJson('products.json', products)
+    return newProduct
+  },
+  
+  update: (id: string, data: Partial<Product>) => {
+    const products = readJson<Product>('products.json')
+    const index = products.findIndex(p => p.id === id)
+    if (index !== -1) {
+      products[index] = { ...products[index], ...data }
+      writeJson('products.json', products)
+      return products[index]
+    }
+    return null
+  },
+  
+  delete: (id: string) => {
+    const products = readJson<Product>('products.json')
+    writeJson('products.json', products.filter(p => p.id !== id))
+  }
+}
+
+// Articles (Blog)
+export const articles = {
+  getAll: () => readJson<Article>('articles.json'),
+  
+  getById: (id: string) => readJson<Article>('articles.json').find(a => a.id === id),
+  
+  getBySlug: (slug: string) => readJson<Article>('articles.json').find(a => a.slug === slug),
+  
+  getByCategory: (category: string) => readJson<Article>('articles.json').filter(a => a.category === category),
+  
+  getFeatured: () => readJson<Article>('articles.json').filter(a => a.featured),
+  
+  getRecent: (limit: number = 5) => {
+    return readJson<Article>('articles.json')
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .slice(0, limit)
+  },
+  
+  search: (query: string) => {
+    const q = query.toLowerCase()
+    return readJson<Article>('articles.json').filter(a => 
+      a.title.toLowerCase().includes(q) || 
+      a.excerpt.toLowerCase().includes(q) ||
+      a.tags.some(t => t.toLowerCase().includes(q))
+    )
+  },
+  
+  create: (article: Omit<Article, 'id'>) => {
+    const articles = readJson<Article>('articles.json')
+    const newArticle: Article = {
+      ...article,
+      id: generateId()
+    }
+    articles.push(newArticle)
+    writeJson('articles.json', articles)
+    return newArticle
+  },
+  
+  update: (id: string, data: Partial<Article>) => {
+    const articles = readJson<Article>('articles.json')
+    const index = articles.findIndex(a => a.id === id)
+    if (index !== -1) {
+      articles[index] = { ...articles[index], ...data }
+      writeJson('articles.json', articles)
+      return articles[index]
+    }
+    return null
+  },
+  
+  delete: (id: string) => {
+    const articles = readJson<Article>('articles.json')
+    writeJson('articles.json', articles.filter(a => a.id !== id))
+  },
+  
+  incrementViews: (id: string) => {
+    const articles = readJson<Article>('articles.json')
+    const index = articles.findIndex(a => a.id === id)
+    if (index !== -1) {
+      articles[index].views += 1
+      writeJson('articles.json', articles)
+      return articles[index]
+    }
+    return null
   }
 }

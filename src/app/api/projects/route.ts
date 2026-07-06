@@ -49,11 +49,15 @@ export async function GET(request: Request) {
       allProjects = allProjects.filter(p => p.status === status)
     }
 
-    // Add client info if available
-    const projectsWithClient = allProjects.map(p => ({
-      ...p,
-      client: users.getById(p.clientId)
-    }))
+    // Add client info if available (exclude password)
+    const projectsWithClient = allProjects.map(p => {
+      const client = users.getById(p.clientId)
+      if (client) {
+        const { password, ...safeClient } = client
+        return { ...p, client: safeClient }
+      }
+      return p
+    })
 
     return NextResponse.json(projectsWithClient)
   } catch (error) {

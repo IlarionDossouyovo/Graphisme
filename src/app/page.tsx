@@ -60,6 +60,8 @@ const Navbar = () => {
   const navItems = [
     { name: 'Accueil', href: '/' },
     { name: 'Services', href: '/services' },
+    { name: 'Boutique', href: '/shop' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Équipe IA', href: '/ai-team' },
     { name: 'Tarifs', href: '/pricing' },
@@ -70,6 +72,8 @@ const Navbar = () => {
   const navItemsMobile = [
     { name: 'Accueil', href: '/' },
     { name: 'Services', href: '/services' },
+    { name: 'Boutique', href: '/shop' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Équipe IA', href: '/ai-team' },
     { name: 'Tarifs', href: '/pricing' },
