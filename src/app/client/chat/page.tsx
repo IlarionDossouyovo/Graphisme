@@ -70,12 +70,28 @@ export default function ChatPage() {
   }, [])
 
   const toggleVoiceInput = () => {
-    if (isListening) {
-      recognition?.stop()
+    if (!recognition) return
+    
+    // Check if recognition is already running
+    if (recognition.state === 'running') {
+      recognition.stop()
       setIsListening(false)
     } else {
-      recognition?.start()
-      setIsListening(true)
+      try {
+        recognition.start()
+        setIsListening(true)
+      } catch (e) {
+        // If already started, try to stop and restart
+        try {
+          recognition.stop()
+          setTimeout(() => {
+            recognition.start()
+            setIsListening(true)
+          }, 100)
+        } catch (e2) {
+          console.error('Speech recognition error:', e2)
+        }
+      }
     }
   }
 
