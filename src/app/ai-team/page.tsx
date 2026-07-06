@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Brain, Users, Code, Palette, Video, MessageSquare, TrendingUp, Shield, Database, Bot, Zap, Activity, X, Send, Loader2 } from 'lucide-react'
+import { ArrowLeft, Brain, Users, Code, Palette, Video, MessageSquare, TrendingUp, Shield, Database, Bot, Zap, Activity, X, Send, Loader2, Volume2, VolumeX, Play, Square, Mic, MicOff } from 'lucide-react'
 import { AGENTS, AVAILABLE_MODELS } from '@/lib/ai/ollama'
+import { voiceService } from '@/lib/voice'
 
 // Map icons to agents
 const getAgentIcon = (id: string) => {
@@ -175,11 +176,59 @@ export default function AITeamPage() {
   const [chatMessages, setChatMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([])
   const [chatInput, setChatInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [voiceEnabled, setVoiceEnabled] = useState(true)
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [isListening, setIsListening] = useState(false)
 
   const handleAgentClick = (agent: typeof aiAgents[0]) => {
     setSelectedAgent(agent)
     setIsChatOpen(true)
     setChatMessages([])
+  }
+
+  // Speech Recognition for microphone input
+  useEffect(() => {
+    if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      const recognition = new SpeechRecognition()
+      
+      recognition.continuous = false
+      recognition.interimResults = false
+      recognition.lang = 'fr-FR'
+      
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript
+        setChatInput(transcript)
+        setIsListening(false)
+      }
+      
+      recognition.onerror = () => {
+        setIsListening(false)
+      }
+      
+      recognition.onend = () => {
+        setIsListening(false)
+      }
+      
+      // Expose recognition for button click
+      ;(window as any).speechRecognition = recognition
+    }
+  }, [])
+
+  const toggleMicrophone = () => {
+    const recognition = (window as any).speechRecognition
+    if (!recognition) {
+      alert('Speech recognition not supported in this browser')
+      return
+    }
+    
+    if (isListening) {
+      recognition.stop()
+      setIsListening(false)
+    } else {
+      recognition.start()
+      setIsListening(true)
+    }
   }
 
   const handleSendMessage = async () => {
@@ -209,23 +258,43 @@ export default function AITeamPage() {
       // Remove the "connecting" message
       setChatMessages(prev => prev.filter(m => m.content !== '🔄 Connexion à l\'IA en cours...'))
       
+      let responseContent = ''
       if (data.response) {
+        responseContent = data.response
         setChatMessages(prev => [...prev, { role: 'assistant', content: data.response }])
       } else if (data.error) {
+        responseContent = `⚠️ ${data.error}. Solution: Ollama doit être démarré.`
         setChatMessages(prev => [...prev, { 
           role: 'assistant', 
           content: `⚠️ ${data.error}\n\n💡 Solution : Assurez-vous qu'Ollama est démarré sur votre machine avec la commande :\n\`ollama serve\`\n\nPuis rechargez la page.` 
         }])
       } else {
+        responseContent = 'Désolé, je rencontre un problème pour répondre.'
         setChatMessages(prev => [...prev, { role: 'assistant', content: 'Désolé, je rencontre un problème pour répondre.' }])
+      }
+      
+      // Speak the response if voice is enabled
+      if (voiceEnabled && responseContent) {
+        setIsSpeaking(true)
+        voiceService.speak(responseContent, selectedAgent?.name || 'Assistant', () => {
+          setIsSpeaking(false)
+        })
       }
     } catch (error) {
       // Remove the "connecting" message
       setChatMessages(prev => prev.filter(m => m.content !== '🔄 Connexion à l\'IA en cours...'))
+      const errorContent = 'Erreur de connexion. Ollama doit être démarré.'
       setChatMessages(prev => [...prev, { 
         role: 'assistant', 
         content: `❌ Erreur de connexion.\n\nPour démarrer l'IA, ouvrez un terminal et exécutez :\n\`ollama serve\`\n\n Ensuite, vérifiez que les modèles sont installés :\n\`ollama list\`` 
       }])
+      // Speak error message if voice enabled
+      if (voiceEnabled) {
+        setIsSpeaking(true)
+        voiceService.speak(errorContent, selectedAgent?.name || 'Assistant', () => {
+          setIsSpeaking(false)
+        })
+      }
     } finally {
       setIsLoading(false)
     }
@@ -407,9 +476,41 @@ export default function AITeamPage() {
                   <p className="text-xs text-gray-400">{selectedAgent.role}</p>
                 </div>
               </div>
-              <button onClick={() => setIsChatOpen(false)} className="text-gray-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Voice Toggle Button */}
+                <button
+                  onClick={() => {
+                    if (isSpeaking) {
+                      voiceService.stop()
+                      setIsSpeaking(false)
+                    } else {
+                      setVoiceEnabled(!voiceEnabled)
+                    }
+                  }}
+                  className={`p-2 rounded-lg transition-colors ${
+                    voiceEnabled ? 'text-gold hover:bg-gold/10' : 'text-gray-400 hover:bg-white/10'
+                  }`}
+                  title={voiceEnabled ? 'Desactiver la voix' : 'Activer la voix'}
+                >
+                  {voiceEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+                </button>
+                {/* Stop Speaking Button */}
+                {isSpeaking && (
+                  <button
+                    onClick={() => {
+                      voiceService.stop()
+                      setIsSpeaking(false)
+                    }}
+                    className="p-2 rounded-lg text-red-400 hover:bg-red-400/10 transition-colors"
+                    title="Arreter la lecture"
+                  >
+                    <Square className="w-5 h-5" />
+                  </button>
+                )}
+                <button onClick={() => setIsChatOpen(false)} className="text-gray-400 hover:text-white ml-2">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Chat Messages */}
@@ -452,6 +553,19 @@ export default function AITeamPage() {
                   placeholder="Tapez votre message..."
                   className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none"
                 />
+                {/* Microphone Button */}
+                <button
+                  onClick={toggleMicrophone}
+                  disabled={isLoading}
+                  className={`p-2 rounded-xl transition-colors ${
+                    isListening 
+                      ? 'bg-red-500/20 text-red-400 animate-pulse' 
+                      : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                  }`}
+                  title={isListening ? 'Arreter le micro' : 'Activer le micro'}
+                >
+                  {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                </button>
                 <button
                   onClick={handleSendMessage}
                   disabled={isLoading || !chatInput.trim()}
