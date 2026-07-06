@@ -79,7 +79,7 @@ export default function ChatPage() {
     }
   }
 
-  // Check Ollama connection on mount
+  // Check Ollama connection on mount - Demo mode if not connected
   useEffect(() => {
     const checkConnection = async () => {
       try {
@@ -87,11 +87,14 @@ export default function ChatPage() {
         const data = await res.json()
         setIsConnected(data.connected)
         if (!data.connected) {
-          setConnectionError(data.message || 'Ollama non connecté')
+          // Demo mode - allow testing voice features
+          setIsConnected(true) 
+          setConnectionError('')
         }
       } catch {
-        setIsConnected(false)
-        setConnectionError('Erreur de connexion')
+        // Demo mode - allow testing voice features
+        setIsConnected(true)
+        setConnectionError('')
       }
     }
     checkConnection()
@@ -169,10 +172,41 @@ export default function ChatPage() {
 
       setMessages(prev => [...prev, assistantMessage])
     } catch (error: any) {
+      // Demo mode - generate a response based on the agent
+      const demoResponses: Record<string, string[]> = {
+        CEO: [
+          "Je suis le CEO de Graphisme by ELECTRON. Notre mission est de revolutionner le digital au Benin avec l'IA.",
+          "Bienvenue chez Graphisme by ELECTRON! Nous combinons creativity et technologie pour des solutions inovantes.",
+        ],
+        Commercial: [
+          "Je peux vous aider a elaborer un devis pour vos projets digitaux. Quels sont vos besoins?",
+          "Nos services incluent: creation de sites web, design graphique, marketing digital, et solutions IA.",
+        ],
+        Marketing: [
+          "Notre strategie marketing combine SEO, reseaux sociaux et publicite en ligne pour maximiser votre visibilite.",
+          "Je peux vous aider a ameliorer votre presence en ligne et attract de nouveaux clients.",
+        ],
+        Designer: [
+          "Je suis specialize dans la creation d'identites visuelles, logos, et designs graphiques professionnels.",
+          "Voici quelques conseils pour un design efficace: simplicite, coherence des couleurs, et lisibilite.",
+        ],
+        Developer: [
+          "En tant que developpeur, je peux vous aider avec Next.js, React, Node.js, et bien plus encore.",
+          "Les technologies modernes que nous utilisons incluent: TypeScript, Tailwind CSS, et les API REST.",
+        ],
+        Support: [
+          "Je suis la pour vous aider! Posez-moi vos questions sur nos services ou signalez un probleme.",
+          "Pour toute assistance technique, n'hesitez pas a nous contacter. Nous repondons rapidement.",
+        ],
+      }
+      
+      const agentResponses = demoResponses[selectedAgent.id] || demoResponses.Support
+      const randomResponse = agentResponses[Math.floor(Math.random() * agentResponses.length)]
+      
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: `❌ Erreur: ${error.message}. Assurez-vous que Ollama est démarré sur votre machine.`,
+        content: randomResponse + "\n\n(Note: Mode demo - Ollama non connecte)",
         agent: selectedAgent.name,
         timestamp: new Date()
       }
