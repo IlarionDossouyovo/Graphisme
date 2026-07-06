@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { 
   ShoppingCart, Trash2, Minus, Plus, ArrowRight, ArrowLeft,
-  CreditCard, ShieldCheck, Truck, Home
+  CreditCard, ShieldCheck, Truck, Home, X, Check, Mail, Phone, User, MapPin
 } from 'lucide-react'
 import CartButton from '@/components/cart-button'
 import { useCart } from '@/lib/cart-context'
@@ -112,10 +112,190 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: {
   </div>
 )
 
+// Checkout Form Component
+function CheckoutForm({ total, onCancel }: { total: number; onCancel: () => void }) {
+  const { clearCart } = useCart()
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    note: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    // Simulate order submission
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    
+    setIsSubmitting(false)
+    setIsSuccess(true)
+    clearCart()
+  }
+
+  if (isSuccess) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="glass-card p-8 text-center"
+      >
+        <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Check className="w-10 h-10 text-white" />
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-4">Commande confirmée !</h2>
+        <p className="text-gray-400 mb-6">
+          Merci pour votre commande. Nous vous contacterons bientôt pour confirmer la livraison.
+        </p>
+        <div className="bg-white/5 rounded-lg p-4 mb-6">
+          <p className="text-gold font-bold text-xl">Total payé : {total.toLocaleString('fr-FR')} XOF</p>
+        </div>
+        <Link href="/shop" className="glass-button inline-flex items-center gap-2">
+          <ArrowRight className="w-4 h-4" />
+          Continuer vos achats
+        </Link>
+      </motion.div>
+    )
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="glass-card p-6"
+    >
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-bold text-white">Finaliser la commande</h2>
+        <button onClick={onCancel} className="text-gray-400 hover:text-white">
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="text-gray-400 text-sm mb-1 block">Nom complet *</label>
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+            <input
+              type="text"
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold/50 focus:outline-none"
+              placeholder="Votre nom complet"
+            />
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="text-gray-400 text-sm mb-1 block">Email *</label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <input
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold/50 focus:outline-none"
+                placeholder="votre@email.com"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="text-gray-400 text-sm mb-1 block">Téléphone *</label>
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <input
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold/50 focus:outline-none"
+                placeholder="+229 XX XX XX XX"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-gray-400 text-sm mb-1 block">Adresse de livraison *</label>
+          <div className="relative">
+            <MapPin className="absolute left-3 top-3 w-5 h-5 text-gray-500" />
+            <textarea
+              required
+              value={formData.address}
+              onChange={(e) => setFormData({...formData, address: e.target.value})}
+              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold/50 focus:outline-none"
+              placeholder="Votre adresse complète"
+              rows={2}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="text-gray-400 text-sm mb-1 block">Ville *</label>
+          <input
+            type="text"
+            required
+            value={formData.city}
+            onChange={(e) => setFormData({...formData, city: e.target.value})}
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold/50 focus:outline-none"
+            placeholder="Cotonou, Porto-Novo, etc."
+          />
+        </div>
+
+        <div>
+          <label className="text-gray-400 text-sm mb-1 block">Note (optionnel)</label>
+          <textarea
+            value={formData.note}
+            onChange={(e) => setFormData({...formData, note: e.target.value})}
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold/50 focus:outline-none"
+            placeholder="Instructions spéciales pour la livraison..."
+            rows={2}
+          />
+        </div>
+
+        <div className="bg-gold/10 border border-gold/30 rounded-lg p-4 mt-6">
+          <div className="flex justify-between items-center">
+            <span className="text-white font-semibold">Total à payer</span>
+            <span className="text-gold font-bold text-xl">{total.toLocaleString('fr-FR')} XOF</span>
+          </div>
+          <p className="text-gray-400 text-sm mt-2">Paiement à la livraison</p>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full glass-button glow-gold py-4 flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          {isSubmitting ? (
+            <>
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              Traitement en cours...
+            </>
+          ) : (
+            <>
+              <Check className="w-5 h-5" />
+              Confirmer la commande
+            </>
+          )}
+        </button>
+      </form>
+    </motion.div>
+  )
+}
+
 // Main Cart Page
 export default function CartPage() {
-  const { items: cartItems, updateQuantity, removeItem, totalPrice } = useCart()
+  const { items: cartItems, updateQuantity, removeItem, totalPrice, clearCart } = useCart()
   const [isLoading, setIsLoading] = useState(true)
+  const [showCheckout, setShowCheckout] = useState(false)
 
   useEffect(() => {
     setIsLoading(false)
@@ -234,10 +414,15 @@ export default function CartPage() {
                   </div>
 
                   {/* Checkout Button */}
-                  <button className="w-full glass-button glow-gold py-4 flex items-center justify-center gap-2 mb-4">
-                    <CreditCard className="w-5 h-5" />
-                    Passer la commande
-                  </button>
+                  {cartItems.length > 0 && (
+                    <button 
+                      onClick={() => setShowCheckout(true)}
+                      className="w-full glass-button glow-gold py-4 flex items-center justify-center gap-2 mb-4"
+                    >
+                      <CreditCard className="w-5 h-5" />
+                      Passer la commande
+                    </button>
+                  )}
 
                   {/* Trust Badges */}
                   <div className="grid grid-cols-3 gap-2 text-center pt-4 border-t border-white/10">
@@ -260,6 +445,30 @@ export default function CartPage() {
           )}
         </div>
       </section>
+
+      {/* Checkout Modal */}
+      <AnimatePresence>
+        {showCheckout && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            >
+              <CheckoutForm 
+                total={total} 
+                onCancel={() => setShowCheckout(false)} 
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="bg-premium-dark border-t border-white/5 py-8">
