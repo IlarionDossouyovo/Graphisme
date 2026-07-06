@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { 
   Bot, Send, X, ChevronDown, Loader2, Phone, Mail, MapPin,
-  ArrowLeft, Sparkles, MessageSquare, Lightbulb, CheckCircle, AlertCircle
+  ArrowLeft, Sparkles, MessageSquare, Lightbulb, CheckCircle, AlertCircle,
+  Volume2, VolumeX, Mic, MicOff
 } from 'lucide-react'
+import { voiceService } from '@/lib/voice'
 
 // Agent list available for chat
 const AVAILABLE_AGENTS = [
@@ -34,6 +36,8 @@ export default function ChatPage() {
   const [showAgentSelect, setShowAgentSelect] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
   const [connectionError, setConnectionError] = useState('')
+  const [voiceEnabled, setVoiceEnabled] = useState(true)
+  const [isSpeaking, setIsSpeaking] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Check Ollama connection on mount
@@ -52,6 +56,30 @@ export default function ChatPage() {
       }
     }
     checkConnection()
+  }, [])
+
+  // Speak incoming messages
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1]
+    if (lastMessage && lastMessage.role === 'assistant' && voiceEnabled) {
+      setIsSpeaking(true)
+      voiceService.speak(lastMessage.content, selectedAgent?.name || 'Support', () => {
+        setIsSpeaking(false)
+      })
+    }
+    
+    return () => {
+      if (!voiceEnabled) {
+        voiceService.stop()
+      }
+    }
+  }, [messages, voiceEnabled, selectedAgent])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      voiceService.stop()
+    }
   }, [])
 
   // Scroll to bottom on new messages
@@ -218,12 +246,47 @@ export default function ChatPage() {
                     <p className="text-gray-400 text-sm">{selectedAgent.role}</p>
                   </div>
                 </div>
-                <button
-                  onClick={() => setShowAgentSelect(true)}
-                  className="text-gray-400 hover:text-gold transition-colors"
-                >
-                  <ChevronDown className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  {/* Voice Controls */}
+                  <button
+                    onClick={() => {
+                      if (voiceEnabled) {
+                        voiceService.stop()
+                        setVoiceEnabled(false)
+                      } else {
+                        setVoiceEnabled(true)
+                      }
+                    }}
+                    className={`p-2 rounded-lg transition-colors ${
+                      voiceEnabled 
+                        ? 'text-gold bg-gold/10 hover:bg-gold/20' 
+                        : 'text-gray-400 hover:text-white'
+                    }`}
+                    title={voiceEnabled ? 'Désactiver la voix' : 'Activer la voix'}
+                  >
+                    {voiceEnabled ? (
+                      <Volume2 className="w-5 h-5" />
+                    ) : (
+                      <VolumeX className="w-5 h-5" />
+                    )}
+                  </button>
+                  {/* Speaking indicator */}
+                  {isSpeaking && (
+                    <div className="flex items-center gap-1 text-gold">
+                      <div className="flex gap-0.5">
+                        <span className="w-1 h-3 bg-gold rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                        <span className="w-1 h-4 bg-gold rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                        <span className="w-1 h-2 bg-gold rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                      </div>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => setShowAgentSelect(true)}
+                    className="text-gray-400 hover:text-gold transition-colors ml-2"
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               {/* Messages */}
