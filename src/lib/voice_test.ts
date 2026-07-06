@@ -9,20 +9,20 @@ export interface VoiceSettings {
   volume: number    // 0 to 1
 }
 
-// Voice profiles for different agents - Voix masculine lente et professionnelle
+// Voice profiles for different agents (masculine voices)
 export const VOICE_PROFILES: Record<string, { lang: string; rate: number; pitch: number }> = {
-  CEO: { lang: 'fr-FR', rate: 0.75, pitch: 0.85 },
-  Commercial: { lang: 'fr-FR', rate: 0.8, pitch: 0.9 },
-  Marketing: { lang: 'fr-FR', rate: 0.8, pitch: 0.9 },
-  Designer: { lang: 'fr-FR', rate: 0.7, pitch: 0.8 },
-  Developer: { lang: 'fr-FR', rate: 0.8, pitch: 0.9 },
-  Motion: { lang: 'fr-FR', rate: 0.75, pitch: 0.85 },
-  DevOps: { lang: 'fr-FR', rate: 0.75, pitch: 0.85 },
-  'Community Manager': { lang: 'fr-FR', rate: 0.8, pitch: 0.9 },
-  Support: { lang: 'fr-FR', rate: 0.75, pitch: 0.85 },
-  Finance: { lang: 'fr-FR', rate: 0.7, pitch: 0.8 },
-  'Data Analyst': { lang: 'fr-FR', rate: 0.75, pitch: 0.85 },
-  CyberSecurity: { lang: 'fr-FR', rate: 0.75, pitch: 0.85 },
+  CEO: { lang: 'fr-FR', rate: 0.9, pitch: 0.9 },
+  Commercial: { lang: 'fr-FR', rate: 1.0, pitch: 1.0 },
+  Marketing: { lang: 'fr-FR', rate: 1.0, pitch: 0.95 },
+  Designer: { lang: 'fr-FR', rate: 0.85, pitch: 0.85 },
+  Developer: { lang: 'fr-FR', rate: 1.0, pitch: 1.0 },
+  Motion: { lang: 'fr-FR', rate: 0.95, pitch: 0.9 },
+  DevOps: { lang: 'fr-FR', rate: 0.9, pitch: 0.95 },
+  'Community Manager': { lang: 'fr-FR', rate: 1.0, pitch: 0.95 },
+  Support: { lang: 'fr-FR', rate: 0.9, pitch: 1.0 },
+  Finance: { lang: 'fr-FR', rate: 0.85, pitch: 0.9 },
+  'Data Analyst': { lang: 'fr-FR', rate: 0.95, pitch: 0.95 },
+  CyberSecurity: { lang: 'fr-FR', rate: 0.9, pitch: 1.0 },
 }
 
 class VoiceService {

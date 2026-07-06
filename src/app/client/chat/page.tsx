@@ -38,7 +38,46 @@ export default function ChatPage() {
   const [connectionError, setConnectionError] = useState('')
   const [voiceEnabled, setVoiceEnabled] = useState(true)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [isListening, setIsListening] = useState(false)
+  const [recognition, setRecognition] = useState<any>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      const recognizer = new SpeechRecognition()
+      recognizer.continuous = false
+      recognizer.interimResults = false
+      recognizer.lang = 'fr-FR'
+      
+      recognizer.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript
+        setInput(prev => prev + ' ' + transcript)
+        setIsListening(false)
+      }
+      
+      recognizer.onerror = () => {
+        setIsListening(false)
+      }
+      
+      recognizer.onend = () => {
+        setIsListening(false)
+      }
+      
+      setRecognition(recognizer)
+    }
+  }, [])
+
+  const toggleVoiceInput = () => {
+    if (isListening) {
+      recognition?.stop()
+      setIsListening(false)
+    } else {
+      recognition?.start()
+      setIsListening(true)
+    }
+  }
 
   // Check Ollama connection on mount
   useEffect(() => {
@@ -335,6 +374,21 @@ export default function ChatPage() {
                     disabled={!isConnected || isLoading}
                     className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-gold/50 focus:outline-none disabled:opacity-50"
                   />
+                  {/* Microphone Button - Voice Input */}
+                  {recognition && (
+                    <button
+                      onClick={toggleVoiceInput}
+                      disabled={!isConnected || isLoading}
+                      className={`p-3 rounded-xl transition-colors flex items-center gap-2 ${
+                        isListening 
+                          ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+                          : 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white'
+                      }`}
+                      title={isListening ? 'Arrêter l\'écoute' : 'Dictée vocale'}
+                    >
+                      <Mic className={`w-5 h-5 ${isListening ? 'animate-pulse' : ''}`} />
+                    </button>
+                  )}
                   <button
                     onClick={handleSend}
                     disabled={!input.trim() || !isConnected || isLoading}
