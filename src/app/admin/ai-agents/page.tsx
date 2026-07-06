@@ -509,6 +509,34 @@ function AIAgentsContent() {
   const [showConfigModal, setShowConfigModal] = useState(false)
   const [activeTab, setActiveTab] = useState('all')
   const [founderKey, setFounderKey] = useState('')
+  
+  // Ollama connection state
+  const [ollamaStatus, setOllamaStatus] = useState<{
+    connected: boolean;
+    models?: any[];
+    message?: string;
+    modelCount?: number;
+  }>({ connected: false, message: 'Vérification...' })
+  const [isCheckingOllama, setIsCheckingOllama] = useState(true)
+
+  // Check Ollama connection
+  useEffect(() => {
+    const checkOllama = async () => {
+      try {
+        const res = await fetch('/api/ollama/status')
+        const data = await res.json()
+        setOllamaStatus(data)
+      } catch (error) {
+        setOllamaStatus({ connected: false, message: 'Erreur de connexion' })
+      } finally {
+        setIsCheckingOllama(false)
+      }
+    }
+    checkOllama()
+    // Check every 30 seconds
+    const interval = setInterval(checkOllama, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   // Configuration state
   const [agentName, setAgentName] = useState('')
@@ -692,6 +720,20 @@ function AIAgentsContent() {
                 </p>
               </div>
               <div className="flex items-center gap-4">
+                {/* Ollama Status */}
+                <div className={`glass-card px-4 py-2 flex items-center gap-2 ${
+                  ollamaStatus.connected ? 'border-green-500/30' : 'border-red-500/30'
+                }`}>
+                  <div className={`w-3 h-3 rounded-full ${
+                    ollamaStatus.connected ? 'bg-green-500 animate-pulse' : 'bg-red-500'
+                  }`}></div>
+                  <span className="text-white text-sm">
+                    {ollamaStatus.connected 
+                      ? `IA Connecté (${ollamaStatus.modelCount || ollamaStatus.models?.length || 0} modèles)`
+                      : 'IA Déconnecté'
+                    }
+                  </span>
+                </div>
                 <div className="glass-card px-4 py-2 flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-white text-sm">{allAgents.filter(a => a.status === 'active').length} agents actifs</span>
@@ -730,6 +772,28 @@ function AIAgentsContent() {
               </motion.div>
             ))}
           </div>
+
+          {/* Ollama Models Status */}
+          {ollamaStatus.connected && ollamaStatus.models && ollamaStatus.models.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-card p-4 mb-8"
+            >
+              <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                Modèles IA Installés et Prêts
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                {ollamaStatus.models.map((model: any, i: number) => (
+                  <div key={i} className="bg-white/5 rounded-lg p-3 text-center">
+                    <p className="text-gold text-sm font-medium truncate">{model.name}</p>
+                    <p className="text-gray-500 text-xs">{Math.round(model.size / 1073741824)} GB</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           {/* Department Tabs */}
           <div className="flex flex-wrap gap-2 mb-8">

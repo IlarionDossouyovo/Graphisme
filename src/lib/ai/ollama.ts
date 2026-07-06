@@ -2,14 +2,41 @@
 // Ollama API Client - Graphisme by ELECTRON
 // ==============================================
 
-const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
+// Use environment variable for Ollama URL - can be configured for remote connections
+const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://127.0.0.1:11434'
 
-// Available models on user's system
+// Available models - matching user's installed models
 export const AVAILABLE_MODELS = {
-  'llama3.2': { name: 'llama3.2:latest', size: '2.0GB', description: 'Modèle polyvalent, rapide et efficace' },
-  'llama3.1:8b': { name: 'llama3.1:8b', size: '4.9GB', description: 'Modèle puissant pour des réponses détaillées' },
-  'qwen2.5-coder:7b': { name: 'qwen2.5-coder:7b', size: '4.7GB', description: 'Spécialisé dans le code et la programmation' },
-  'phi3:mini': { name: 'phi3:mini', size: '2.2GB', description: 'Modèle léger et rapide' },
+  'llama3.2': { 
+    name: 'llama3.2:latest', 
+    size: '2.0GB', 
+    description: 'Modèle polyvalent, rapide et efficace',
+    installed: true
+  },
+  'llama3.1:8b': { 
+    name: 'llama3.1:8b', 
+    size: '4.9GB', 
+    description: 'Modèle puissant pour des réponses détaillées',
+    installed: true
+  },
+  'qwen2.5-coder:7b': { 
+    name: 'qwen2.5-coder:7b', 
+    size: '4.7GB', 
+    description: 'Spécialisé dans le code et la programmation',
+    installed: true
+  },
+  'phi3:mini': { 
+    name: 'phi3:mini', 
+    size: '2.2GB', 
+    description: 'Modèle léger et rapide',
+    installed: true
+  },
+  'nomic-embed-text': {
+    name: 'nomic-embed-text:latest',
+    size: '274MB',
+    description: 'Pour les embeddings et recherches',
+    installed: true
+  }
 } as const
 
 // Default model
