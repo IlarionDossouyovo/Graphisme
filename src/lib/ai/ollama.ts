@@ -7,28 +7,28 @@ const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://127.0.0.1:11434'
 
 // Available models - matching user's installed models
 export const AVAILABLE_MODELS = {
-  'llama3.2': { 
-    name: 'llama3.2:latest', 
-    size: '2.0GB', 
-    description: 'Modèle polyvalent, rapide et efficace',
+  'llama2': { 
+    name: 'llama2:latest', 
+    size: '3.8GB', 
+    description: 'Modèle polyvalent de Meta, excellent pour les conversations',
     installed: true
   },
-  'llama3.1:8b': { 
-    name: 'llama3.1:8b', 
-    size: '4.9GB', 
-    description: 'Modèle puissant pour des réponses détaillées',
+  'mistral': { 
+    name: 'mistral:latest', 
+    size: '4.4GB', 
+    description: 'Modèle puissant et efficace pour les conversations',
     installed: true
   },
-  'qwen2.5-coder:7b': { 
-    name: 'qwen2.5-coder:7b', 
-    size: '4.7GB', 
+  'codellama': { 
+    name: 'codellama:latest', 
+    size: '3.8GB', 
     description: 'Spécialisé dans le code et la programmation',
     installed: true
   },
-  'phi3:mini': { 
-    name: 'phi3:mini', 
+  'phi3': { 
+    name: 'phi3:latest', 
     size: '2.2GB', 
-    description: 'Modèle léger et rapide',
+    description: 'Modèle léger et rapide de Microsoft',
     installed: true
   },
   'nomic-embed-text': {
@@ -40,7 +40,7 @@ export const AVAILABLE_MODELS = {
 } as const
 
 // Default model
-const DEFAULT_MODEL = 'llama3.2'
+const DEFAULT_MODEL = 'llama2'
 
 export type OllamaModel = keyof typeof AVAILABLE_MODELS
 
@@ -77,7 +77,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Supervision et décisions stratégiques pour l\'entreprise. Analyse des données marché et planification.',
     color: 'gold',
     capabilities: ['Analyse stratégique', 'Prise de décision', 'Planification', 'Reporting', 'Vision бизнес'],
-    model: 'llama3.2'
+    model: 'mistral'
   },
   {
     id: 'Commercial',
@@ -86,7 +86,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion des relations clients et prospection automatique. Suivi des leads et conversion.',
     color: 'electric',
     capabilities: ['CRM automatique', 'Prospection', 'Suivi leads', 'Conversion', 'Devis'],
-    model: 'llama3.2'
+    model: 'mistral'
   },
   {
     id: 'Marketing',
@@ -95,7 +95,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Stratégies marketing digital, SEO, SEA et campagnes publicitaires intelligentes.',
     color: 'violet',
     capabilities: ['SEO', 'Google Ads', 'Facebook Ads', 'Analytics', 'Stratégie'],
-    model: 'llama3.2'
+    model: 'mistral'
   },
   {
     id: 'Designer',
@@ -104,7 +104,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Création de logos, identités visuelles, charte graphique et designs adaptés à votre marque.',
     color: 'gold',
     capabilities: ['Logo design', 'Identité visuelle', 'Charte graphique', 'UI/UX', 'Brand design'],
-    model: 'llama3.2'
+    model: 'llama2'
   },
   {
     id: 'Developer',
@@ -113,7 +113,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Développement frontend et backend pour sites web, applications et solutions personnalisées.',
     color: 'electric',
     capabilities: ['Frontend', 'Backend', 'API', 'Base de données', 'Architecture'],
-    model: 'qwen2.5-coder:7b'
+    model: 'codellama'
   },
   {
     id: 'Motion',
@@ -122,7 +122,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Production vidéo, montage, motion design et animations 2D/3D pour tous vos supports.',
     color: 'violet',
     capabilities: ['Montage vidéo', 'Motion Design', 'Animation 3D', 'Voix IA', 'Post-production'],
-    model: 'llama3.2'
+    model: 'llama2'
   },
   {
     id: 'CommunityManager',
@@ -131,7 +131,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion complète des réseaux sociaux avec publication, engagement et croissance de communauté.',
     color: 'gold',
     capabilities: ['Publication', 'Engagement', 'Croissance', 'Calendrier éditorial', 'Contenu'],
-    model: 'llama3.2'
+    model: 'mistral'
   },
   {
     id: 'Finance',
@@ -140,7 +140,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion des factures, devis, trésorerie et rapports financiers automatisés.',
     color: 'electric',
     capabilities: ['Facturation', 'Devis', 'Trésorerie', 'Rapports', 'Analyse financière'],
-    model: 'llama3.2'
+    model: 'llama2'
   },
   {
     id: 'Support',
@@ -149,7 +149,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Support client 24/7 avec tickets, FAQ et résolution rapide des problèmes.',
     color: 'violet',
     capabilities: ['Support 24/7', 'Tickets', 'FAQ', 'Chatbot', 'Résolution'],
-    model: 'llama3.2'
+    model: 'mistral'
   },
   {
     id: 'DevOps',
@@ -158,7 +158,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion d\'infrastructure, déploiements automatisés et monitoring des applications.',
     color: 'gold',
     capabilities: ['Docker', 'CI/CD', 'Monitoring', 'Cloud', 'Déploiement'],
-    model: 'qwen2.5-coder:7b'
+    model: 'codellama'
   },
   {
     id: 'CyberSecurity',
@@ -167,7 +167,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Sécurité des systèmes, audits et surveillance continue contre les menaces.',
     color: 'electric',
     capabilities: ['Audit', 'Surveillance', 'Backups', 'Détection menaces', 'Protection'],
-    model: 'llama3.2'
+    model: 'llama2'
   },
   {
     id: 'DataAnalyst',
@@ -176,7 +176,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Analyse de données, rapports et tableaux de bord pour des décisions éclairées.',
     color: 'violet',
     capabilities: ['Analyse data', 'Dashboards', 'Rapports', 'Prévisions', 'Visualisation'],
-    model: 'llama3.2'
+    model: 'phi3'
   }
 ]
 
@@ -192,7 +192,7 @@ Tu es le directeur général virtuel de l'entreprise. Ton rôle est de:
 - Fournir des recommandations de haut niveau
 
 Tu réponds toujours de manière professionnelle en français. Sois concis, précis et orienté vers l'action.`,
-    model: 'llama3.2'
+    model: 'mistral'
   },
   Commercial: {
     prompt: `Tu es Commercial AI de Graphisme by ELECTRON, l'agent de développement commercial.
@@ -204,7 +204,7 @@ Ton rôle est de:
 - Building des relations durables avec les clients
 
 Tu es persuasif, empathique et orienté vers les résultats. Tu réponds en français de manière professionnelle.`,
-    model: 'llama3.2'
+    model: 'mistral'
   },
   Marketing: {
     prompt: `Tu es Marketing AI de Graphisme by ELECTRON, l'expert en marketing digital.
@@ -216,7 +216,7 @@ Ton rôle est de:
 - Proposer des stratégies de croissance (Growth Hacking)
 
 Expert en: SEO, Google Ads, Facebook Ads, Email Marketing, Analytics, Content Marketing.`,
-    model: 'llama3.2'
+    model: 'mistral'
   },
   Designer: {
     prompt: `Tu es Designer AI de Graphisme by ELECTRON, l'expert en création graphique et design.
@@ -228,7 +228,7 @@ Ton rôle est de:
 - Conseiller sur les tendances design actuelles
 
 Tu es créatif, artistique et sensible aux tendances. Tu peux décrire des concepts visuels en détail.`,
-    model: 'llama3.2'
+    model: 'llama2'
   },
   Developer: {
     prompt: `Tu es Developer AI de Graphisme by ELECTRON, l'expert en développement.
@@ -240,7 +240,7 @@ Ton rôle est de:
 - Conseiller sur l'architecture technique
 
 Expert en: Next.js, React, TypeScript, Node.js, Python, PostgreSQL, MongoDB.`,
-    model: 'qwen2.5-coder:7b'
+    model: 'codellama'
   },
   Motion: {
     prompt: `Tu es Motion AI de Graphisme by ELECTRON, l'expert en vidéo et animation.
@@ -252,7 +252,7 @@ Ton rôle est de:
 - Créer des scripts pour vidéos explicatives
 
 Expert en: Adobe After Effects, Premiere Pro, Blender, Cinema 4D, Animation.`,
-    model: 'llama3.2'
+    model: 'llama2'
   },
   CommunityManager: {
     prompt: `Tu es Community Manager AI de Graphisme by ELECTRON, l'expert en gestion des réseaux sociaux.
@@ -264,7 +264,7 @@ Ton rôle est de:
 - Création de contenu (posts, stories, reels)
 
 Platformes: Facebook, Instagram, LinkedIn, Twitter, TikTok.`,
-    model: 'llama3.2'
+    model: 'mistral'
   },
   Finance: {
     prompt: `Tu es Finance AI de Graphisme by ELECTRON, l'expert en finances et facturation.
@@ -276,7 +276,7 @@ Ton rôle est de:
 - Produire des rapports financiers
 
 Tu donnes toujours des estimations de prix en Francs CFA (XOF).`,
-    model: 'llama3.2'
+    model: 'llama2'
   },
   Support: {
     prompt: `Tu es Support AI de Graphisme by ELECTRON, l'agent de support client.
@@ -288,7 +288,7 @@ Ton rôle est de:
 - Assurer la satisfaction client
 
 Tu es patient, empathique et efficace. Tu fournis des solutions claires et rapides.`,
-    model: 'llama3.2'
+    model: 'mistral'
   },
   DevOps: {
     prompt: `Tu es DevOps AI de Graphisme by ELECTRON, l'expert en infrastructure et déploiement.
@@ -300,7 +300,7 @@ Ton rôle est de:
 - Automatiser les déploiements
 
 Expert en: Docker, Kubernetes, GitHub Actions, AWS, Terraform, Prometheus.`,
-    model: 'qwen2.5-coder:7b'
+    model: 'codellama'
   },
   CyberSecurity: {
     prompt: `Tu es CyberSecurity AI de Graphisme by ELECTRON, l'expert en sécurité informatique.
@@ -312,7 +312,7 @@ Ton rôle est de:
 - Surveiller les menaces en temps réel
 
 Expert en: Pentesting, Firewall, WAF, Chiffrement, GDPR, ISO 27001.`,
-    model: 'llama3.2'
+    model: 'llama2'
   },
   DataAnalyst: {
     prompt: `Tu es Data Analyst AI de Graphisme by ELECTRON, l'expert en analyse de données.
@@ -324,7 +324,7 @@ Ton rôle est de:
 - Faire des prévisions et modélisations
 
 Expert en: Python, SQL, Power BI, Tableau, Google Data Studio, Excel Avancé.`,
-    model: 'llama3.2'
+    model: 'phi3'
   }
 }
 
@@ -343,7 +343,7 @@ export async function generateCompletion(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: options?.model || DEFAULT_MODEL,
+        model: options?.model || 'llama2',
         prompt,
         temperature: options?.temperature || 0.7,
         max_tokens: options?.maxTokens || 500,
@@ -378,7 +378,7 @@ export async function generateChatCompletion(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: options?.model || 'llama3.2',
+        model: options?.model || 'llama2',
         messages,
         temperature: options?.temperature || 0.7,
         max_tokens: options?.maxTokens || 500,

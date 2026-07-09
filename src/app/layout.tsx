@@ -3,6 +3,7 @@ import './globals.css'
 import { CartProvider } from '@/lib/cart-context'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://graphisme.electron'),
   title: 'Graphisme by ELECTRON | Là où la créativité rencontre la technologie',
   description: 'Agence digitale intelligente fonctionnant avec une équipe d\'Intelligences Artificielles collaboratives. Design, Développement Web, Marketing Digital, IA au Benin.',
   keywords: ['agence digitale', 'design', 'développement web', 'IA', 'marketing digital', 'Graphisme', 'ELECTRON', 'Benin', 'Cotonou'],

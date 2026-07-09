@@ -12,7 +12,7 @@ const AGENTS = [
 const chatSchema = z.object({
   agent: z.enum(AGENTS),
   message: z.string().min(1, 'Le message est requis'),
-  model: z.enum(Object.keys(AVAILABLE_MODELS) as [string, ...string[]]).optional(),
+  model: z.enum(['llama2', 'mistral', 'codellama', 'phi3']).optional(),
   history: z.array(z.object({
     role: z.enum(['user', 'assistant']),
     content: z.string(),
@@ -115,12 +115,12 @@ export async function POST(request: Request) {
       : [systemMessage, userMessage]
 
     // Get response from AI using agent's preferred model
-    const response = await generateChatCompletion(messages, { model: model || 'llama3.2' })
+    const response = await generateChatCompletion(messages, { model: model || 'mistral' })
 
     return NextResponse.json({ 
       response,
       agent,
-      model: model || 'llama3.2'
+      model: model || 'mistral'
     })
   } catch (error: any) {
     if (error.name === 'ZodError') {
