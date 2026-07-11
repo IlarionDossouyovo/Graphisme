@@ -293,6 +293,13 @@ const DashboardContent = () => {
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [notifications, setNotifications] = useState([
+    { message: 'Nouveau ticket de support de TechCorp Benin', time: 'Il y a 5 min' },
+    { message: 'Paiement reçu de AfriTech - €800', time: 'Il y a 1h' },
+    { message: 'Projet "Site E-commerce" atteint 75%', time: 'Il y a 2h' },
+    { message: 'Nouveau message de StartUp Africa', time: 'Il y a 3h' },
+  ])
 
   // Render content based on active tab
   const renderContent = () => {
@@ -355,10 +362,39 @@ export default function AdminPage() {
               <FileText className="w-4 h-4" />
               <span className="hidden sm:inline">Rapport</span>
             </Link>
-            <button className="relative text-gray-400 hover:text-white transition-colors">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-gold rounded-full"></span>
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="relative text-gray-400 hover:text-white transition-colors"
+              >
+                <Bell className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-gold rounded-full"></span>
+              </button>
+              {showNotifications && (
+                <div className="absolute right-0 top-10 w-80 glass-card p-4 z-50">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-white font-bold">Notifications</h4>
+                    <button onClick={() => setShowNotifications(false)} className="text-gray-400 hover:text-white">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {notifications.map((notif, i) => (
+                      <div key={i} className="p-3 bg-white/5 rounded-lg hover:bg-white/10 cursor-pointer">
+                        <p className="text-white text-sm">{notif.message}</p>
+                        <p className="text-gray-500 text-xs mt-1">{notif.time}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <button 
+                    onClick={() => setNotifications([])}
+                    className="w-full text-center text-gold text-sm mt-3 hover:underline"
+                  >
+                    Tout marquer comme lu
+                  </button>
+                </div>
+              )}
+            </div>
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
                 <span className="text-gold text-sm font-bold">A</span>
@@ -1171,92 +1207,380 @@ const AnalyticsContent = () => (
 )
 
 // Support Content
-const SupportContent = () => (
-  <div className="space-y-6">
-    <div className="flex items-center justify-between">
-      <h1 className="text-2xl font-bold text-white">Support</h1>
-      <button className="glass-button">Nouveau ticket</button>
-    </div>
-    <div className="grid md:grid-cols-3 gap-4">
-      <div className="glass-card p-6">
-        <h3 className="text-gray-400 text-sm mb-2">Tickets ouverts</h3>
-        <p className="text-3xl font-bold text-yellow-500">8</p>
+const SupportContent = () => {
+  const [tickets, setTickets] = useState([
+    { id: 1, subject: 'Problème de connexion', client: 'TechCorp Benin', status: 'Ouvert', priority: 'Haute', date: '10/02/2025', description: 'Impossible de se connecter au tableau de bord' },
+    { id: 2, subject: 'Demande de fonctionnalité', client: 'AfriTech', status: 'En cours', priority: 'Moyenne', date: '09/02/2025', description: 'Demande d\'ajout d\'un module de statistiques' },
+    { id: 3, subject: 'Bug sur le dashboard', client: 'StartUp Africa', status: 'Ouvert', priority: 'Basse', date: '08/02/2025', description: 'Les graphiques ne s\'affichent pas correctement' },
+    { id: 4, subject: 'Question sur la facturation', client: 'Digital Agency', status: 'Résolu', priority: 'Moyenne', date: '05/02/2025', description: 'Demande d\'explication sur les frais' },
+  ])
+  
+  const [selectedTicket, setSelectedTicket] = useState<typeof tickets[0] | null>(null)
+  const [showNewTicketModal, setShowNewTicketModal] = useState(false)
+  const [newTicket, setNewTicket] = useState({ subject: '', client: '', priority: 'Moyenne', description: '' })
+
+  const handleCreateTicket = () => {
+    if (newTicket.subject && newTicket.client) {
+      const id = tickets.length + 1
+      const today = new Date().toLocaleDateString('fr-FR')
+      setTickets([...tickets, { 
+        id, 
+        subject: newTicket.subject, 
+        client: newTicket.client, 
+        status: 'Ouvert', 
+        priority: newTicket.priority,
+        date: today,
+        description: newTicket.description
+      }])
+      setShowNewTicketModal(false)
+      setNewTicket({ subject: '', client: '', priority: 'Moyenne', description: '' })
+    }
+  }
+
+  const handleUpdateStatus = (id: number, newStatus: string) => {
+    setTickets(tickets.map(t => t.id === id ? { ...t, status: newStatus } : t))
+    setSelectedTicket(null)
+  }
+
+  const handleDeleteTicket = (id: number) => {
+    setTickets(tickets.filter(t => t.id !== id))
+    setSelectedTicket(null)
+  }
+
+  const openTickets = tickets.filter(t => t.status === 'Ouvert').length
+  const inProgressTickets = tickets.filter(t => t.status === 'En cours').length
+  const resolvedTickets = tickets.filter(t => t.status === 'Résolu').length
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-white">Support</h1>
+        <button onClick={() => setShowNewTicketModal(true)} className="glass-button flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Nouveau ticket
+        </button>
+      </div>
+      <div className="grid md:grid-cols-3 gap-4">
+        <div className="glass-card p-6">
+          <h3 className="text-gray-400 text-sm mb-2">Tickets ouverts</h3>
+          <p className="text-3xl font-bold text-yellow-500">{openTickets}</p>
+        </div>
+        <div className="glass-card p-6">
+          <h3 className="text-gray-400 text-sm mb-2">En cours</h3>
+          <p className="text-3xl font-bold text-blue-500">{inProgressTickets}</p>
+        </div>
+        <div className="glass-card p-6">
+          <h3 className="text-gray-400 text-sm mb-2">Résolus</h3>
+          <p className="text-3xl font-bold text-green-500">{resolvedTickets}</p>
+        </div>
       </div>
       <div className="glass-card p-6">
-        <h3 className="text-gray-400 text-sm mb-2">En attente</h3>
-        <p className="text-3xl font-bold text-blue-500">3</p>
-      </div>
-      <div className="glass-card p-6">
-        <h3 className="text-gray-400 text-sm mb-2">Résolus (30j)</h3>
-        <p className="text-3xl font-bold text-green-500">45</p>
-      </div>
-    </div>
-    <div className="glass-card p-6">
-      <h3 className="font-bold text-white mb-4">Tickets récents</h3>
-      {[
-        { subject: 'Problème de connexion', client: 'TechCorp Benin', status: 'Ouvert', priority: 'Haute' },
-        { subject: 'Demande de fonctionnalité', client: 'AfriTech', status: 'En cours', priority: 'Moyenne' },
-        { subject: 'Bug sur le dashboard', client: 'StartUp Africa', status: 'Ouvert', priority: 'Basse' },
-      ].map((ticket, i) => (
-        <div key={i} className="py-3 border-b border-white/5 last:border-0">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-white font-medium">{ticket.subject}</span>
-              <p className="text-xs text-gray-500">{ticket.client}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={`px-2 py-1 rounded text-xs ${
-                ticket.priority === 'Haute' ? 'bg-red-500/20 text-red-500' :
-                ticket.priority === 'Moyenne' ? 'bg-yellow-500/20 text-yellow-500' :
-                'bg-green-500/20 text-green-500'
-              }`}>{ticket.priority}</span>
-              <span className="px-2 py-1 rounded text-xs bg-blue-500/20 text-blue-500">{ticket.status}</span>
+        <h3 className="font-bold text-white mb-4">Tickets récents</h3>
+        {tickets.map((ticket) => (
+          <div key={ticket.id} className="py-3 border-b border-white/5 last:border-0 cursor-pointer hover:bg-white/5" onClick={() => setSelectedTicket(ticket)}>
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-white font-medium">{ticket.subject}</span>
+                <p className="text-xs text-gray-500">{ticket.client} • {ticket.date}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-1 rounded text-xs ${
+                  ticket.priority === 'Haute' ? 'bg-red-500/20 text-red-500' :
+                  ticket.priority === 'Moyenne' ? 'bg-yellow-500/20 text-yellow-500' :
+                  'bg-green-500/20 text-green-500'
+                }`}>{ticket.priority}</span>
+                <span className={`px-2 py-1 rounded text-xs ${
+                  ticket.status === 'Ouvert' ? 'bg-yellow-500/20 text-yellow-500' :
+                  ticket.status === 'En cours' ? 'bg-blue-500/20 text-blue-500' :
+                  'bg-green-500/20 text-green-500'
+                }`}>{ticket.status}</span>
+              </div>
             </div>
           </div>
+        ))}
+      </div>
+
+      {/* Ticket Details Modal */}
+      <Modal 
+        isOpen={!!selectedTicket} 
+        onClose={() => setSelectedTicket(null)} 
+        title="Détails du Ticket"
+      >
+        {selectedTicket && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+              <div>
+                <p className="text-lg font-bold text-white">{selectedTicket.subject}</p>
+                <p className="text-gray-400 text-sm">#{selectedTicket.id} • {selectedTicket.date}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-xs ${
+                selectedTicket.priority === 'Haute' ? 'bg-red-500/20 text-red-500' :
+                selectedTicket.priority === 'Moyenne' ? 'bg-yellow-500/20 text-yellow-500' :
+                'bg-green-500/20 text-green-500'
+              }`}>{selectedTicket.priority}</span>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs text-gray-400">Client</label>
+                <p className="text-white font-medium">{selectedTicket.client}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Statut</label>
+                <span className={`px-3 py-1 rounded-full text-xs ${
+                  selectedTicket.status === 'Ouvert' ? 'bg-yellow-500/20 text-yellow-500' :
+                  selectedTicket.status === 'En cours' ? 'bg-blue-500/20 text-blue-500' :
+                  'bg-green-500/20 text-green-500'
+                }`}>{selectedTicket.status}</span>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs text-gray-400">Description</label>
+              <p className="text-gray-300">{selectedTicket.description}</p>
+            </div>
+
+            <div className="pt-4 border-t border-white/10">
+              <label className="text-xs text-gray-400 mb-2 block">Changer le statut</label>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => handleUpdateStatus(selectedTicket.id, 'Ouvert')}
+                  className="flex-1 bg-yellow-500/20 text-yellow-500 py-2 rounded-lg hover:bg-yellow-500/30"
+                >
+                  Ouvert
+                </button>
+                <button 
+                  onClick={() => handleUpdateStatus(selectedTicket.id, 'En cours')}
+                  className="flex-1 bg-blue-500/20 text-blue-500 py-2 rounded-lg hover:bg-blue-500/30"
+                >
+                  En cours
+                </button>
+                <button 
+                  onClick={() => handleUpdateStatus(selectedTicket.id, 'Résolu')}
+                  className="flex-1 bg-green-500/20 text-green-500 py-2 rounded-lg hover:bg-green-500/30"
+                >
+                  Résolu
+                </button>
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <button className="flex-1 bg-gold/20 text-gold py-2 rounded-lg hover:bg-gold/30 flex items-center justify-center gap-2">
+                <MessageSquare className="w-4 h-4" />
+                Répondre
+              </button>
+              <button onClick={() => handleDeleteTicket(selectedTicket.id)} className="px-4 bg-red-500/20 text-red-400 py-2 rounded-lg hover:bg-red-500/30 flex items-center justify-center gap-2">
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* New Ticket Modal */}
+      <Modal 
+        isOpen={showNewTicketModal} 
+        onClose={() => setShowNewTicketModal(false)} 
+        title="Nouveau Ticket"
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Sujet</label>
+            <input 
+              type="text" 
+              value={newTicket.subject}
+              onChange={(e) => setNewTicket({...newTicket, subject: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="Problème de connexion"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Client</label>
+            <input 
+              type="text" 
+              value={newTicket.client}
+              onChange={(e) => setNewTicket({...newTicket, client: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="TechCorp Benin"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Priorité</label>
+            <select 
+              value={newTicket.priority}
+              onChange={(e) => setNewTicket({...newTicket, priority: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+            >
+              <option value="Haute">Haute</option>
+              <option value="Moyenne">Moyenne</option>
+              <option value="Basse">Basse</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Description</label>
+            <textarea 
+              value={newTicket.description}
+              onChange={(e) => setNewTicket({...newTicket, description: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white h-24"
+              placeholder="Décrivez le problème..."
+            />
+          </div>
+          <button onClick={handleCreateTicket} className="w-full bg-gold text-black py-3 rounded-lg hover:bg-gold/80 flex items-center justify-center gap-2">
+            <Plus className="w-4 h-4" />
+            Créer le ticket
+          </button>
         </div>
-      ))}
+      </Modal>
     </div>
-  </div>
-)
+  )
+}
 
 // Settings Content
-const SettingsContent = () => (
-  <div className="space-y-6">
-    <h1 className="text-2xl font-bold text-white">Paramètres</h1>
-    <div className="grid md:grid-cols-2 gap-6">
-      <div className="glass-card p-6">
-        <h3 className="font-bold text-white mb-4">Profil de l'entreprise</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm text-gray-400 mb-2">Nom</label>
-            <input type="text" defaultValue="ELECTRON" className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" />
-          </div>
-          <div>
-            <label className="block text-sm text-gray-400 mb-2">Email</label>
-            <input type="email" defaultValue="electronbusiness07@gmail.com" className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" />
-          </div>
-          <div>
-            <label className="block text-sm text-gray-400 mb-2">Téléphone</label>
-            <input type="tel" defaultValue="+229 01 97 70 03 47" className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" />
-          </div>
-          <button className="glass-button w-full">Enregistrer</button>
+const SettingsContent = () => {
+  const [companyProfile, setCompanyProfile] = useState({
+    name: 'ELECTRON',
+    email: 'electronbusiness07@gmail.com',
+    phone: '+229 01 97 70 03 47',
+    address: 'Cotonou, Benin',
+    website: 'https://graphisme.electron'
+  })
+  
+  const [founderKey, setFounderKey] = useState('ELECTRON2025')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [saveMessage, setSaveMessage] = useState('')
+
+  const handleSaveProfile = () => {
+    setSaveMessage('✅ Profil enregistré avec succès!')
+    setTimeout(() => setSaveMessage(''), 3000)
+  }
+
+  const handleUpdatePassword = () => {
+    if (newPassword !== confirmPassword) {
+      setSaveMessage('❌ Les mots de passe ne correspondent pas')
+    } else if (newPassword.length < 6) {
+      setSaveMessage('❌ Le mot de passe doit contenir au moins 6 caractères')
+    } else {
+      setSaveMessage('✅ Mot de passe mis à jour avec succès!')
+      setNewPassword('')
+      setConfirmPassword('')
+      setTimeout(() => setSaveMessage(''), 3000)
+    }
+  }
+
+  const handleUpdateFounderKey = () => {
+    setSaveMessage('✅ Clé d\'accès fondateur mise à jour!')
+    setTimeout(() => setSaveMessage(''), 3000)
+  }
+
+  return (
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold text-white">Paramètres</h1>
+      
+      {saveMessage && (
+        <div className={`p-4 rounded-lg ${saveMessage.includes('✅') ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>
+          {saveMessage}
         </div>
-      </div>
-      <div className="glass-card p-6">
-        <h3 className="font-bold text-white mb-4">Sécurité</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm text-gray-400 mb-2">Clé d'accès fondateur</label>
-            <input type="password" defaultValue="ELECTRON2025" className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" />
+      )}
+      
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="glass-card p-6">
+          <h3 className="font-bold text-white mb-4">Profil de l'entreprise</h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Nom</label>
+              <input 
+                type="text" 
+                value={companyProfile.name}
+                onChange={(e) => setCompanyProfile({...companyProfile, name: e.target.value})}
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Email</label>
+              <input 
+                type="email" 
+                value={companyProfile.email}
+                onChange={(e) => setCompanyProfile({...companyProfile, email: e.target.value})}
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Téléphone</label>
+              <input 
+                type="tel" 
+                value={companyProfile.phone}
+                onChange={(e) => setCompanyProfile({...companyProfile, phone: e.target.value})}
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Adresse</label>
+              <input 
+                type="text" 
+                value={companyProfile.address}
+                onChange={(e) => setCompanyProfile({...companyProfile, address: e.target.value})}
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" 
+              />
+            </div>
+            <button onClick={handleSaveProfile} className="glass-button w-full flex items-center justify-center gap-2">
+              <Save className="w-4 h-4" />
+              Enregistrer
+            </button>
           </div>
-          <div className="pt-4 border-t border-white/5">
-            <h4 className="text-white mb-2">Changer le mot de passe</h4>
-            <input type="password" placeholder="Nouveau mot de passe" className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white mb-2" />
-            <input type="password" placeholder="Confirmer" className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" />
+        </div>
+        
+        <div className="space-y-6">
+          <div className="glass-card p-6">
+            <h3 className="font-bold text-white mb-4">Sécurité - Clé d'accès fondateur</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Clé d'accès fondateur</label>
+                <input 
+                  type="password" 
+                  value={founderKey}
+                  onChange={(e) => setFounderKey(e.target.value)}
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" 
+                />
+              </div>
+              <button onClick={handleUpdateFounderKey} className="glass-button w-full flex items-center justify-center gap-2">
+                <Save className="w-4 h-4" />
+                Mettre à jour la clé
+              </button>
+            </div>
           </div>
-          <button className="glass-button w-full">Mettre à jour</button>
+          
+          <div className="glass-card p-6">
+            <h3 className="font-bold text-white mb-4">Changer le mot de passe</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Nouveau mot de passe</label>
+                <input 
+                  type="password" 
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Nouveau mot de passe" 
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" 
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Confirmer le mot de passe</label>
+                <input 
+                  type="password" 
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirmer" 
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white" 
+                />
+              </div>
+              <button onClick={handleUpdatePassword} className="glass-button w-full flex items-center justify-center gap-2">
+                <Save className="w-4 h-4" />
+                Mettre à jour le mot de passe
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
