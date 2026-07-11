@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Brain, Users, Code, Palette, Video, MessageSquare, TrendingUp, Shield, Database, Bot, Zap, Activity, X, Send, Loader2, Volume2, VolumeX, Play, Square, Mic, MicOff } from 'lucide-react'
+import { ArrowLeft, Brain, Users, Code, Palette, Video, MessageSquare, TrendingUp, Shield, Database, Bot, Zap, Activity, X, Send, Loader2, Volume2, VolumeX, Play, Square, Mic, MicOff, Settings } from 'lucide-react'
 import { AGENTS, AVAILABLE_MODELS } from '@/lib/ai/ollama'
-import { voiceService } from '@/lib/voice'
+import { voiceService, VoiceGender, VoiceQuality } from '@/lib/voice'
 
 // Map icons to agents
 const getAgentIcon = (id: string) => {
@@ -179,6 +179,9 @@ export default function AITeamPage() {
   const [voiceEnabled, setVoiceEnabled] = useState(true)
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [isListening, setIsListening] = useState(false)
+  const [voiceGender, setVoiceGender] = useState<VoiceGender>('male')
+  const [voiceQuality, setVoiceQuality] = useState<VoiceQuality>('premium')
+  const [showVoiceSettings, setShowVoiceSettings] = useState(false)
 
   const handleAgentClick = (agent: typeof aiAgents[0]) => {
     setSelectedAgent(agent)
@@ -290,6 +293,8 @@ export default function AITeamPage() {
       // Speak the response if voice is enabled
       if (voiceEnabled && responseContent) {
         setIsSpeaking(true)
+        voiceService.setGender(voiceGender)
+        voiceService.setQuality(voiceQuality)
         voiceService.speak(responseContent, selectedAgent?.name || 'Assistant', () => {
           setIsSpeaking(false)
         })
@@ -305,6 +310,8 @@ export default function AITeamPage() {
       // Speak error message if voice enabled
       if (voiceEnabled) {
         setIsSpeaking(true)
+        voiceService.setGender(voiceGender)
+        voiceService.setQuality(voiceQuality)
         voiceService.speak(errorContent, selectedAgent?.name || 'Assistant', () => {
           setIsSpeaking(false)
         })
@@ -491,6 +498,16 @@ export default function AITeamPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                {/* Voice Settings Button */}
+                <button
+                  onClick={() => setShowVoiceSettings(!showVoiceSettings)}
+                  className={`p-2 rounded-lg transition-colors ${
+                    showVoiceSettings ? 'text-gold bg-gold/10' : 'text-gray-400 hover:bg-white/10'
+                  }`}
+                  title="Paramètres vocaux"
+                >
+                  <Settings className="w-5 h-5" />
+                </button>
                 {/* Voice Toggle Button */}
                 <button
                   onClick={() => {
@@ -526,6 +543,74 @@ export default function AITeamPage() {
                 </button>
               </div>
             </div>
+
+            {/* Voice Settings Panel */}
+            {showVoiceSettings && (
+              <div className="px-4 py-3 bg-white/5 border-b border-white/10 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-white text-sm font-medium">⚙️ Paramètres Vocaux</span>
+                  <button
+                    onClick={() => voiceService.testVoice(voiceGender, voiceQuality)}
+                    disabled={isSpeaking}
+                    className="text-xs text-gold hover:text-gold-light bg-gold/10 px-2 py-1 rounded-full"
+                  >
+                    Tester
+                  </button>
+                </div>
+                {/* Genre */}
+                <div>
+                  <label className="text-xs text-gray-400 block mb-1">Genre</label>
+                  <div className="grid grid-cols-2 gap-1">
+                    <button
+                      onClick={() => setVoiceGender('male')}
+                      className={`px-2 py-1.5 rounded text-xs ${
+                        voiceGender === 'male' ? 'bg-gold/20 text-gold border border-gold/30' : 'bg-white/5 text-gray-400'
+                      }`}
+                    >
+                      👨 Masculin
+                    </button>
+                    <button
+                      onClick={() => setVoiceGender('female')}
+                      className={`px-2 py-1.5 rounded text-xs ${
+                        voiceGender === 'female' ? 'bg-violet-IA/20 text-violet-IA border border-violet-IA/30' : 'bg-white/5 text-gray-400'
+                      }`}
+                    >
+                      👩 Féminin
+                    </button>
+                  </div>
+                </div>
+                {/* Qualité */}
+                <div>
+                  <label className="text-xs text-gray-400 block mb-1">Qualité</label>
+                  <div className="grid grid-cols-3 gap-1">
+                    <button
+                      onClick={() => setVoiceQuality('normal')}
+                      className={`px-2 py-1.5 rounded text-xs ${
+                        voiceQuality === 'normal' ? 'bg-electric/20 text-electric border border-electric/30' : 'bg-white/5 text-gray-400'
+                      }`}
+                    >
+                      Normal
+                    </button>
+                    <button
+                      onClick={() => setVoiceQuality('optimized')}
+                      className={`px-2 py-1.5 rounded text-xs ${
+                        voiceQuality === 'optimized' ? 'bg-green-500/20 text-green-500 border border-green-500/30' : 'bg-white/5 text-gray-400'
+                      }`}
+                    >
+                      Optimisé
+                    </button>
+                    <button
+                      onClick={() => setVoiceQuality('premium')}
+                      className={`px-2 py-1.5 rounded text-xs ${
+                        voiceQuality === 'premium' ? 'bg-gold/20 text-gold border border-gold/30' : 'bg-white/5 text-gray-400'
+                      }`}
+                    >
+                      Premium
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Chat Messages */}
             <div className="h-80 overflow-y-auto p-4 space-y-4">
