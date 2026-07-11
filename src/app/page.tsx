@@ -9,7 +9,7 @@ import {
   TrendingUp, Search, MessageCircle, ChevronDown, Menu, X,
   CheckCircle, ArrowRight, Sparkles, Zap, Shield, Users,
   Mail, Phone, MapPin, ExternalLink, Download, Clock,
-  Star, Award, Briefcase, Layers, Database, Cloud
+  Star, Award, Briefcase, Layers, Database, Cloud, Play
 } from 'lucide-react'
 
 // Logo Component
@@ -190,6 +190,10 @@ const Hero = () => {
               <span className="flex items-center justify-center gap-2">
                 Découvrir nos services <ArrowRight className="w-5 h-5" />
               </span>
+            </a>
+            <a href="/demo" className="px-8 py-4 rounded-xl font-semibold border border-gold/30 text-gold hover:bg-gold/10 transition-all flex items-center justify-center gap-2">
+              <Play className="w-5 h-5" />
+              Voir la démo
             </a>
             <a href="#contact" className="px-8 py-4 rounded-xl font-semibold border border-white/20 text-white hover:bg-white/5 transition-all flex items-center justify-center gap-2">
               <MessageCircle className="w-5 h-5" />
