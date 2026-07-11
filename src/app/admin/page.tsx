@@ -819,48 +819,258 @@ const ProjectsContent = () => {
 }
 
 // Invoices Content
-const InvoicesContent = () => (
-  <div className="space-y-6">
-    <div className="flex items-center justify-between">
-      <h1 className="text-2xl font-bold text-white">Factures</h1>
-      <button className="glass-button">Nouvelle facture</button>
-    </div>
-    <div className="glass-card overflow-hidden">
-      <table className="w-full">
-        <thead className="bg-white/5">
-          <tr>
-            <th className="text-left p-4 text-gray-400 text-sm">N°</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Client</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Montant</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Date</th>
-            <th className="text-left p-4 text-gray-400 text-sm">Statut</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            { id: 'FAC-001', client: 'TechCorp Benin', amount: '€1,500', date: '15/01/2025', status: 'Payée' },
-            { id: 'FAC-002', client: 'AfriTech', amount: '€800', date: '20/01/2025', status: 'En attente' },
-            { id: 'FAC-003', client: 'StartUp Africa', amount: '€2,200', date: '25/01/2025', status: 'En retard' },
-          ].map((inv, i) => (
-            <tr key={i} className="border-t border-white/5">
-              <td className="p-4 text-white font-medium">{inv.id}</td>
-              <td className="p-4 text-gray-400">{inv.client}</td>
-              <td className="p-4 text-gold font-bold">{inv.amount}</td>
-              <td className="p-4 text-gray-400">{inv.date}</td>
-              <td className="p-4">
-                <span className={`px-3 py-1 rounded-full text-xs ${
-                  inv.status === 'Payée' ? 'bg-green-500/20 text-green-500' :
-                  inv.status === 'En attente' ? 'bg-yellow-500/20 text-yellow-500' :
-                  'bg-red-500/20 text-red-500'
-                }`}>{inv.status}</span>
-              </td>
+const InvoicesContent = () => {
+  const [invoices, setInvoices] = useState([
+    { id: 'FAC-001', client: 'TechCorp Benin', amount: '€1,500', date: '15/01/2025', dueDate: '15/02/2025', status: 'Payée', project: 'Site E-commerce', email: 'contact@techcorp.bj' },
+    { id: 'FAC-002', client: 'AfriTech', amount: '€800', date: '20/01/2025', dueDate: '20/02/2025', status: 'En attente', project: 'Logo Premium', email: 'hello@afritech.co' },
+    { id: 'FAC-003', client: 'StartUp Africa', amount: '€2,200', date: '25/01/2025', dueDate: '25/02/2025', status: 'En retard', project: 'App Mobile', email: 'info@startupafrica.com' },
+    { id: 'FAC-004', client: 'Digital Agency', amount: '€3,500', date: '01/02/2025', dueDate: '01/03/2025', status: 'En attente', project: 'Dashboard CRM', email: 'team@digitalagency.io' },
+  ])
+  
+  const [selectedInvoice, setSelectedInvoice] = useState<typeof invoices[0] | null>(null)
+  const [showNewInvoiceModal, setShowNewInvoiceModal] = useState(false)
+  const [newInvoice, setNewInvoice] = useState({ client: '', project: '', amount: '', email: '' })
+
+  const handleViewInvoice = (inv: typeof invoices[0]) => {
+    setSelectedInvoice(inv)
+  }
+
+  const handleCreateInvoice = () => {
+    if (newInvoice.client && newInvoice.project && newInvoice.amount) {
+      const id = `FAC-${String(invoices.length + 1).padStart(3, '0')}`
+      const today = new Date().toLocaleDateString('fr-FR')
+      const dueDate = new Date()
+      dueDate.setMonth(dueDate.getMonth() + 1)
+      setInvoices([...invoices, { 
+        id, 
+        client: newInvoice.client, 
+        project: newInvoice.project, 
+        amount: newInvoice.amount, 
+        date: today,
+        dueDate: dueDate.toLocaleDateString('fr-FR'),
+        status: 'En attente',
+        email: newInvoice.email
+      }])
+      setShowNewInvoiceModal(false)
+      setNewInvoice({ client: '', project: '', amount: '', email: '' })
+    }
+  }
+
+  const handleDeleteInvoice = (id: string) => {
+    setInvoices(invoices.filter(inv => inv.id !== id))
+    setSelectedInvoice(null)
+  }
+
+  const handleUpdateStatus = (id: string, newStatus: string) => {
+    setInvoices(invoices.map(inv => inv.id === id ? { ...inv, status: newStatus } : inv))
+    setSelectedInvoice(null)
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-white">Factures</h1>
+        <button onClick={() => setShowNewInvoiceModal(true)} className="glass-button flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Nouvelle facture
+        </button>
+      </div>
+      
+      {/* Stats */}
+      <div className="grid md:grid-cols-4 gap-4">
+        <div className="glass-card p-4">
+          <p className="text-gray-400 text-sm">Total</p>
+          <p className="text-2xl font-bold text-white">{invoices.length}</p>
+        </div>
+        <div className="glass-card p-4">
+          <p className="text-gray-400 text-sm">Payées</p>
+          <p className="text-2xl font-bold text-green-500">{invoices.filter(i => i.status === 'Payée').length}</p>
+        </div>
+        <div className="glass-card p-4">
+          <p className="text-gray-400 text-sm">En attente</p>
+          <p className="text-2xl font-bold text-yellow-500">{invoices.filter(i => i.status === 'En attente').length}</p>
+        </div>
+        <div className="glass-card p-4">
+          <p className="text-gray-400 text-sm">En retard</p>
+          <p className="text-2xl font-bold text-red-500">{invoices.filter(i => i.status === 'En retard').length}</p>
+        </div>
+      </div>
+
+      <div className="glass-card overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-white/5">
+            <tr>
+              <th className="text-left p-4 text-gray-400 text-sm">N°</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Client</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Montant</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Date</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Échéance</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Statut</th>
+              <th className="text-left p-4 text-gray-400 text-sm">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {invoices.map((inv) => (
+              <tr key={inv.id} className="border-t border-white/5 hover:bg-white/5 cursor-pointer" onClick={() => handleViewInvoice(inv)}>
+                <td className="p-4 text-white font-medium">{inv.id}</td>
+                <td className="p-4 text-gray-400">{inv.client}</td>
+                <td className="p-4 text-gold font-bold">{inv.amount}</td>
+                <td className="p-4 text-gray-400">{inv.date}</td>
+                <td className="p-4 text-gray-400">{inv.dueDate}</td>
+                <td className="p-4">
+                  <span className={`px-3 py-1 rounded-full text-xs ${
+                    inv.status === 'Payée' ? 'bg-green-500/20 text-green-500' :
+                    inv.status === 'En attente' ? 'bg-yellow-500/20 text-yellow-500' :
+                    'bg-red-500/20 text-red-500'
+                  }`}>{inv.status}</span>
+                </td>
+                <td className="p-4">
+                  <button className="text-gold text-sm hover:underline" onClick={(e) => { e.stopPropagation(); handleViewInvoice(inv); }}>
+                    Voir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Invoice Details Modal */}
+      <Modal 
+        isOpen={!!selectedInvoice} 
+        onClose={() => setSelectedInvoice(null)} 
+        title="Détails de la Facture"
+      >
+        {selectedInvoice && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+              <div>
+                <p className="text-2xl font-bold text-gold">{selectedInvoice.amount}</p>
+                <p className="text-gray-400 text-sm">{selectedInvoice.id}</p>
+              </div>
+              <span className={`px-4 py-2 rounded-full text-sm ${
+                selectedInvoice.status === 'Payée' ? 'bg-green-500/20 text-green-500' :
+                selectedInvoice.status === 'En attente' ? 'bg-yellow-500/20 text-yellow-500' :
+                'bg-red-500/20 text-red-500'
+              }`}>{selectedInvoice.status}</span>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs text-gray-400">Client</label>
+                <p className="text-white font-medium">{selectedInvoice.client}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Projet</label>
+                <p className="text-white">{selectedInvoice.project}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Email</label>
+                <p className="text-gray-300">{selectedInvoice.email}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Date emission</label>
+                <p className="text-white">{selectedInvoice.date}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Date limite</label>
+                <p className="text-white">{selectedInvoice.dueDate}</p>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/10">
+              <label className="text-xs text-gray-400 mb-2 block">Changer le statut</label>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => handleUpdateStatus(selectedInvoice.id, 'Payée')}
+                  className="flex-1 bg-green-500/20 text-green-500 py-2 rounded-lg hover:bg-green-500/30"
+                >
+                  Payée
+                </button>
+                <button 
+                  onClick={() => handleUpdateStatus(selectedInvoice.id, 'En attente')}
+                  className="flex-1 bg-yellow-500/20 text-yellow-500 py-2 rounded-lg hover:bg-yellow-500/30"
+                >
+                  En attente
+                </button>
+                <button 
+                  onClick={() => handleUpdateStatus(selectedInvoice.id, 'En retard')}
+                  className="flex-1 bg-red-500/20 text-red-500 py-2 rounded-lg hover:bg-red-500/30"
+                >
+                  En retard
+                </button>
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <button className="flex-1 bg-gold/20 text-gold py-2 rounded-lg hover:bg-gold/30 flex items-center justify-center gap-2">
+                <Eye className="w-4 h-4" />
+                Télécharger PDF
+              </button>
+              <button onClick={() => handleDeleteInvoice(selectedInvoice.id)} className="px-4 bg-red-500/20 text-red-400 py-2 rounded-lg hover:bg-red-500/30 flex items-center justify-center gap-2">
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* New Invoice Modal */}
+      <Modal 
+        isOpen={showNewInvoiceModal} 
+        onClose={() => setShowNewInvoiceModal(false)} 
+        title="Nouvelle Facture"
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Nom du client</label>
+            <input 
+              type="text" 
+              value={newInvoice.client}
+              onChange={(e) => setNewInvoice({...newInvoice, client: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="TechCorp Benin"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Projet</label>
+            <input 
+              type="text" 
+              value={newInvoice.project}
+              onChange={(e) => setNewInvoice({...newInvoice, project: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="Site E-commerce"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Montant (€)</label>
+            <input 
+              type="text" 
+              value={newInvoice.amount}
+              onChange={(e) => setNewInvoice({...newInvoice, amount: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="€1,500"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Email client</label>
+            <input 
+              type="email" 
+              value={newInvoice.email}
+              onChange={(e) => setNewInvoice({...newInvoice, email: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="contact@client.com"
+            />
+          </div>
+          <button onClick={handleCreateInvoice} className="w-full bg-gold text-black py-3 rounded-lg hover:bg-gold/80 flex items-center justify-center gap-2">
+            <Save className="w-4 h-4" />
+            Créer la facture
+          </button>
+        </div>
+      </Modal>
     </div>
-  </div>
-)
+  )
+}
 
 // Marketing Content
 const MarketingContent = () => (
