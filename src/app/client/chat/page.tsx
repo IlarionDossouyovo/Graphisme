@@ -41,7 +41,7 @@ export default function ChatPage() {
   const [isListening, setIsListening] = useState(false)
   const [recognition, setRecognition] = useState<any>(null)
   const [voiceGender, setVoiceGender] = useState<VoiceGender>('male')
-  const [voiceQuality, setVoiceQuality] = useState<VoiceQuality>('optimized')
+  const [voiceQuality, setVoiceQuality] = useState<VoiceQuality>('premium')
   const [showVoiceSettings, setShowVoiceSettings] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -446,10 +446,10 @@ export default function ChatPage() {
                   {/* Qualité vocale */}
                   <div>
                     <label className="text-xs text-gray-400 mb-2 block">Qualité</label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       <button
                         onClick={() => setVoiceQuality('normal')}
-                        className={`px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 ${
+                        className={`px-2 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-1 ${
                           voiceQuality === 'normal' 
                             ? 'bg-electric/20 text-electric border border-electric/30' 
                             : 'bg-white/5 text-gray-400 hover:bg-white/10'
@@ -459,7 +459,7 @@ export default function ChatPage() {
                       </button>
                       <button
                         onClick={() => setVoiceQuality('optimized')}
-                        className={`px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 ${
+                        className={`px-2 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-1 ${
                           voiceQuality === 'optimized' 
                             ? 'bg-green-500/20 text-green-500 border border-green-500/30' 
                             : 'bg-white/5 text-gray-400 hover:bg-white/10'
@@ -467,13 +467,25 @@ export default function ChatPage() {
                       >
                         ⚡ Optimisé
                       </button>
+                      <button
+                        onClick={() => setVoiceQuality('premium')}
+                        className={`px-2 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-1 ${
+                          voiceQuality === 'premium' 
+                            ? 'bg-gold/20 text-gold border border-gold/30' 
+                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                        }`}
+                      >
+                        👑 Premium
+                      </button>
                     </div>
                   </div>
 
                   {/* Status info */}
                   <div className="text-xs text-gray-500 pt-2 border-t border-white/5">
                     Voix: <span className="text-gray-300">{voiceGender === 'male' ? 'Masculine' : 'Féminine'}</span> | 
-                    Qualité: <span className="text-gray-300">{voiceQuality === 'optimized' ? 'Optimisée' : 'Normale'}</span>
+                    Qualité: <span className="text-gray-300">
+                      {voiceQuality === 'normal' ? 'Normale' : voiceQuality === 'optimized' ? 'Optimisée' : 'Premium'}
+                    </span>
                   </div>
                 </motion.div>
               )}

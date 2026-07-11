@@ -1,11 +1,11 @@
 // ==============================================
 // Voice Synthesis Service - Graphisme by ELECTRON
 // Système vocal complet avec voix masculine et féminine
-// Réglages normal et optimisé
+// Réglages haute qualité optimisés pour le français
 // ==============================================
 
 export type VoiceGender = 'male' | 'female'
-export type VoiceQuality = 'normal' | 'optimized'
+export type VoiceQuality = 'normal' | 'optimized' | 'premium'
 
 export interface VoiceSettings {
   rate: number        // Vitesse: 0.1 à 10
@@ -23,26 +23,26 @@ export interface AgentVoiceConfig {
 
 // Profil vocal pour chaque agent - Voix masculine et féminine
 export const VOICE_PROFILES: Record<string, AgentVoiceConfig> = {
-  // Voix Masculine - Plus grave et posée
-  CEO: { lang: 'fr-FR', rate: 0.75, pitch: 0.85, volume: 1.0, gender: 'male' },
-  Commercial: { lang: 'fr-FR', rate: 0.8, pitch: 0.9, volume: 1.0, gender: 'male' },
-  Developer: { lang: 'fr-FR', rate: 0.85, pitch: 0.95, volume: 1.0, gender: 'male' },
-  DevOps: { lang: 'fr-FR', rate: 0.8, pitch: 0.9, volume: 1.0, gender: 'male' },
-  Finance: { lang: 'fr-FR', rate: 0.7, pitch: 0.8, volume: 1.0, gender: 'male' },
-  CyberSecurity: { lang: 'fr-FR', rate: 0.75, pitch: 0.85, volume: 1.0, gender: 'male' },
+  // Voix Masculine - Plus grave et posée (entreprise sérieuse)
+  CEO: { lang: 'fr-FR', rate: 0.7, pitch: 0.8, volume: 1.0, gender: 'male' },
+  Commercial: { lang: 'fr-FR', rate: 0.75, pitch: 0.85, volume: 1.0, gender: 'male' },
+  Developer: { lang: 'fr-FR', rate: 0.8, pitch: 0.9, volume: 1.0, gender: 'male' },
+  DevOps: { lang: 'fr-FR', rate: 0.75, pitch: 0.85, volume: 1.0, gender: 'male' },
+  Finance: { lang: 'fr-FR', rate: 0.65, pitch: 0.75, volume: 1.0, gender: 'male' },
+  CyberSecurity: { lang: 'fr-FR', rate: 0.7, pitch: 0.8, volume: 1.0, gender: 'male' },
   
-  // Voix Féminine - Plus dynamique et empathize
-  Marketing: { lang: 'fr-FR', rate: 0.85, pitch: 1.2, volume: 1.0, gender: 'female' },
-  Designer: { lang: 'fr-FR', rate: 0.8, pitch: 1.15, volume: 1.0, gender: 'female' },
-  Motion: { lang: 'fr-FR', rate: 0.8, pitch: 1.1, volume: 1.0, gender: 'female' },
-  'Community Manager': { lang: 'fr-FR', rate: 0.9, pitch: 1.25, volume: 1.0, gender: 'female' },
-  Support: { lang: 'fr-FR', rate: 0.85, pitch: 1.2, volume: 1.0, gender: 'female' },
-  'Data Analyst': { lang: 'fr-FR', rate: 0.8, pitch: 1.1, volume: 1.0, gender: 'female' },
+  // Voix Féminine - Plus dynamique et empathique
+  Marketing: { lang: 'fr-FR', rate: 0.8, pitch: 1.15, volume: 1.0, gender: 'female' },
+  Designer: { lang: 'fr-FR', rate: 0.75, pitch: 1.1, volume: 1.0, gender: 'female' },
+  Motion: { lang: 'fr-FR', rate: 0.75, pitch: 1.05, volume: 1.0, gender: 'female' },
+  'Community Manager': { lang: 'fr-FR', rate: 0.85, pitch: 1.2, volume: 1.0, gender: 'female' },
+  Support: { lang: 'fr-FR', rate: 0.8, pitch: 1.15, volume: 1.0, gender: 'female' },
+  'Data Analyst': { lang: 'fr-FR', rate: 0.75, pitch: 1.05, volume: 1.0, gender: 'female' },
 }
 
-// Réglages de qualité vocale
+// Réglages de qualité vocale - Trois niveaux
 export const VOICE_QUALITY_SETTINGS: Record<VoiceQuality, { rate: number; pitch: number; volume: number }> = {
-  // Réglage Normal - Vitesse et ton standard
+  // Réglage Normal - Vitesse standard
   normal: {
     rate: 1.0,
     pitch: 1.0,
@@ -50,7 +50,13 @@ export const VOICE_QUALITY_SETTINGS: Record<VoiceQuality, { rate: number; pitch:
   },
   // Réglage Optimisé - Plus clair et professionnel
   optimized: {
-    rate: 0.9,
+    rate: 0.85,
+    pitch: 1.0,
+    volume: 1.0,
+  },
+  // Réglage Premium - Plus lent et très clair pour meilleure compréhension
+  premium: {
+    rate: 0.7,
     pitch: 1.0,
     volume: 1.0,
   },

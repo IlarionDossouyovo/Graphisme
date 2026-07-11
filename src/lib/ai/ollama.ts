@@ -7,26 +7,26 @@ const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://127.0.0.1:11434'
 
 // Available models - matching user's installed models
 export const AVAILABLE_MODELS = {
-  'llama2': { 
-    name: 'llama2:latest', 
-    size: '3.8GB', 
-    description: 'Modèle polyvalent de Meta, excellent pour les conversations',
+  'llama3.2': { 
+    name: 'llama3.2:latest', 
+    size: '2.0GB', 
+    description: 'Modèle polyvalent de Meta, excellent pour les conversations en français',
     installed: true
   },
-  'mistral': { 
-    name: 'mistral:latest', 
-    size: '4.4GB', 
+  'llama3.1': { 
+    name: 'llama3.1:8b', 
+    size: '4.9GB', 
     description: 'Modèle puissant et efficace pour les conversations',
     installed: true
   },
-  'codellama': { 
-    name: 'codellama:latest', 
-    size: '3.8GB', 
+  'qwen2.5': { 
+    name: 'qwen2.5-coder:7b', 
+    size: '4.7GB', 
     description: 'Spécialisé dans le code et la programmation',
     installed: true
   },
   'phi3': { 
-    name: 'phi3:latest', 
+    name: 'phi3:mini', 
     size: '2.2GB', 
     description: 'Modèle léger et rapide de Microsoft',
     installed: true
@@ -39,8 +39,8 @@ export const AVAILABLE_MODELS = {
   }
 } as const
 
-// Default model
-const DEFAULT_MODEL = 'llama2'
+// Default model - utiliser llama3.2 pour de meilleures conversations en français
+const DEFAULT_MODEL = 'llama3.2'
 
 export type OllamaModel = keyof typeof AVAILABLE_MODELS
 
@@ -77,7 +77,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Supervision et décisions stratégiques pour l\'entreprise. Analyse des données marché et planification.',
     color: 'gold',
     capabilities: ['Analyse stratégique', 'Prise de décision', 'Planification', 'Reporting', 'Vision бизнес'],
-    model: 'mistral'
+    model: 'llama3.2'
   },
   {
     id: 'Commercial',
@@ -86,7 +86,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion des relations clients et prospection automatique. Suivi des leads et conversion.',
     color: 'electric',
     capabilities: ['CRM automatique', 'Prospection', 'Suivi leads', 'Conversion', 'Devis'],
-    model: 'mistral'
+    model: 'llama3.2'
   },
   {
     id: 'Marketing',
@@ -95,7 +95,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Stratégies marketing digital, SEO, SEA et campagnes publicitaires intelligentes.',
     color: 'violet',
     capabilities: ['SEO', 'Google Ads', 'Facebook Ads', 'Analytics', 'Stratégie'],
-    model: 'mistral'
+    model: 'llama3.2'
   },
   {
     id: 'Designer',
@@ -104,7 +104,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Création de logos, identités visuelles, charte graphique et designs adaptés à votre marque.',
     color: 'gold',
     capabilities: ['Logo design', 'Identité visuelle', 'Charte graphique', 'UI/UX', 'Brand design'],
-    model: 'llama2'
+    model: 'llama3.2'
   },
   {
     id: 'Developer',
@@ -113,7 +113,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Développement frontend et backend pour sites web, applications et solutions personnalisées.',
     color: 'electric',
     capabilities: ['Frontend', 'Backend', 'API', 'Base de données', 'Architecture'],
-    model: 'codellama'
+    model: 'qwen2.5'
   },
   {
     id: 'Motion',
@@ -122,7 +122,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Production vidéo, montage, motion design et animations 2D/3D pour tous vos supports.',
     color: 'violet',
     capabilities: ['Montage vidéo', 'Motion Design', 'Animation 3D', 'Voix IA', 'Post-production'],
-    model: 'llama2'
+    model: 'llama3.2'
   },
   {
     id: 'CommunityManager',
@@ -131,7 +131,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion complète des réseaux sociaux avec publication, engagement et croissance de communauté.',
     color: 'gold',
     capabilities: ['Publication', 'Engagement', 'Croissance', 'Calendrier éditorial', 'Contenu'],
-    model: 'mistral'
+    model: 'llama3.2'
   },
   {
     id: 'Finance',
@@ -140,7 +140,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion des factures, devis, trésorerie et rapports financiers automatisés.',
     color: 'electric',
     capabilities: ['Facturation', 'Devis', 'Trésorerie', 'Rapports', 'Analyse financière'],
-    model: 'llama2'
+    model: 'llama3.2'
   },
   {
     id: 'Support',
@@ -149,7 +149,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Support client 24/7 avec tickets, FAQ et résolution rapide des problèmes.',
     color: 'violet',
     capabilities: ['Support 24/7', 'Tickets', 'FAQ', 'Chatbot', 'Résolution'],
-    model: 'mistral'
+    model: 'llama3.2'
   },
   {
     id: 'DevOps',
@@ -158,7 +158,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Gestion d\'infrastructure, déploiements automatisés et monitoring des applications.',
     color: 'gold',
     capabilities: ['Docker', 'CI/CD', 'Monitoring', 'Cloud', 'Déploiement'],
-    model: 'codellama'
+    model: 'qwen2.5'
   },
   {
     id: 'CyberSecurity',
@@ -167,7 +167,7 @@ export const AGENTS: AIAgent[] = [
     description: 'Sécurité des systèmes, audits et surveillance continue contre les menaces.',
     color: 'electric',
     capabilities: ['Audit', 'Surveillance', 'Backups', 'Détection menaces', 'Protection'],
-    model: 'llama2'
+    model: 'llama3.2'
   },
   {
     id: 'DataAnalyst',
