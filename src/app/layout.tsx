@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { CartProvider } from '@/lib/cart-context'
+import AnimatedBackground from '@/components/AnimatedBackground'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://graphisme.electron'),
@@ -57,6 +58,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="antialiased">
+        <AnimatedBackground />
         <CartProvider>
           {children}
         </CartProvider>
