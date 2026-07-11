@@ -6,9 +6,9 @@ import Link from 'next/link'
 import { 
   Bot, Send, X, ChevronDown, Loader2, Phone, Mail, MapPin,
   ArrowLeft, Sparkles, MessageSquare, Lightbulb, CheckCircle, AlertCircle,
-  Volume2, VolumeX, Mic, MicOff
+  Volume2, VolumeX, Mic, MicOff, User, Zap, Settings
 } from 'lucide-react'
-import { voiceService } from '@/lib/voice'
+import { voiceService, VoiceGender, VoiceQuality } from '@/lib/voice'
 
 // Agent list available for chat
 const AVAILABLE_AGENTS = [
@@ -40,6 +40,9 @@ export default function ChatPage() {
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [isListening, setIsListening] = useState(false)
   const [recognition, setRecognition] = useState<any>(null)
+  const [voiceGender, setVoiceGender] = useState<VoiceGender>('male')
+  const [voiceQuality, setVoiceQuality] = useState<VoiceQuality>('optimized')
+  const [showVoiceSettings, setShowVoiceSettings] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Initialize speech recognition
@@ -116,11 +119,14 @@ export default function ChatPage() {
     checkConnection()
   }, [])
 
-  // Speak incoming messages
+  // Speak incoming messages with voice settings
   useEffect(() => {
     const lastMessage = messages[messages.length - 1]
     if (lastMessage && lastMessage.role === 'assistant' && voiceEnabled) {
       setIsSpeaking(true)
+      // Apply voice settings
+      voiceService.setGender(voiceGender)
+      voiceService.setQuality(voiceQuality)
       voiceService.speak(lastMessage.content, selectedAgent?.name || 'Support', () => {
         setIsSpeaking(false)
       })
@@ -131,7 +137,7 @@ export default function ChatPage() {
         voiceService.stop()
       }
     }
-  }, [messages, voiceEnabled, selectedAgent])
+  }, [messages, voiceEnabled, selectedAgent, voiceGender, voiceQuality])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -336,6 +342,18 @@ export default function ChatPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
+                  {/* Voice Settings Button */}
+                  <button
+                    onClick={() => setShowVoiceSettings(!showVoiceSettings)}
+                    className={`p-2 rounded-lg transition-colors ${
+                      showVoiceSettings 
+                        ? 'text-gold bg-gold/10 hover:bg-gold/20' 
+                        : 'text-gray-400 hover:text-white'
+                    }`}
+                    title="Paramètres vocaux"
+                  >
+                    <Settings className="w-5 h-5" />
+                  </button>
                   {/* Voice Controls */}
                   <button
                     onClick={() => {
@@ -377,6 +395,88 @@ export default function ChatPage() {
                   </button>
                 </div>
               </div>
+
+              {/* Voice Settings Panel */}
+              {showVoiceSettings && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="border-b border-white/10 bg-white/5 p-4 space-y-4"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-white font-medium">Paramètres Vocaux</span>
+                    <button
+                      onClick={() => voiceService.testVoice(voiceGender, voiceQuality)}
+                      disabled={isSpeaking}
+                      className="text-xs text-gold hover:text-gold-light flex items-center gap-1"
+                    >
+                      <Volume2 className="w-3 h-3" />
+                      Tester
+                    </button>
+                  </div>
+                  
+                  {/* Genre de voix */}
+                  <div>
+                    <label className="text-xs text-gray-400 mb-2 block">Genre de voix</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => setVoiceGender('male')}
+                        className={`px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 ${
+                          voiceGender === 'male' 
+                            ? 'bg-gold/20 text-gold border border-gold/30' 
+                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                        }`}
+                      >
+                        👨 Masculin
+                      </button>
+                      <button
+                        onClick={() => setVoiceGender('female')}
+                        className={`px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 ${
+                          voiceGender === 'female' 
+                            ? 'bg-violet-IA/20 text-violet-IA border border-violet-IA/30' 
+                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                        }`}
+                      >
+                        👩 Féminin
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Qualité vocale */}
+                  <div>
+                    <label className="text-xs text-gray-400 mb-2 block">Qualité</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => setVoiceQuality('normal')}
+                        className={`px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 ${
+                          voiceQuality === 'normal' 
+                            ? 'bg-electric/20 text-electric border border-electric/30' 
+                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                        }`}
+                      >
+                        📊 Normal
+                      </button>
+                      <button
+                        onClick={() => setVoiceQuality('optimized')}
+                        className={`px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 ${
+                          voiceQuality === 'optimized' 
+                            ? 'bg-green-500/20 text-green-500 border border-green-500/30' 
+                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                        }`}
+                      >
+                        ⚡ Optimisé
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Status info */}
+                  <div className="text-xs text-gray-500 pt-2 border-t border-white/5">
+                    Voix: <span className="text-gray-300">{voiceGender === 'male' ? 'Masculine' : 'Féminine'}</span> | 
+                    Qualité: <span className="text-gray-300">{voiceQuality === 'optimized' ? 'Optimisée' : 'Normale'}</span>
+                  </div>
+                </motion.div>
+              )}
 
               {/* Messages */}
               <div className="h-[500px] overflow-y-auto p-4 space-y-4">
