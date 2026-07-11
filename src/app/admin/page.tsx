@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { 
   LayoutDashboard, Users, FileText, CreditCard, Settings, 
@@ -9,8 +9,38 @@ import {
   TrendingUp, TrendingDown, DollarSign, Eye, MousePointer,
   Calendar, CheckCircle, Clock, AlertCircle, Bot, Activity,
   Database, Shield, Cloud, Code, Palette, Video, Mail, Brain,
-  Zap, Play, Pause, ArrowLeft
+  Zap, Play, Pause, ArrowLeft, Plus, Trash2, Edit, Save
 } from 'lucide-react'
+
+// Modal Component
+const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean; onClose: () => void; title: string; children: React.ReactNode }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      >
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          className="relative glass-card p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-white">{title}</h2>
+            <button onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          {children}
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+)
 
 // Sidebar Component
 const Sidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
@@ -599,25 +629,56 @@ const CRMContent = () => {
 // Projects Content
 const ProjectsContent = () => {
   const [projects, setProjects] = useState([
-    { id: 1, client: 'TechCorp Benin', project: 'Site E-commerce', status: 'En cours', progress: 75, budget: '€5,000' },
-    { id: 2, client: 'AfriTech', project: 'Logo Premium', status: 'Terminé', progress: 100, budget: '€800' },
-    { id: 3, client: 'StartUp Africa', project: 'App Mobile', status: 'En cours', progress: 45, budget: '€12,000' },
-    { id: 4, client: 'Digital Agency', project: 'Dashboard CRM', status: 'En attente', progress: 10, budget: '€3,500' },
+    { id: 1, client: 'TechCorp Benin', project: 'Site E-commerce', status: 'En cours', progress: 75, budget: '€5,000', description: 'Site e-commerce complet avec paiement en ligne', dateDebut: '15/01/2025', dateFin: '30/03/2025' },
+    { id: 2, client: 'AfriTech', project: 'Logo Premium', status: 'Terminé', progress: 100, budget: '€800', description: 'Création de logo et identité visuelle', dateDebut: '01/01/2025', dateFin: '15/01/2025' },
+    { id: 3, client: 'StartUp Africa', project: 'App Mobile', status: 'En cours', progress: 45, budget: '€12,000', description: 'Application mobile iOS et Android', dateDebut: '20/01/2025', dateFin: '30/05/2025' },
+    { id: 4, client: 'Digital Agency', project: 'Dashboard CRM', status: 'En attente', progress: 10, budget: '€3,500', description: 'Tableau de bord pour gestion clients', dateDebut: '01/02/2025', dateFin: '28/02/2025' },
   ])
+  
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null)
+  const [showNewProjectModal, setShowNewProjectModal] = useState(false)
+  const [newProject, setNewProject] = useState({ client: '', project: '', budget: '', description: '' })
 
   const handleViewProject = (p: typeof projects[0]) => {
-    alert(`Projet: ${p.project}\nClient: ${p.client}\nBudget: ${p.budget}\nProgression: ${p.progress}%\nStatut: ${p.status}`)
+    setSelectedProject(p)
+  }
+
+  const handleCreateProject = () => {
+    if (newProject.client && newProject.project && newProject.budget) {
+      const id = projects.length + 1
+      setProjects([...projects, { 
+        id, 
+        client: newProject.client, 
+        project: newProject.project, 
+        status: 'En attente', 
+        progress: 0, 
+        budget: newProject.budget,
+        description: newProject.description,
+        dateDebut: new Date().toLocaleDateString('fr-FR'),
+        dateFin: ''
+      }])
+      setShowNewProjectModal(false)
+      setNewProject({ client: '', project: '', budget: '', description: '' })
+    }
+  }
+
+  const handleDeleteProject = (id: number) => {
+    setProjects(projects.filter(p => p.id !== id))
+    setSelectedProject(null)
   }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-white">Projets</h1>
-        <button className="glass-button">Nouveau projet</button>
+        <button onClick={() => setShowNewProjectModal(true)} className="glass-button flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Nouveau projet
+        </button>
       </div>
       <div className="grid md:grid-cols-2 gap-4">
         {projects.map((project) => (
-          <div key={project.id} className="glass-card p-6 hover:border-gold/30 transition-all">
+          <div key={project.id} className="glass-card p-6 hover:border-gold/30 transition-all cursor-pointer" onClick={() => handleViewProject(project)}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-white">{project.client}</h3>
               <span className={`px-3 py-1 rounded-full text-xs ${
@@ -633,11 +694,126 @@ const ProjectsContent = () => {
             </div>
             <div className="flex justify-between items-center mt-3">
               <span className="text-xs text-gray-500">{project.progress}%</span>
-              <button onClick={() => handleViewProject(project)} className="text-gold text-sm hover:underline">Détails</button>
+              <span className="text-gold text-sm hover:underline">Voir détails</span>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Project Details Modal */}
+      <Modal 
+        isOpen={!!selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+        title="Détails du Projet"
+      >
+        {selectedProject && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs text-gray-400">Client</label>
+                <p className="text-white font-medium">{selectedProject.client}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Projet</label>
+                <p className="text-white font-medium">{selectedProject.project}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Budget</label>
+                <p className="text-gold font-bold">{selectedProject.budget}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Statut</label>
+                <span className={`px-3 py-1 rounded-full text-xs ${
+                  selectedProject.status === 'Terminé' ? 'bg-green-500/20 text-green-500' :
+                  selectedProject.status === 'En cours' ? 'bg-blue-500/20 text-blue-500' :
+                  'bg-yellow-500/20 text-yellow-500'
+                }`}>{selectedProject.status}</span>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Date début</label>
+                <p className="text-white">{selectedProject.dateDebut}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-400">Date fin</label>
+                <p className="text-white">{selectedProject.dateFin}</p>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-gray-400">Description</label>
+              <p className="text-gray-300">{selectedProject.description}</p>
+            </div>
+            <div>
+              <label className="text-xs text-gray-400 mb-2">Progression</label>
+              <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-gold to-yellow-400" style={{ width: `${selectedProject.progress}%` }}></div>
+              </div>
+              <p className="text-right text-sm text-gray-400 mt-1">{selectedProject.progress}%</p>
+            </div>
+            <div className="flex gap-2 pt-4">
+              <button className="flex-1 bg-gold/20 text-gold py-2 rounded-lg hover:bg-gold/30 flex items-center justify-center gap-2">
+                <Edit className="w-4 h-4" />
+                Modifier
+              </button>
+              <button onClick={() => handleDeleteProject(selectedProject.id)} className="px-4 bg-red-500/20 text-red-400 py-2 rounded-lg hover:bg-red-500/30 flex items-center justify-center gap-2">
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* New Project Modal */}
+      <Modal 
+        isOpen={showNewProjectModal} 
+        onClose={() => setShowNewProjectModal(false)} 
+        title="Nouveau Projet"
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Nom du client</label>
+            <input 
+              type="text" 
+              value={newProject.client}
+              onChange={(e) => setNewProject({...newProject, client: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="TechCorp Benin"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Nom du projet</label>
+            <input 
+              type="text" 
+              value={newProject.project}
+              onChange={(e) => setNewProject({...newProject, project: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="Site E-commerce"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Budget (€)</label>
+            <input 
+              type="text" 
+              value={newProject.budget}
+              onChange={(e) => setNewProject({...newProject, budget: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+              placeholder="€5,000"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1 block">Description</label>
+            <textarea 
+              value={newProject.description}
+              onChange={(e) => setNewProject({...newProject, description: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white h-24"
+              placeholder="Description du projet..."
+            />
+          </div>
+          <button onClick={handleCreateProject} className="w-full bg-gold text-black py-3 rounded-lg hover:bg-gold/80 flex items-center justify-center gap-2">
+            <Save className="w-4 h-4" />
+            Créer le projet
+          </button>
+        </div>
+      </Modal>
     </div>
   )
 }
