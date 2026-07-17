@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { Mail, Lock, User, ArrowRight, Sparkles, Eye, EyeOff, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
@@ -74,19 +74,24 @@ export default function LoginPage() {
     
     try {
       if (isLogin) {
-        // Connexion - utiliser NextAuth signIn
-        const result = await signIn('credentials', {
-          email: formData.email,
-          password: formData.password,
-          redirect: false,
+        // Connexion - utiliser API personnalisée
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
         })
 
-        if (result?.error) {
-          throw new Error(result.error)
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Erreur de connexion')
         }
 
         // Rediriger selon le rôle
-        if (formData.email.includes('admin')) {
+        if (formData.email.includes('admin') || data.user?.role === 'admin') {
           router.push('/admin')
         } else {
           router.push('/client')
