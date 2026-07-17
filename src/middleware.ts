@@ -7,6 +7,11 @@ export default withAuth(
     const token = req.nextauth.token
     const path = req.nextUrl.pathname
 
+    // Skip auth routes
+    if (path.startsWith('/api/auth')) {
+      return NextResponse.next()
+    }
+
     // Check if user is authenticated
     if (!token) {
       return NextResponse.redirect(new URL('/login', req.url))
