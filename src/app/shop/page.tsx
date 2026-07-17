@@ -1,11 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { 
   Search, Filter, Grid, List, ShoppingCart, Heart, 
-  Eye, Star, ChevronDown, X, ShoppingBag, ArrowRight, Home
+  Eye, Star, ChevronDown, X, ShoppingBag, ArrowRight, Home,
+  Sparkles, Palette, Zap, Truck, Shield, CreditCard,
+  ChevronLeft, ChevronRight, Instagram, Twitter, Facebook,
+  MessageCircle, Bot, Wand2
 } from 'lucide-react'
 import { AddToCartButton } from '@/components/cart-button'
 import CartButton from '@/components/cart-button'
@@ -25,22 +28,51 @@ interface Product {
   inStock: boolean
   featured: boolean
   newArrival: boolean
+  bestseller?: boolean
   tags: string[]
   dimensions?: string
   material?: string
+  colors?: string[]
+  artist?: string
   createdAt: string
 }
 
-const categories = [
-  { id: 'all', name: 'Tous les produits', icon: '🏠' },
-  { id: 'tableaux', name: 'Tableaux', icon: '🖼️' },
-  { id: 'miroirs', name: 'Miroirs', icon: '🪞' },
-  { id: 'cadres', name: 'Cadres', icon: '🖼️' },
-  { id: 'vases', name: 'Vases', icon: '🏺' },
-  { id: 'luminaires', name: 'Luminaires', icon: '💡' },
-  { id: 'tapis', name: 'Tapis', icon: '🟫' },
-  { id: 'textiles', name: 'Textiles', icon: '🧵' },
-  { id: 'accessoires', name: 'Accessoires', icon: '✨' },
+// Premium Categories with subcategories
+const premiumCategories = [
+  { 
+    id: 'tableaux', 
+    name: 'Tableaux', 
+    icon: '🎨',
+    subcategories: ['Art abstrait', 'Art moderne', 'Art contemporain', 'Art africain', 'Paysages', 'Portraits', 'Nature', 'Animaux', 'Architecture', 'Urbain', 'Minimaliste', 'Luxe', 'Pop Art', 'Street Art', 'Calligraphie', 'Art religieux', 'Art personnalisé']
+  },
+  { 
+    id: 'decoration', 
+    name: 'Décoration', 
+    icon: '🏠',
+    subcategories: ['Cadres', 'Posters', 'Toiles', 'Sculptures', 'Décoration murale', 'Horloges', 'Miroirs', 'Stickers', 'Lampes', 'Objets', 'Bureau', 'Salon', 'Chambre', 'Hôtel', 'Restaurant']
+  },
+  { 
+    id: 'creations', 
+    name: 'Créations Numériques', 
+    icon: '💻',
+    subcategories: ['Logos', 'Illustrations', 'Icônes', 'Packs graphiques', 'Templates Canva', 'Templates Photoshop', 'UI Kits', 'Mockups', 'Branding Kit']
+  },
+  { 
+    id: 'cadeaux', 
+    name: 'Cadeaux Personnalisés', 
+    icon: '🎁',
+    subcategories: ['Portraits', 'Tableau famille', 'Tableau entreprise', 'Mariage', 'Anniversaire', 'Corporate']
+  },
+]
+
+// Collections
+const collections = [
+  { id: 'exclusives', name: 'Exclusivités', description: 'Œuvres uniques', image: '✨' },
+  { id: 'nouveautes', name: 'Nouveautés', description: 'Dernières créations', image: '🆕' },
+  { id: 'bestsellers', name: 'Meilleures Ventes', description: 'Les plus populaires', image: '🔥' },
+  { id: 'artistes', name: 'Artistes Partenaires', description: 'Créateurs exclusifs', image: '👨‍🎨' },
+  { id: 'promotions', name: 'Promotions', description: 'Offres spéciales', image: '💰' },
+  { id: 'personnalises', name: 'Sur Mesure', description: 'Créations uniques', image: '🎯' },
 ]
 
 const sortOptions = [
@@ -48,7 +80,173 @@ const sortOptions = [
   { id: 'price-asc', name: 'Prix: Croissant' },
   { id: 'price-desc', name: 'Prix: Décroissant' },
   { id: 'name-asc', name: 'Nom: A-Z' },
+  { id: 'bestsellers', name: 'Meilleures ventes' },
 ]
+
+// Featured Artists
+const featuredArtists = [
+  { id: '1', name: 'Marie K.', specialty: 'Art Abstrait', image: '👩‍🎨' },
+  { id: '2', name: 'Jean-Pierre D.', specialty: 'Art Africain', image: '👨‍🎨' },
+  { id: '3', name: 'Sophie M.', specialty: 'Design Moderne', image: '👩‍🎨' },
+  { id: '4', name: 'Kwame A.', specialty: 'Pop Art', image: '👨‍🎨' },
+]
+
+// Materials for customization
+const materials = [
+  { id: 'toile', name: 'Toile Canvas', price: 1 },
+  { id: 'aluminium', name: 'Aluminium Dibond', price: 1.3 },
+  { id: 'verre', name: 'Verre Trempé', price: 1.5 },
+  { id: 'bois', name: 'Bois Massif', price: 1.2 },
+  { id: 'pvc', name: 'PVC Expandé', price: 0.8 },
+]
+
+// Frame options
+const frameOptions = [
+  { id: 'none', name: 'Sans cadre', price: 0 },
+  { id: 'simple', name: 'Cadre simple', price: 5000 },
+  { id: 'premium', name: 'Cadre premium', price: 15000 },
+  { id: 'luxe', name: 'Cadre luxe', price: 35000 },
+]
+
+// AI Recommendation Component
+const AIRecommendation = ({ onClose }: { onClose: () => void }) => {
+  const [prompt, setPrompt] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [recommendations, setRecommendations] = useState<string[]>([])
+
+  const handleSearch = async () => {
+    if (!prompt.trim()) return
+    setLoading(true)
+    // Simulated AI recommendations
+    setTimeout(() => {
+      setRecommendations([
+        'Tableau abstrait doré - Horizon',
+        'Paysage africain - Savane',
+        'Composition moderne - Équilibre',
+        'Art contemporain - Fusion',
+      ])
+      setLoading(false)
+    }, 1500)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      className="glass-card p-6"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Bot className="w-5 h-5 text-electric" />
+          <span className="font-semibold text-white">Assistant IA</span>
+        </div>
+        <button onClick={onClose} className="text-gray-400 hover:text-white">
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          placeholder="Décrivez votre projet..."
+          className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-gold"
+        />
+        <button
+          onClick={handleSearch}
+          disabled={loading}
+          className="px-4 py-2 bg-electric text-black rounded-lg hover:bg-gold transition-colors disabled:opacity-50"
+        >
+          {loading ? <Sparkles className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
+        </button>
+      </div>
+      {recommendations.length > 0 && (
+        <div className="mt-4 space-y-2">
+          <p className="text-sm text-gray-400">Recommandations:</p>
+          {recommendations.map((rec, i) => (
+            <div key={i} className="p-2 bg-white/5 rounded-lg text-white text-sm hover:bg-white/10 cursor-pointer">
+              {rec}
+            </div>
+          ))}
+        </div>
+      )}
+    </motion.div>
+  )
+}
+
+// Premium Banner
+const PremiumBanner = () => (
+  <div className="relative h-[500px] overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-r from-premium-black via-premium-dark to-premium-black" />
+    <div className="absolute inset-0">
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-electric/10 rounded-full blur-3xl animate-pulse delay-1000" />
+    </div>
+    <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center">
+      <div className="max-w-2xl">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <span className="inline-block px-4 py-2 bg-gold/20 text-gold rounded-full text-sm mb-6">
+            🏆 Marketplace d'Art Premium
+          </span>
+          <h1 className="text-5xl font-bold text-white mb-4">
+            Créez votre <span className="text-gold">espace</span> unique
+          </h1>
+          <p className="text-xl text-gray-300 mb-8">
+            Découvrez notre collection exclusive d'œuvres d'art, de créations numériques et de personnalisation sur mesure.
+          </p>
+          <div className="flex gap-4">
+            <Link href="#collections" className="px-8 py-3 bg-gold text-black font-semibold rounded-lg hover:bg-white transition-colors">
+              Découvrir
+            </Link>
+            <Link href="#categories" className="px-8 py-3 glass-button rounded-lg hover:bg-white/10">
+              Personnaliser
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+      <div className="hidden lg:block absolute right-20 top-1/2 -translate-y-1/2">
+        <motion.div
+          animate={{ y: [0, -20, 0] }}
+          transition={{ duration: 3, repeat: Infinity }}
+          className="text-9xl"
+        >
+          🎨
+        </motion.div>
+      </div>
+    </div>
+  </div>
+)
+
+// Collection Card
+const CollectionCard = ({ collection }: { collection: typeof collections[0] }) => (
+  <motion.div
+    whileHover={{ scale: 1.02 }}
+    className="glass-card p-6 cursor-pointer group"
+  >
+    <div className="text-4xl mb-3">{collection.image}</div>
+    <h3 className="text-xl font-bold text-white group-hover:text-gold transition-colors">{collection.name}</h3>
+    <p className="text-gray-400 text-sm">{collection.description}</p>
+  </motion.div>
+)
+
+// Artist Card
+const ArtistCard = ({ artist }: { artist: typeof featuredArtists[0] }) => (
+  <motion.div
+    whileHover={{ scale: 1.02 }}
+    className="glass-card p-4 text-center cursor-pointer group"
+  >
+    <div className="w-20 h-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-gold/20 to-electric/20 flex items-center justify-center text-4xl">
+      {artist.image}
+    </div>
+    <h3 className="font-semibold text-white group-hover:text-gold transition-colors">{artist.name}</h3>
+    <p className="text-xs text-gray-400">{artist.specialty}</p>
+  </motion.div>
+)
 
 // Logo Component
 const Logo = () => (
@@ -175,7 +373,11 @@ export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [isLoading, setIsLoading] = useState(true)
+  const [showAIRecommendation, setShowAIRecommendation] = useState(false)
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000])
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('')
 
+  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -200,6 +402,11 @@ export default function ShopPage() {
       result = result.filter(p => p.category === selectedCategory)
     }
 
+    // Filter by subcategory
+    if (selectedSubcategory) {
+      result = result.filter(p => p.subcategory === selectedSubcategory)
+    }
+
     // Filter by search
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
@@ -209,6 +416,9 @@ export default function ShopPage() {
         p.tags.some(t => t.toLowerCase().includes(query))
       )
     }
+
+    // Filter by price range
+    result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1])
 
     // Sort
     switch (sortBy) {
@@ -221,49 +431,173 @@ export default function ShopPage() {
       case 'name-asc':
         result.sort((a, b) => a.name.localeCompare(b.name))
         break
+      case 'bestsellers':
+        result = result.filter(p => p.bestseller).concat(result.filter(p => !p.bestseller))
+        break
       default:
         result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     }
 
     setFilteredProducts(result)
-  }, [products, selectedCategory, sortBy, searchQuery])
+  }, [products, selectedCategory, selectedSubcategory, sortBy, searchQuery, priceRange])
+
+  // Get new arrivals
+  const newArrivals = products.filter(p => p.newArrival).slice(0, 4)
+  const bestsellers = products.filter(p => p.bestseller).slice(0, 4)
+  const featured = products.filter(p => p.featured).slice(0, 4)
 
   return (
     <div className="min-h-screen bg-premium-black">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="pt-24 pb-12 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-IA/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+      {/* Premium Banner */}
+      <PremiumBanner />
+
+      {/* Collections Section */}
+      <section id="collections" className="py-16 bg-premium-dark/50">
+        <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Notre <span className="gold-text">Boutique</span>
-            </h1>
-            <p className="text-gray-400 max-w-2xl mx-auto mb-6">
-              Découvez notre collection exclusive de tableaux, miroirs et objets décoratifs 
-              pour sublimer votre intérieur.
-            </p>
-            <div className="flex items-center justify-center gap-4">
-              <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors">
-                <Home className="w-4 h-4" />
-                Retour à l'accueil
-              </Link>
-            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">Nos <span className="gold-text">Collections</span></h2>
+            <p className="text-gray-400">Explorez nos différentes catégories</p>
           </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {collections.map((collection, index) => (
+              <motion.div
+                key={collection.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <CollectionCard collection={collection} />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Artists */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center justify-between mb-8"
+          >
+            <div>
+              <h2 className="text-3xl font-bold text-white">Artistes <span className="gold-text">Partenaires</span></h2>
+              <p className="text-gray-400">Découvrez nos créateurs exclusifs</p>
+            </div>
+            <Link href="/ai-team" className="text-gold hover:text-white transition-colors flex items-center gap-2">
+              Voir tous <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {featuredArtists.map((artist, index) => (
+              <motion.div
+                key={artist.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <ArtistCard artist={artist} />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section id="categories" className="py-16 bg-premium-dark/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold text-white mb-4">Catégories <span className="gold-text">Premium</span></h2>
+            <p className="text-gray-400">Parcourez notrelarge gamme de produits</p>
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {premiumCategories.map((category, index) => (
+              <motion.div
+                key={category.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="glass-card p-6 cursor-pointer group"
+                onClick={() => setSelectedCategory(category.id)}
+              >
+                <div className="text-4xl mb-3">{category.icon}</div>
+                <h3 className="text-xl font-bold text-white group-hover:text-gold transition-colors">{category.name}</h3>
+                <p className="text-gray-400 text-sm mt-2">{category.subcategories.length} sous-catégories</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Recommendation Toggle */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <AnimatePresence>
+          {showAIRecommendation && (
+            <div className="mb-4 w-80">
+              <AIRecommendation onClose={() => setShowAIRecommendation(false)} />
+            </div>
+          )}
+        </AnimatePresence>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowAIRecommendation(!showAIRecommendation)}
+          className="p-4 bg-electric text-black rounded-full shadow-lg hover:bg-gold transition-colors"
+        >
+          {showAIRecommendation ? <X className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
+        </motion.button>
+      </div>
+
+      {/* Benefits Section */}
+      <section className="py-12 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { icon: Truck, title: 'Livraison', desc: ' Internationale' },
+              { icon: Shield, title: 'Paiement', desc: 'Sécurisé' },
+              { icon: Sparkles, title: 'Qualité', desc: 'Premium' },
+              { icon: MessageCircle, title: 'Support', desc: '24/7' },
+            ].map((benefit, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex items-center gap-4"
+              >
+                <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center">
+                  <benefit.icon className="w-6 h-6 text-gold" />
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">{benefit.title}</h4>
+                  <p className="text-gray-400 text-sm">{benefit.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="pb-20">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar */}
@@ -288,7 +622,18 @@ export default function ShopPage() {
                 <div className="mb-6">
                   <h3 className="text-white font-semibold mb-3">Catégories</h3>
                   <div className="space-y-1">
-                    {categories.map((cat) => (
+                    <button
+                      onClick={() => { setSelectedCategory('all'); setSelectedSubcategory('') }}
+                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+                        selectedCategory === 'all'
+                          ? 'bg-gold/20 text-gold'
+                          : 'text-gray-400 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <span>🏠</span>
+                      <span className="text-sm">Tous</span>
+                    </button>
+                    {premiumCategories.map((cat) => (
                       <button
                         key={cat.id}
                         onClick={() => setSelectedCategory(cat.id)}
