@@ -275,11 +275,12 @@ function ContactContent() {
                         <select
                           value={formData.service}
                           onChange={(e) => setFormData({...formData, service: e.target.value})}
-                          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors"
+                          className="w-full px-4 py-3 bg-gray-900 border border-white/20 rounded-xl text-white focus:border-gold/50 focus:outline-none transition-colors appearance-none cursor-pointer"
+                          style={{ backgroundColor: '#111827' }}
                         >
-                          <option value="">Sélectionnez un service</option>
+                          <option value="" style={{ backgroundColor: '#1f2937', color: '#9ca3af' }}>Sélectionnez un service</option>
                           {services.map((service) => (
-                            <option key={service} value={service}>{service}</option>
+                            <option key={service} value={service} style={{ backgroundColor: '#1f2937', color: '#ffffff' }}>{service}</option>
                           ))}
                         </select>
                       </div>
