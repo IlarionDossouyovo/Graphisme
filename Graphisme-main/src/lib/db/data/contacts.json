@@ -1,0 +1,14 @@
+[
+  {
+    "id": "contact001",
+    "name": "Marie Kouassi",
+    "email": "marie.kouassi@startup.ci",
+    "phone": "+225 07 12 34 56 78",
+    "company": "Startup Africa",
+    "service": "Développement Web",
+    "message": "Bonjour, je souhaite créer un site e-commerce pour ma startup. Pouvez-vous me faire un devis ?",
+    "status": "NEW",
+    "createdAt": "2026-01-28T14:00:00.000Z",
+    "updatedAt": "2026-01-28T14:00:00.000Z"
+  }
+]

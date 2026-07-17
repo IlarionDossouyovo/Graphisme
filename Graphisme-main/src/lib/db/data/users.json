@@ -22,15 +22,5 @@
     "company": "TechCorp Benin",
     "createdAt": "2026-01-15T00:00:00.000Z",
     "updatedAt": "2026-01-15T00:00:00.000Z"
-  },
-  {
-    "id": "user-1783782691143",
-    "name": "ELECTRON",
-    "email": "dossouyovoauguste@gmail.com",
-    "password": "$2a$10$IZjx/NCY98cw1DVYJUNPVOkFiMQL2OjumhCsrq5nTCU3eqvWG5YLe",
-    "role": "client",
-    "avatar": null,
-    "createdAt": "2026-07-11T15:11:31.144Z",
-    "updatedAt": "2026-07-11T15:11:31.144Z"
   }
 ]

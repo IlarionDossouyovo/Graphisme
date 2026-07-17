@@ -1,0 +1,30 @@
+[
+  {
+    "id": "quote001",
+    "quoteNumber": "DEV-2026-0142",
+    "title": "Site Web Corporate",
+    "description": "Site vitrine premium avec formulaire de contact",
+    "service": "Développement Web",
+    "amount": 1200,
+    "status": "PENDING",
+    "clientId": "client001",
+    "projectId": null,
+    "validUntil": "2026-02-28",
+    "createdAt": "2026-01-28T10:00:00.000Z",
+    "updatedAt": "2026-01-28T10:00:00.000Z"
+  },
+  {
+    "id": "quote002",
+    "quoteNumber": "DEV-2026-0141",
+    "title": "Refonte Identité Visuelle",
+    "description": "Logo, charte graphique, cartes de visite",
+    "service": "Design Graphique",
+    "amount": 890,
+    "status": "ACCEPTED",
+    "clientId": "client001",
+    "projectId": "proj002",
+    "validUntil": "2026-01-20",
+    "createdAt": "2026-01-10T09:00:00.000Z",
+    "updatedAt": "2026-01-12T14:00:00.000Z"
+  }
+]
