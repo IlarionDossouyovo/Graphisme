@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
-import { CartProvider } from '@/lib/cart-context'
+import { Providers } from '@/components/Providers'
 import AnimatedBackground from '@/components/AnimatedBackground'
 
 export const metadata: Metadata = {
@@ -59,9 +59,9 @@ export default function RootLayout({
     <html lang="fr">
       <body className="antialiased">
         <AnimatedBackground />
-        <CartProvider>
+        <Providers>
           {children}
-        </CartProvider>
+        </Providers>
       </body>
     </html>
   )

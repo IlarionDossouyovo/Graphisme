@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { Mail, Lock, User, ArrowRight, Sparkles, Eye, EyeOff } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { Mail, Lock, User, ArrowRight, Sparkles, Eye, EyeOff, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
 const Logo = () => (
@@ -27,11 +28,24 @@ const Logo = () => (
 
 export default function LoginPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (session) {
+      const role = (session.user as any)?.role
+      if (role === 'admin') {
+        router.push('/admin')
+      } else {
+        router.push('/client')
+      }
+    }
+  }, [session, router])
   const [formData, setFormData] = useState({
     email: '',
     password: '',

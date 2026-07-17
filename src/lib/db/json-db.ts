@@ -133,6 +133,31 @@ export interface Article {
   views: number
 }
 
+export interface OrderItem {
+  productId: string
+  name: string
+  price: number
+  quantity: number
+  image: string
+}
+
+export interface Order {
+  id: string
+  items: OrderItem[]
+  customer: {
+    name: string
+    email: string
+    phone: string
+    address: string
+    city: string
+  }
+  total: number
+  status: string
+  paymentStatus: string
+  createdAt: string
+  updatedAt: string
+}
+
 // Helper functions
 function readJson<T>(filename: string): T[] {
   const filepath = path.join(DB_DIR, filename)
@@ -476,6 +501,54 @@ export const articles = {
       articles[index].views += 1
       writeJson('articles.json', articles)
       return articles[index]
+    }
+    return null
+  }
+}
+
+// Orders
+export const orders = {
+  getAll: () => readJson<Order>('orders.json'),
+  
+  getById: (id: string) => readJson<Order>('orders.json').find(o => o.id === id),
+  
+  getByEmail: (email: string) => readJson<Order>('orders.json').filter(o => o.customer.email === email),
+  
+  create: (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const orders = readJson<Order>('orders.json')
+    const newOrder: Order = {
+      ...order,
+      id: `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+    orders.push(newOrder)
+    writeJson('orders.json', orders)
+    return newOrder
+  },
+  
+  update: (id: string, data: Partial<Order>) => {
+    const orders = readJson<Order>('orders.json')
+    const index = orders.findIndex(o => o.id === id)
+    if (index !== -1) {
+      orders[index] = { ...orders[index], ...data, updatedAt: new Date().toISOString() }
+      writeJson('orders.json', orders)
+      return orders[index]
+    }
+    return null
+  },
+  
+  updateStatus: (id: string, status: string, paymentStatus?: string) => {
+    const orders = readJson<Order>('orders.json')
+    const index = orders.findIndex(o => o.id === id)
+    if (index !== -1) {
+      orders[index].status = status
+      if (paymentStatus) {
+        orders[index].paymentStatus = paymentStatus
+      }
+      orders[index].updatedAt = new Date().toISOString()
+      writeJson('orders.json', orders)
+      return orders[index]
     }
     return null
   }

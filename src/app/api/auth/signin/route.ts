@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { signIn } from 'next-auth/react'
 import { users } from '@/lib/db/json-db'
 import bcrypt from 'bcryptjs'
 
@@ -34,7 +35,21 @@ export async function POST(request: Request) {
       )
     }
 
-    // Return user data (password already verified)
+    // Use NextAuth signIn to create session
+    const result = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+
+    if (result?.error) {
+      return NextResponse.json(
+        { error: 'Erreur de connexion' },
+        { status: 401 }
+      )
+    }
+
+    // Return user data with session
     return NextResponse.json({
       user: {
         id: user.id,

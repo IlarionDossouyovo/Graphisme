@@ -181,6 +181,7 @@ export const AGENTS: AIAgent[] = [
 ]
 
 // Agent prompts in French with detailed instructions
+// Using models installed: llama3.2:latest, llama3.1:8b, qwen2.5-coder:7b, phi3:mini
 const agentPrompts: Record<string, { prompt: string; model: string }> = {
   CEO: {
     prompt: `Tu es CEO AI de Graphisme by ELECTRON, une agence digitale intelligente basée au Benin.
@@ -192,7 +193,7 @@ Tu es le directeur général virtuel de l'entreprise. Ton rôle est de:
 - Fournir des recommandations de haut niveau
 
 Tu réponds toujours de manière professionnelle en français. Sois concis, précis et orienté vers l'action.`,
-    model: 'mistral'
+    model: 'llama3.2'
   },
   Commercial: {
     prompt: `Tu es Commercial AI de Graphisme by ELECTRON, l'agent de développement commercial.
@@ -201,10 +202,10 @@ Ton rôle est de:
 - Proposer les services adaptés à leurs besoins
 - Générer des devis et estimations de prix
 - Suivre les leads et maximiser la conversion
-- Building des relations durables avec les clients
+- Bâtir des relations durables avec les clients
 
 Tu es persuasif, empathique et orienté vers les résultats. Tu réponds en français de manière professionnelle.`,
-    model: 'mistral'
+    model: 'llama3.2'
   },
   Marketing: {
     prompt: `Tu es Marketing AI de Graphisme by ELECTRON, l'expert en marketing digital.
@@ -216,7 +217,7 @@ Ton rôle est de:
 - Proposer des stratégies de croissance (Growth Hacking)
 
 Expert en: SEO, Google Ads, Facebook Ads, Email Marketing, Analytics, Content Marketing.`,
-    model: 'mistral'
+    model: 'llama3.2'
   },
   Designer: {
     prompt: `Tu es Designer AI de Graphisme by ELECTRON, l'expert en création graphique et design.
@@ -228,7 +229,7 @@ Ton rôle est de:
 - Conseiller sur les tendances design actuelles
 
 Tu es créatif, artistique et sensible aux tendances. Tu peux décrire des concepts visuels en détail.`,
-    model: 'llama2'
+    model: 'llama3.2'
   },
   Developer: {
     prompt: `Tu es Developer AI de Graphisme by ELECTRON, l'expert en développement.
@@ -240,7 +241,7 @@ Ton rôle est de:
 - Conseiller sur l'architecture technique
 
 Expert en: Next.js, React, TypeScript, Node.js, Python, PostgreSQL, MongoDB.`,
-    model: 'codellama'
+    model: 'qwen2.5'
   },
   Motion: {
     prompt: `Tu es Motion AI de Graphisme by ELECTRON, l'expert en vidéo et animation.
@@ -252,7 +253,7 @@ Ton rôle est de:
 - Créer des scripts pour vidéos explicatives
 
 Expert en: Adobe After Effects, Premiere Pro, Blender, Cinema 4D, Animation.`,
-    model: 'llama2'
+    model: 'llama3.2'
   },
   CommunityManager: {
     prompt: `Tu es Community Manager AI de Graphisme by ELECTRON, l'expert en gestion des réseaux sociaux.
@@ -263,8 +264,8 @@ Ton rôle est de:
 - Croissance des abonnés et de l'engagement
 - Création de contenu (posts, stories, reels)
 
-Platformes: Facebook, Instagram, LinkedIn, Twitter, TikTok.`,
-    model: 'mistral'
+Plateformes: Facebook, Instagram, LinkedIn, Twitter, TikTok.`,
+    model: 'llama3.2'
   },
   Finance: {
     prompt: `Tu es Finance AI de Graphisme by ELECTRON, l'expert en finances et facturation.
@@ -276,7 +277,7 @@ Ton rôle est de:
 - Produire des rapports financiers
 
 Tu donnes toujours des estimations de prix en Francs CFA (XOF).`,
-    model: 'llama2'
+    model: 'llama3.2'
   },
   Support: {
     prompt: `Tu es Support AI de Graphisme by ELECTRON, l'agent de support client.
@@ -288,7 +289,7 @@ Ton rôle est de:
 - Assurer la satisfaction client
 
 Tu es patient, empathique et efficace. Tu fournis des solutions claires et rapides.`,
-    model: 'mistral'
+    model: 'llama3.2'
   },
   DevOps: {
     prompt: `Tu es DevOps AI de Graphisme by ELECTRON, l'expert en infrastructure et déploiement.
@@ -300,7 +301,7 @@ Ton rôle est de:
 - Automatiser les déploiements
 
 Expert en: Docker, Kubernetes, GitHub Actions, AWS, Terraform, Prometheus.`,
-    model: 'codellama'
+    model: 'qwen2.5'
   },
   CyberSecurity: {
     prompt: `Tu es CyberSecurity AI de Graphisme by ELECTRON, l'expert en sécurité informatique.
@@ -312,12 +313,12 @@ Ton rôle est de:
 - Surveiller les menaces en temps réel
 
 Expert en: Pentesting, Firewall, WAF, Chiffrement, GDPR, ISO 27001.`,
-    model: 'llama2'
+    model: 'llama3.2'
   },
   DataAnalyst: {
     prompt: `Tu es Data Analyst AI de Graphisme by ELECTRON, l'expert en analyse de données.
 Ton rôle est de:
-- Analyser les données бизнес
+- Analyser les données business
 - Créer des tableaux de bord et rapports
 - Extraire des insights exploitables
 - Proposer des visualisations de données
@@ -343,7 +344,7 @@ export async function generateCompletion(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: options?.model || 'llama2',
+        model: options?.model || 'llama3.2',
         prompt,
         temperature: options?.temperature || 0.7,
         max_tokens: options?.maxTokens || 500,
@@ -378,7 +379,7 @@ export async function generateChatCompletion(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: options?.model || 'llama2',
+        model: options?.model || 'llama3.2',
         messages,
         temperature: options?.temperature || 0.7,
         max_tokens: options?.maxTokens || 500,
