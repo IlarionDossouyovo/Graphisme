@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import { Mail, Lock, User, ArrowRight, Sparkles, Eye, EyeOff, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
@@ -28,7 +27,6 @@ const Logo = () => (
 
 export default function LoginPage() {
   const router = useRouter()
-  const { data: session, status } = useSession()
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -37,15 +35,20 @@ export default function LoginPage() {
 
   // Redirect if already logged in
   useEffect(() => {
-    if (session) {
-      const role = (session.user as any)?.role
-      if (role === 'admin') {
-        router.push('/admin')
-      } else {
-        router.push('/client')
+    const token = document.cookie.match(/auth-token=([^;]+)/)?.[1]
+    if (token) {
+      try {
+        const user = JSON.parse(atob(token.split('.')[1]))
+        if (user.role === 'admin') {
+          router.push('/admin')
+        } else {
+          router.push('/client')
+        }
+      } catch (e) {
+        // Invalid token, stay on login
       }
     }
-  }, [session, router])
+  }, [router])
   const [formData, setFormData] = useState({
     email: '',
     password: '',
