@@ -32,23 +32,34 @@ export default function LoginPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [currentUser, setCurrentUser] = useState<any>(null)
 
-  // Redirect if already logged in
+  // Check if already logged in
   useEffect(() => {
     const token = document.cookie.match(/auth-token=([^;]+)/)?.[1]
     if (token) {
       try {
         const user = JSON.parse(atob(token.split('.')[1]))
-        if (user.role === 'admin') {
-          router.push('/admin')
-        } else {
-          router.push('/client')
-        }
+        setCurrentUser(user)
+        setIsLoggedIn(true)
       } catch (e) {
         // Invalid token, stay on login
       }
     }
   }, [router])
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      // Clear cookie manually
+      document.cookie = 'auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+      setIsLoggedIn(false)
+      setCurrentUser(null)
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -277,15 +288,45 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/10">
-            <Link 
-              href="/"
-              className="flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors"
-            >
-              <ArrowRight className="w-4 h-4 rotate-180" />
-              Retour à l'accueil
-            </Link>
-          </div>
+          {isLoggedIn && currentUser ? (
+            <div className="mt-6 p-4 bg-gold/10 border border-gold/30 rounded-xl">
+              <div className="text-center mb-4">
+                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gold/20 flex items-center justify-center">
+                  <User className="w-8 h-8 text-gold" />
+                </div>
+                <h3 className="text-white font-semibold">Bienvenue, {currentUser.name || 'Utilisateur'}!</h3>
+                <p className="text-gray-400 text-sm">{currentUser.email}</p>
+                <span className="inline-block mt-2 px-3 py-1 bg-gold/20 text-gold text-xs rounded-full capitalize">
+                  {currentUser.role}
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => router.push(currentUser.role === 'admin' ? '/admin' : '/client')}
+                  className="flex-1 glass-button py-2 text-sm"
+                >
+                  Aller au {currentUser.role === 'admin' ? 'Admin' : 'Dashboard'}
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="flex-1 bg-red-500/20 border border-red-500/50 text-red-400 py-2 rounded-xl hover:bg-red-500/30 transition-colors text-sm flex items-center justify-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Déconnexion
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <Link 
+                href="/"
+                className="flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors"
+              >
+                <ArrowRight className="w-4 h-4 rotate-180" />
+                Retour à l'accueil
+              </Link>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
