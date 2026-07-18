@@ -98,6 +98,11 @@ export default function LoginPage() {
       return
     }
 
+    // Prevent double submission
+    if (isLoading) {
+      return
+    }
+
     setIsLoading(true)
     
     try {
@@ -136,9 +141,8 @@ export default function LoginPage() {
         
         setIsLoading(false)
         
-        // Redirect directly without alert - use location.replace
-        window.location.replace(redirectUrl)
-        return
+        // Force redirect by reloading with the target URL
+        window.location.href = redirectUrl
       } else {
         // Inscription
         const response = await fetch('/api/users', {
