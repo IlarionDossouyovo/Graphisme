@@ -45,9 +45,17 @@ export default function LoginPage() {
         setCurrentUser(user)
         setIsLoggedIn(true)
         
-        // Auto-redirect if already logged in
+        // Only auto-redirect if we're not already on the target page
+        const currentPath = window.location.pathname
         const redirectUrl = user.role === 'admin' ? '/admin' : '/client'
-        window.location.href = redirectUrl
+        
+        if (currentPath !== redirectUrl) {
+          // Small delay to show the user info first, then redirect
+          const timer = setTimeout(() => {
+            window.location.href = redirectUrl
+          }, 2000)
+          return () => clearTimeout(timer)
+        }
       } catch (e) {
         // Invalid token, stay on login
       }
