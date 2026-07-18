@@ -1,11 +1,12 @@
+# Robots.txt for Graphisme by ELECTRON
+
 User-agent: *
 Allow: /
 
-# Disallow admin and API routes
-Disallow: /admin/
-Disallow: /client/
-Disallow: /api/
-Disallow: /_next/
+# Disallow admin paths
+Disallow: /admin
+Disallow: /api
+Disallow: /_next
 
 # Sitemap
 Sitemap: https://graphisme.electron/sitemap.xml
