@@ -19,6 +19,81 @@ const agents = [
   { id: 'DataAnalyst', name: 'Data', desc: 'Analyse de donnees' },
 ]
 
+// Welcome messages for each agent
+const welcomeMessages: Record<string, string> = {
+  CEO: `Bonjour! Je suis le directeur de Graphisme by ELECTRON.
+
+Je coordonne une equipe d'experts pour realiser vos projets digitaux.
+
+Comment puis-je vous aider?`,
+  
+  Commercial: `Bonjour! Je suis le service commercial de Graphisme by ELECTRON.
+
+Je vous aide a trouver le service adapte a vos besoins et etablis les devis.
+
+Parlez-moi de votre projet.`,
+  
+  Marketing: `Bonjour! Je suis le service marketing de Graphisme by ELECTRON.
+
+Je vous conseil sur les strategies marketing digitales: SEO, Google Ads, Facebook Ads.
+
+Quelle est votre objectif?`,
+  
+  Designer: `Bonjour! Je suis le service design de Graphisme by ELECTRON.
+
+Je vous aide pour: Logos, chartes graphiques, branding, print, web design.
+
+Decrivez votre projet.`,
+  
+  Developer: `Bonjour! Je suis le service technique de Graphisme by ELECTRON.
+
+Je vous conseil sur le developpement web et mobile.
+
+Quelle application souhaitez-vous creer?`,
+  
+  Motion: `Bonjour! Je suis le service video de Graphisme by ELECTRON.
+
+Je vous aide pour: Montage, motion design, animations, publicites.
+
+Decrivez votre projet video.`,
+  
+  CommunityManager: `Bonjour! Je suis le service community management de Graphisme by ELECTRON.
+
+Je vous aide pour la gestion des reseaux sociaux.
+
+Quelle est votre strategie?`,
+  
+  Finance: `Bonjour! Je suis le service finance de Graphisme by ELECTRON.
+
+Je vous prepare les devis et gere la facturation.
+
+Quel est votre projet?`,
+  
+  Support: `Bonjour! Je suis le service support de Graphisme by ELECTRON.
+
+Je reponds a vos questions et resolus vos problemes.
+
+Comment puis-je vous aider?`,
+  
+  DevOps: `Bonjour! Je suis le service infrastructure de Graphisme by ELECTRON.
+
+Je gere l'hebergement et les deploiements.
+
+Quelle est votre question technique?`,
+  
+  CyberSecurity: `Bonjour! Je suis le service securite de Graphisme by ELECTRON.
+
+Je vous conseil sur la protection de vos systemes.
+
+Quelle est votre preoccupation?`,
+  
+  DataAnalyst: `Bonjour! Je suis le service analyse de donnees de Graphisme by ELECTRON.
+
+Je transforme les donnees en decisions: Tableaux de bord, KPIs, analytics.
+
+Quelle analyse avez-vous besoin?`,
+}
+
 interface Message {
   role: 'user' | 'assistant'
   content: string
@@ -30,23 +105,17 @@ export default function AIChat() {
   const [isMinimized, setIsMinimized] = useState(false)
   const [selectedAgent, setSelectedAgent] = useState('Commercial')
   const [showAgentSelect, setShowAgentSelect] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([
-    { 
-      role: 'assistant', 
-      content: `Bonjour! Je suis l'assistant de Graphisme by ELECTRON.
-
-Je peux vous aider avec:
-- Vos projets digitaux
-- Design et creation
-- Developpement web
-- Marketing digital
-- Securite informatique
-
-Parlez-moi de votre projet ou posez-moi vos questions.`,
-      agent: 'Commercial'
-    }
-  ])
+  const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
+  
+  // Set welcome message when agent changes
+  useEffect(() => {
+    setMessages([{
+      role: 'assistant',
+      content: welcomeMessages[selectedAgent] || welcomeMessages.Commercial,
+      agent: selectedAgent
+    }])
+  }, [selectedAgent])
   const [isLoading, setIsLoading] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
   const [connectionError, setConnectionError] = useState('')
