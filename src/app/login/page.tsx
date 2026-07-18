@@ -275,7 +275,7 @@ export default function LoginPage() {
               </div>
             )}
 
-            <button type="submit" disabled={isLoading} className="w-full glass-button glow-gold py-4 disabled:opacity-50">
+            <button type="submit" disabled={isLoading} onClick={() => console.log('Submit clicked, isLoading:', isLoading)} className="w-full glass-button glow-gold py-4 disabled:opacity-50">
               <span className="flex items-center justify-center gap-2">
                 {isLoading ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
