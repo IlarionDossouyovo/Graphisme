@@ -83,3 +83,41 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json()
+    const { id, ...data } = body
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID requis' }, { status: 400 })
+    }
+
+    const updated = products.update(id, data)
+    if (!updated) {
+      return NextResponse.json({ error: 'Produit non trouvé' }, { status: 404 })
+    }
+
+    return NextResponse.json(updated)
+  } catch (error) {
+    console.error('Products PUT error:', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID requis' }, { status: 400 })
+    }
+
+    products.delete(id)
+    return NextResponse.json({ success: true, message: 'Produit supprimé' })
+  } catch (error) {
+    console.error('Products DELETE error:', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
