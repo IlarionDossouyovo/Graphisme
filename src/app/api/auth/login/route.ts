@@ -55,7 +55,8 @@ export async function POST(request: Request) {
         email: user.email,
         name: user.name,
         role: user.role,
-      }
+      },
+      token: token // Send token to client for localStorage
     })
 
     // Set auth cookie

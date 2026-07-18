@@ -135,7 +135,11 @@ export default function LoginPage() {
         alert('Connexion réussie! Redirection vers ' + redirectUrl)
         
         setIsLoading(false)
-        await router.push(redirectUrl)
+        
+        // Use setTimeout to ensure alert shows first
+        setTimeout(() => {
+          window.location.href = redirectUrl
+        }, 100)
         return
       } else {
         // Inscription

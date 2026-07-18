@@ -42,8 +42,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Get auth token from cookie
-  const authToken = request.cookies.get('auth-token')?.value
+  // Get auth token from cookie OR from Authorization header
+  let authToken = request.cookies.get('auth-token')?.value
+  
+  // Also check Authorization header for client-side tokens
+  const authHeader = request.headers.get('authorization')
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    authToken = authHeader.substring(7)
+  }
 
   if (!authToken) {
     const loginUrl = new URL('/login', request.url)
