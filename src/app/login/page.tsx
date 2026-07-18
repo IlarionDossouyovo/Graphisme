@@ -35,32 +35,23 @@ export default function LoginPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState<any>(null)
 
-  // Check if already logged in
+  // Check if already logged in - show info but don't auto-redirect
   useEffect(() => {
-    // Check localStorage first (set by login)
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
-      try {
-        const user = JSON.parse(storedUser)
-        setCurrentUser(user)
-        setIsLoggedIn(true)
-        
-        // Only auto-redirect if we're not already on the target page
-        const currentPath = window.location.pathname
-        const redirectUrl = user.role === 'admin' ? '/admin' : '/client'
-        
-        if (currentPath !== redirectUrl) {
-          // Small delay to show the user info first, then redirect
-          const timer = setTimeout(() => {
-            window.location.href = redirectUrl
-          }, 2000)
-          return () => clearTimeout(timer)
+    const checkAuth = () => {
+      const storedUser = localStorage.getItem('user')
+      if (storedUser) {
+        try {
+          const user = JSON.parse(storedUser)
+          setCurrentUser(user)
+          setIsLoggedIn(true)
+        } catch (e) {
+          localStorage.removeItem('user')
         }
-      } catch (e) {
-        // Invalid token, stay on login
       }
     }
-  }, [router])
+    
+    checkAuth()
+  }, [])
 
   const handleLogout = async () => {
     try {
