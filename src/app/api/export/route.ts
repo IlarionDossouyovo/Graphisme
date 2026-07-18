@@ -1,6 +1,8 @@
 // Data Export API - Graphisme by ELECTRON
 // Export data to CSV or JSON format
 
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { products, orders, users, invoices } from '@/lib/db/json-db'
 

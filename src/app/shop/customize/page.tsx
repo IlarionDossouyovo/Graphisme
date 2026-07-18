@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
   Upload, ChevronRight, ChevronLeft, Check, X, ZoomIn,
   Palette, Maximize2, Frame, Image as ImageIcon, Wand2,
@@ -167,10 +168,11 @@ export default function CustomizePage() {
                 }}
               >
                 {uploadedImage ? (
-                  <img 
+                  <Image 
                     src={uploadedImage} 
                     alt="Preview" 
-                    className="max-w-full max-h-full object-contain"
+                    fill
+                    className="object-contain"
                     style={{ filter: selectedFilter.filter }}
                   />
                 ) : (

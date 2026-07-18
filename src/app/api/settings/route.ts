@@ -1,6 +1,8 @@
 // Settings API - Graphisme by ELECTRON
 // Admin settings management
 
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { promises as fs } from 'fs'
 import path from 'path'
