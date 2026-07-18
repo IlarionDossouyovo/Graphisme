@@ -127,8 +127,11 @@ export default function LoginPage() {
         
         console.log('Redirecting to:', redirectUrl)
         
-        // Use location.assign for redirect
-        window.location.assign(redirectUrl)
+        setIsLoading(false)
+        
+        // Use Next.js router for redirect
+        router.push(redirectUrl)
+        return
       } else {
         // Inscription
         const response = await fetch('/api/users', {
