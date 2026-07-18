@@ -117,7 +117,8 @@ export default function LoginPage() {
         const data = await response.json()
         console.log('Response:', response.status, data)
 
-        if (!response.ok) {
+        // Check for success or treat 200 as success
+        if (response.status !== 200 && response.status !== 201 && !data.success) {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
@@ -130,7 +131,8 @@ export default function LoginPage() {
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin' : '/client'
         
-        console.log('Will redirect to:', redirectUrl)
+        // Show success message and redirect
+        alert('Connexion réussie! Redirection vers ' + redirectUrl)
         
         setIsLoading(false)
         await router.push(redirectUrl)
@@ -155,7 +157,9 @@ export default function LoginPage() {
         }
 
         // Inscription réussie - rediriger vers le dashboard client
-        window.location.href = '/client'
+        alert('Compte créé! Redirection vers le dashboard...')
+        await router.push('/client')
+        return
       }
     } catch (err: any) {
       setError(err.message || 'Une erreur est survenue. Veuillez réessayer.')
