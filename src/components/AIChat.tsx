@@ -19,10 +19,6 @@ interface Message {
   agent?: string
 }
 
-// Speech Recognition & Synthesis types
-const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-const speechSynthesis = window.speechSynthesis
-
 export default function AIChat() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
@@ -49,10 +45,25 @@ export default function AIChat() {
   
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const recognitionRef = useRef<any>(null)
+  
+  // Speech Recognition & Synthesis - only on client side
+  const [speechRecognition, setSpeechRecognition] = useState<any>(null)
+  const [speechSynthesis, setSpeechSynthesis] = useState<any>(null)
 
   // Check Ollama connection
   useEffect(() => {
     checkConnection()
+    
+    // Initialize Speech Recognition & Synthesis on client side
+    if (typeof window !== 'undefined') {
+      const SpeechRecognitionAPI = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      if (SpeechRecognitionAPI) {
+        setSpeechRecognition(() => SpeechRecognitionAPI)
+      }
+      if (window.speechSynthesis) {
+        setSpeechSynthesis(() => window.speechSynthesis)
+      }
+    }
   }, [])
 
   // Auto-scroll to bottom
@@ -132,7 +143,7 @@ export default function AIChat() {
   // Text-to-Speech function
   const speak = (text: string) => {
     if (!speechSynthesis) {
-      console.error('Speech synthesis not supported')
+      console.error('Speech synthesis not available')
       return
     }
 
@@ -146,7 +157,7 @@ export default function AIChat() {
     
     // Try to get a French voice
     const voices = speechSynthesis.getVoices()
-    const frenchVoice = voices.find(v => v.lang.includes('fr'))
+    const frenchVoice = voices.find((v: any) => v.lang.includes('fr'))
     if (frenchVoice) {
       utterance.voice = frenchVoice
     }
@@ -166,12 +177,12 @@ export default function AIChat() {
 
   // Speech Recognition function
   const startListening = () => {
-    if (!SpeechRecognition) {
+    if (!speechRecognition) {
       alert('La reconnaissance vocale n\'est pas supportée par votre navigateur.')
       return
     }
 
-    const recognition = new SpeechRecognition()
+    const recognition = new speechRecognition()
     recognition.lang = 'fr-FR'
     recognition.continuous = false
     recognition.interimResults = true
