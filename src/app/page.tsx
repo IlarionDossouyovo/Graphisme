@@ -304,18 +304,18 @@ const Services = () => {
 // AI Team Section
 const AITeam = () => {
   const agents = [
-    { name: 'CEO AI', role: 'Supervision & Décisions', icon: Briefcase, color: 'gold' },
-    { name: 'Commercial AI', role: 'CRM & Prospection', icon: TrendingUp, color: 'electric' },
-    { name: 'Marketing AI', role: 'SEO & Campagnes', icon: Search, color: 'violet' },
-    { name: 'Designer AI', role: 'Création Graphique', icon: Palette, color: 'gold' },
-    { name: 'Developer AI', role: 'Frontend & Backend', icon: Code, color: 'electric' },
-    { name: 'Motion AI', role: 'Vidéo & Animation', icon: Video, color: 'violet' },
-    { name: 'Community Manager AI', role: 'Réseaux Sociaux', icon: Users, color: 'gold' },
-    { name: 'Finance AI', role: 'Facturation & Comptabilité', icon: Database, color: 'electric' },
-    { name: 'Support AI', role: 'Assistance & Tickets', icon: MessageCircle, color: 'violet' },
-    { name: 'DevOps AI', role: 'Infrastructure & CI/CD', icon: Cloud, color: 'gold' },
-    { name: 'CyberSecurity AI', role: 'Sécurité & Audit', icon: Shield, color: 'electric' },
-    { name: 'Data Analyst AI', role: 'BI & Prévisions', icon: Layers, color: 'violet' },
+    { name: 'Direction', role: 'Conseil strategique', icon: Briefcase, color: 'gold' },
+    { name: 'Commercial', role: 'Devis et projets', icon: TrendingUp, color: 'electric' },
+    { name: 'Marketing', role: 'Strategie marketing', icon: Search, color: 'violet' },
+    { name: 'Designer', role: 'Design et creation', icon: Palette, color: 'gold' },
+    { name: 'Technique', role: 'Developpement', icon: Code, color: 'electric' },
+    { name: 'Video', role: 'Production video', icon: Video, color: 'violet' },
+    { name: 'Community', role: 'Reseaux sociaux', icon: Users, color: 'gold' },
+    { name: 'Finance', role: 'Devis et facturation', icon: Database, color: 'electric' },
+    { name: 'Support', role: 'Assistance', icon: MessageCircle, color: 'violet' },
+    { name: 'Infrastructure', role: 'Hebergement', icon: Cloud, color: 'gold' },
+    { name: 'Securite', role: 'Protection', icon: Shield, color: 'electric' },
+    { name: 'Data', role: 'Analyse de donnees', icon: Layers, color: 'violet' },
   ]
 
   return (
