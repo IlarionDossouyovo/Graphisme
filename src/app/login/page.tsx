@@ -115,16 +115,16 @@ export default function LoginPage() {
           localStorage.setItem('user', JSON.stringify(data.user))
         }
         
-        // Rediriger selon le rôle
+        // Rediriger selon le rôle ONLY (from database)
         const userRole = data.user?.role
-        const isAdmin = formData.email.includes('admin') || userRole === 'admin'
-        const redirectUrl = isAdmin ? '/admin' : '/client'
+        const redirectUrl = userRole === 'admin' ? '/admin' : '/client'
         
-        console.log('Redirecting to:', redirectUrl)
+        console.log('Redirecting to:', redirectUrl, 'role:', userRole)
         
-        // Show alert and redirect
-        alert('Connexion réussie! Redirection vers ' + redirectUrl)
-        window.location.href = redirectUrl
+        // Use setTimeout to ensure redirect happens
+        setTimeout(() => {
+          window.location.href = redirectUrl
+        }, 100)
         return
       } else {
         // Inscription
