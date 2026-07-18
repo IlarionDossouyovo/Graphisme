@@ -5,12 +5,18 @@ import { MessageCircle, X, Send, Bot, User, Loader2, ChevronDown, Mic, MicOff, V
 
 // Agent info for the company AI
 const agents = [
-  { id: 'CEO', name: 'Direction', desc: 'Conseil stratégique' },
-  { id: 'Commercial', name: 'Commercial', desc: 'Devis & projets' },
-  { id: 'Marketing', name: 'Marketing', desc: 'Stratégie marketing' },
-  { id: 'Designer', name: 'Designer', desc: 'Design & création' },
-  { id: 'Developer', name: 'Technique', desc: 'Développement' },
+  { id: 'CEO', name: 'Direction', desc: 'Conseil strategique' },
+  { id: 'Commercial', name: 'Commercial', desc: 'Devis et projets' },
+  { id: 'Marketing', name: 'Marketing', desc: 'Strategie marketing' },
+  { id: 'Designer', name: 'Designer', desc: 'Design et creation' },
+  { id: 'Developer', name: 'Technique', desc: 'Developpement' },
   { id: 'Support', name: 'Support', desc: 'Assistance' },
+  { id: 'Motion', name: 'Video', desc: 'Production video' },
+  { id: 'CommunityManager', name: 'Community', desc: 'Reseaux sociaux' },
+  { id: 'Finance', name: 'Finance', desc: 'Devis et facturation' },
+  { id: 'DevOps', name: 'Infrastructure', desc: 'Hebergement' },
+  { id: 'CyberSecurity', name: 'Securite', desc: 'Protection' },
+  { id: 'DataAnalyst', name: 'Data', desc: 'Analyse de donnees' },
 ]
 
 interface Message {
