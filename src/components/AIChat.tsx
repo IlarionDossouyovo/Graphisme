@@ -5,12 +5,12 @@ import { MessageCircle, X, Send, Bot, User, Loader2, Sparkles, ChevronDown, Mic,
 
 // Agent info for the company AI
 const agents = [
-  { id: 'CEO', name: 'CEO AI', desc: 'Conseil stratégique', icon: Briefcase },
-  { id: 'Commercial', name: 'Commercial AI', desc: 'Devis & projets', icon: TrendingUp },
-  { id: 'Marketing', name: 'Marketing AI', desc: 'Stratégie marketing', icon: Sparkles },
-  { id: 'Designer', name: 'Designer AI', desc: 'Design & création', icon: Palette },
-  { id: 'Developer', name: 'Developer AI', desc: 'Technique & dev', icon: Code },
-  { id: 'Support', name: 'Support AI', desc: 'Assistance', icon: Headphones },
+  { id: 'CEO', name: 'Direction', desc: 'Conseil stratégique' },
+  { id: 'Commercial', name: 'Commercial', desc: 'Devis & projets' },
+  { id: 'Marketing', name: 'Marketing', desc: 'Stratégie marketing' },
+  { id: 'Designer', name: 'Designer', desc: 'Design & création' },
+  { id: 'Developer', name: 'Technique', desc: 'Développement' },
+  { id: 'Support', name: 'Support', desc: 'Assistance' },
 ]
 
 interface Message {
@@ -244,17 +244,10 @@ export default function AIChat() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-gold to-yellow-600 rounded-full flex items-center justify-center">
-                  {currentAgent ? (
-                    (() => {
-                      const Icon = currentAgent.icon
-                      return <Icon className="w-5 h-5 text-black" />
-                    })()
-                  ) : (
-                    <Bot className="w-5 h-5 text-black" />
-                  )}
+                  <Bot className="w-5 h-5 text-black" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold text-sm">{currentAgent?.name || 'Assistant AI'}</h3>
+                  <h3 className="text-white font-semibold text-sm">Assistant</h3>
                   <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></span>
                     <span className="text-xs text-gray-400">
@@ -292,27 +285,21 @@ export default function AIChat() {
                 
                 {showAgentSelect && (
                   <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-white/10 rounded-lg overflow-hidden z-10">
-                    {agents.map(agent => {
-                      const Icon = agent.icon
-                      return (
-                        <button
-                          key={agent.id}
-                          onClick={() => {
-                            setSelectedAgent(agent.id)
-                            setShowAgentSelect(false)
-                          }}
-                          className={`w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3 ${
-                            selectedAgent === agent.id ? 'bg-gold/20' : ''
-                          }`}
-                        >
-                          <Icon className="w-5 h-5 text-gold" />
-                          <div>
-                            <div className="text-white text-sm font-medium">{agent.name}</div>
-                            <div className="text-gray-400 text-xs">{agent.desc}</div>
-                          </div>
-                        </button>
-                      )
-                    })}
+                    {agents.map(agent => (
+                      <button
+                        key={agent.id}
+                        onClick={() => {
+                          setSelectedAgent(agent.id)
+                          setShowAgentSelect(false)
+                        }}
+                        className={`w-full px-4 py-3 text-left hover:bg-white/10 transition-colors ${
+                          selectedAgent === agent.id ? 'bg-gold/20' : ''
+                        }`}
+                      >
+                        <div className="text-white text-sm font-medium">{agent.name}</div>
+                        <div className="text-gray-400 text-xs">{agent.desc}</div>
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
