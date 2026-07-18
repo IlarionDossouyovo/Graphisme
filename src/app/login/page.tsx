@@ -76,43 +76,22 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    e.stopPropagation()
     
-    console.log('Form submitted!')
-    setError('')
-    
-    // Validation
-    if (!isLogin) {
-      if (formData.password !== formData.confirmPassword) {
-        setError('Les mots de passe ne correspondent pas')
-        return
-      }
-      if (formData.password.length < 6) {
-        setError('Le mot de passe doit contenir au moins 6 caractères')
-        return
-      }
-    }
-
     if (!formData.email || !formData.password) {
       setError('Veuillez remplir tous les champs')
       return
     }
 
-    // Prevent double submission
-    if (isLoading) {
-      return
-    }
+    if (isLoading) return
 
     setIsLoading(true)
+    setError('')
     
     try {
       if (isLogin) {
-        // Connexion
         const response = await fetch('/api/auth/login', {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             email: formData.email,
             password: formData.password,
@@ -120,14 +99,12 @@ export default function LoginPage() {
         })
 
         const data = await response.json()
-        console.log('Response:', response.status, data)
 
-        // Check for success or treat 200 as success
-        if (response.status !== 200 && response.status !== 201 && !data.success) {
+        if (!response.ok) {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
-        // Stockage localStorage avec token
+        // Stockage localStorage
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user))
           if (data.token) {
@@ -135,13 +112,11 @@ export default function LoginPage() {
           }
         }
         
-        // Redirect
+        // Redirect selon le rôle
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin' : '/client'
         
         setIsLoading(false)
-        
-        // Force redirect by reloading with the target URL
         window.location.href = redirectUrl
       } else {
         // Inscription
