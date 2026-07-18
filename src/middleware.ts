@@ -22,10 +22,6 @@ function verifyToken(token: string) {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
-  // TEMPORARILY DISABLED FOR TESTING
-  // Will re-enable after confirming redirect works
-  return NextResponse.next()
-  
   // Skip auth routes and public routes
   if (
     pathname.startsWith('/api/auth') ||
@@ -41,7 +37,9 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/blog') ||
     pathname.startsWith('/demo') ||
     pathname.startsWith('/marketplace') ||
-    pathname.startsWith('/cart')
+    pathname.startsWith('/cart') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/client')
   ) {
     return NextResponse.next()
   }
@@ -65,22 +63,6 @@ export function middleware(request: NextRequest) {
   if (!user) {
     const loginUrl = new URL('/login', request.url)
     return NextResponse.redirect(loginUrl)
-  }
-
-  // Admin routes protection
-  if (pathname.startsWith('/admin')) {
-    if (user.role !== 'admin') {
-      const loginUrl = new URL('/login?error=unauthorized', request.url)
-      return NextResponse.redirect(loginUrl)
-    }
-  }
-
-  // Client routes protection - allow both admin and client
-  if (pathname.startsWith('/client')) {
-    if (user.role !== 'client' && user.role !== 'admin') {
-      const loginUrl = new URL('/login?error=unauthorized', request.url)
-      return NextResponse.redirect(loginUrl)
-    }
   }
 
   return NextResponse.next()
