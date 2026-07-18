@@ -108,6 +108,8 @@ export default function LoginPage() {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
+        console.log('Login success:', data)
+        
         // Store user info in localStorage for client-side access
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user))
@@ -116,9 +118,13 @@ export default function LoginPage() {
         // Rediriger selon le rôle
         const userRole = data.user?.role
         const isAdmin = formData.email.includes('admin') || userRole === 'admin'
+        const redirectUrl = isAdmin ? '/admin' : '/client'
         
-        // Force redirect
-        window.location.href = isAdmin ? '/admin' : '/client'
+        console.log('Redirecting to:', redirectUrl)
+        
+        // Show alert and redirect
+        alert('Connexion réussie! Redirection vers ' + redirectUrl)
+        window.location.href = redirectUrl
         return
       } else {
         // Inscription
