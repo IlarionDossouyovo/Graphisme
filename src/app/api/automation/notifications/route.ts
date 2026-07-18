@@ -1,7 +1,15 @@
 // Notification System - Graphisme by ELECTRON
-// Handles automated client notifications
+// Handles automated client notifications with Resend
 
 import { NextRequest, NextResponse } from 'next/server'
+import { Resend } from 'resend'
+
+// Initialize Resend with API key
+const resend = new Resend(process.env.RESEND_API_KEY || 're_demo_key')
+
+// Get email configuration
+const EMAIL_FROM = process.env.EMAIL_FROM || 'Graphisme <noreply@graphisme.electron>'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002'
 
 // Email templates for different notification types
 const EMAIL_TEMPLATES: Record<string, { subject: string; template: string }> = {
@@ -138,27 +146,48 @@ export async function POST(request: NextRequest) {
 
     notificationLog.push(notification)
 
-    // In production, integrate with email service (SendGrid, Resend, etc.)
-    // For now, simulate email sending
+    // Send email via Resend
     try {
-      // Simulate email API call
-      console.log(`[EMAIL] Sending to ${customerEmail}:`)
-      console.log(`[EMAIL] Subject: ${subject}`)
-      console.log(`[EMAIL] Body: ${emailContent.substring(0, 100)}...`)
+      // Check if we're using a demo key
+      const isDemo = process.env.RESEND_API_KEY?.startsWith('re_demo') || !process.env.RESEND_API_KEY
       
-      // In production, add actual email sending logic here
-      // Example with Resend:
-      // await resend.emails.send({
-      //   from: 'noreply@graphisme.electron',
-      //   to: customerEmail,
-      //   subject: subject,
-      //   text: emailContent
-      // })
+      if (isDemo) {
+        // Demo mode - just log the email
+        console.log(`[EMAIL DEMO] Sending to ${customerEmail}:`)
+        console.log(`[EMAIL DEMO] Subject: ${subject}`)
+        console.log(`[EMAIL DEMO] Body: ${emailContent}`)
+        console.log(`[EMAIL DEMO] To enable real emails, set RESEND_API_KEY in .env`)
+      } else {
+        // Real email sending with Resend
+        const result = await resend.emails.send({
+          from: EMAIL_FROM,
+          to: customerEmail,
+          subject: subject,
+          text: emailContent,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #FFD700, #FFA500); padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
+                <h1 style="color: #000; margin: 0;">Graphisme by ELECTRON</h1>
+              </div>
+              <div style="padding: 20px; background: #f9f9f9; border-radius: 0 0 10px 10px;">
+                <pre style="white-space: pre-wrap; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;">${emailContent}</pre>
+              </div>
+              <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+                <p>© 2026 Graphisme by ELECTRON - Cotonou, Benin</p>
+                <p><a href="${APP_URL}">Visiter notre site</a></p>
+              </div>
+            </div>
+          `
+        })
+        
+        console.log(`[EMAIL] Sent successfully! ID: ${result.data?.id}`)
+      }
 
       notification.status = 'sent'
       notification.sentAt = new Date().toISOString()
     } catch (err) {
       const emailError = err instanceof Error ? err.message : 'Erreur inconnue'
+      console.error('[EMAIL] Failed to send:', emailError)
       notification.status = 'failed'
       notification.error = emailError
     }
