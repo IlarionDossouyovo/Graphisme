@@ -121,11 +121,8 @@ export default function LoginPage() {
         
         console.log('Redirecting to:', redirectUrl, 'role:', userRole)
         
-        // Use setTimeout to ensure redirect happens
-        setTimeout(() => {
-          window.location.href = redirectUrl
-        }, 100)
-        return
+        // Direct redirect without setTimeout
+        window.location.replace(redirectUrl)
       } else {
         // Inscription
         const response = await fetch('/api/users', {
