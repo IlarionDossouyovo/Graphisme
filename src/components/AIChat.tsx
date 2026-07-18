@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Send, Bot, User, Loader2, Sparkles, ChevronDown, Mic, MicOff, Volume2, VolumeX, Settings, Briefcase, TrendingUp, Palette, Code, Headphones } from 'lucide-react'
+import { MessageCircle, X, Send, Bot, User, Loader2, ChevronDown, Mic, MicOff, Volume2, VolumeX, Settings } from 'lucide-react'
 
 // Agent info for the company AI
 const agents = [
