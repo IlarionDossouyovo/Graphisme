@@ -143,6 +143,7 @@ export interface OrderItem {
 
 export interface Order {
   id: string
+  orderNumber?: string
   items: OrderItem[]
   customer: {
     name: string
@@ -151,9 +152,20 @@ export interface Order {
     address: string
     city: string
   }
+  subtotal?: number
+  shipping?: number
+  tax?: number
   total: number
+  currency?: string
   status: string
+  paymentMethod?: string
   paymentStatus: string
+  shippingAddress?: {
+    street?: string
+    city?: string
+    country?: string
+  }
+  notes?: string
   createdAt: string
   updatedAt: string
 }
