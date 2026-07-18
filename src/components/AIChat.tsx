@@ -27,7 +27,16 @@ export default function AIChat() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'assistant', 
-      content: `Bonjour ! 👋\n\nJe suis l'assistant vocal de **Graphisme by ELECTRON**.\n\nJe peux vous aider avec :\n- 💼 Vos projets digitaux\n- 🎨 Design et création\n- 💻 Développement web\n- 📈 Marketing digital\n- 🔒 Sécurité informatique\n\n**Parlez-moi de votre projet ou posez-moi vos questions !**`,
+      content: `Bonjour! Je suis l'assistant de Graphisme by ELECTRON.
+
+Je peux vous aider avec:
+- Vos projets digitaux
+- Design et creation
+- Developpement web
+- Marketing digital
+- Securite informatique
+
+Parlez-moi de votre projet ou posez-moi vos questions.`,
       agent: 'Commercial'
     }
   ])
