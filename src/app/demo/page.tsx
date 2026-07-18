@@ -238,23 +238,49 @@ export default function DemoPage() {
             ))}
           </div>
 
-          {/* Features List */}
+          {/* Features List with Links */}
           <div className="grid md:grid-cols-5 gap-4 mt-12">
-            {demoSteps.slice(0, 5).map((s, i) => {
-              const CatIcon = categoryIcons[s.category]
+            {[
+              { step: demoSteps[1], href: '/client/chat', icon: MessageSquare },
+              { step: demoSteps[3], href: '/admin', icon: BarChart3 },
+              { step: demoSteps[4], href: '/admin?tab=projects', icon: FileText },
+              { step: demoSteps[5], href: '/admin?tab=invoices', icon: CreditCard },
+              { step: demoSteps[7], href: '/admin?tab=settings', icon: Settings },
+            ].map((item, i) => {
+              const CatIcon = item.icon
               return (
-                <button
+                <Link
                   key={i}
-                  onClick={() => setCurrentStep(i)}
+                  href={item.href}
                   className={`p-4 rounded-xl text-left transition-all ${
-                    i === currentStep ? 'bg-gold/20 border border-gold/30' : 'bg-white/5 border border-white/10 hover:border-white/20'
+                    i === 0 ? 'bg-gold/20 border border-gold/30' : 'bg-white/5 border border-white/10 hover:border-white/20'
                   }`}
                 >
                   <CatIcon className="w-6 h-6 text-gold mb-2" />
-                  <p className="text-white text-sm font-medium">{s.title}</p>
-                </button>
+                  <p className="text-white text-sm font-medium">{item.step.title}</p>
+                </Link>
               )
             })}
+          </div>
+
+          {/* Additional Quick Links */}
+          <div className="grid md:grid-cols-4 gap-4 mt-6">
+            <Link href="/client/chat" className="p-4 rounded-xl bg-violet-IA/20 border border-violet-IA/30 text-center hover:bg-violet-IA/30 transition-all">
+              <MessageSquare className="w-6 h-6 text-violet-IA mx-auto mb-2" />
+              <p className="text-white text-sm font-medium">Chat IA</p>
+            </Link>
+            <Link href="/admin/conversations" className="p-4 rounded-xl bg-blue-500/20 border border-blue-500/30 text-center hover:bg-blue-500/30 transition-all">
+              <Bot className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+              <p className="text-white text-sm font-medium">Conversations</p>
+            </Link>
+            <Link href="/admin" className="p-4 rounded-xl bg-green-500/20 border border-green-500/30 text-center hover:bg-green-500/30 transition-all">
+              <BarChart3 className="w-6 h-6 text-green-400 mx-auto mb-2" />
+              <p className="text-white text-sm font-medium">Admin</p>
+            </Link>
+            <Link href="/shop" className="p-4 rounded-xl bg-orange-500/20 border border-orange-500/30 text-center hover:bg-orange-500/30 transition-all">
+              <ShoppingCart className="w-6 h-6 text-orange-400 mx-auto mb-2" />
+              <p className="text-white text-sm font-medium">Boutique</p>
+            </Link>
           </div>
         </div>
       </main>
