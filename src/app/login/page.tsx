@@ -104,11 +104,14 @@ export default function LoginPage() {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
+        // Show success message briefly
+        setError('')
+        
         // Rediriger selon le rôle
         if (formData.email.includes('admin') || data.user?.role === 'admin') {
-          router.push('/admin')
+          window.location.href = '/admin'
         } else {
-          router.push('/client')
+          window.location.href = '/client'
         }
       } else {
         // Inscription
@@ -130,7 +133,7 @@ export default function LoginPage() {
         }
 
         // Inscription réussie - rediriger vers le dashboard client
-        router.push('/client')
+        window.location.href = '/client'
       }
     } catch (err: any) {
       setError(err.message || 'Une erreur est survenue. Veuillez réessayer.')
