@@ -37,10 +37,11 @@ export default function LoginPage() {
 
   // Check if already logged in
   useEffect(() => {
-    const token = document.cookie.match(/auth-token=([^;]+)/)?.[1]
-    if (token) {
+    // Check localStorage first (set by login)
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
       try {
-        const user = JSON.parse(atob(token.split('.')[1]))
+        const user = JSON.parse(storedUser)
         setCurrentUser(user)
         setIsLoggedIn(true)
       } catch (e) {
@@ -52,6 +53,8 @@ export default function LoginPage() {
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' })
+      // Clear localStorage
+      localStorage.removeItem('user')
       // Clear cookie manually
       document.cookie = 'auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       setIsLoggedIn(false)
@@ -92,6 +95,7 @@ export default function LoginPage() {
         const response = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({
             email: formData.email,
             password: formData.password,
@@ -104,15 +108,18 @@ export default function LoginPage() {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
-        // Show success message briefly
-        setError('')
+        // Store user info in localStorage for client-side access
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user))
+        }
         
         // Rediriger selon le rôle
-        if (formData.email.includes('admin') || data.user?.role === 'admin') {
-          window.location.href = '/admin'
-        } else {
-          window.location.href = '/client'
-        }
+        const userRole = data.user?.role
+        const isAdmin = formData.email.includes('admin') || userRole === 'admin'
+        
+        // Force redirect
+        window.location.href = isAdmin ? '/admin' : '/client'
+        return
       } else {
         // Inscription
         const response = await fetch('/api/users', {
