@@ -76,6 +76,9 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    e.stopPropagation()
+    
+    console.log('Form submitted!')
     setError('')
     
     // Validation
@@ -90,17 +93,21 @@ export default function LoginPage() {
       }
     }
 
+    if (!formData.email || !formData.password) {
+      setError('Veuillez remplir tous les champs')
+      return
+    }
+
     setIsLoading(true)
     
     try {
       if (isLogin) {
-        // Connexion - utiliser API personnalisée
-        console.log('Attempting login with:', formData.email)
-        
+        // Connexion
         const response = await fetch('/api/auth/login', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+          headers: { 
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({
             email: formData.email,
             password: formData.password,
@@ -108,29 +115,25 @@ export default function LoginPage() {
         })
 
         const data = await response.json()
-        console.log('Login response:', response.status, data)
+        console.log('Response:', response.status, data)
 
         if (!response.ok) {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
-        console.log('Login success, user role:', data.user?.role)
-        
-        // Store user info in localStorage for client-side access
+        // Stockage localStorage
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user))
         }
         
-        // Rediriger selon le rôle ONLY (from database)
+        // Redirect
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin' : '/client'
         
-        console.log('Redirecting to:', redirectUrl)
+        console.log('Will redirect to:', redirectUrl)
         
         setIsLoading(false)
-        
-        // Use Next.js router for redirect
-        router.push(redirectUrl)
+        await router.push(redirectUrl)
         return
       } else {
         // Inscription
