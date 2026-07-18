@@ -114,7 +114,7 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: {
 
 // Checkout Form Component
 function CheckoutForm({ total, onCancel }: { total: number; onCancel: () => void }) {
-  const { clearCart } = useCart()
+  const { clearCart, items } = useCart()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -130,12 +130,35 @@ function CheckoutForm({ total, onCancel }: { total: number; onCancel: () => void
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate order submission
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsSubmitting(false)
-    setIsSuccess(true)
-    clearCart()
+    try {
+      // Call checkout API
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: items,
+          customer: formData,
+          total: total,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setIsSubmitting(false)
+        setIsSuccess(true)
+        clearCart()
+      } else {
+        alert(data.error || 'Erreur lors de la commande')
+        setIsSubmitting(false)
+      }
+    } catch (error) {
+      console.error('Checkout error:', error)
+      alert('Erreur de connexion. Veuillez réessayer.')
+      setIsSubmitting(false)
+    }
   }
 
   if (isSuccess) {

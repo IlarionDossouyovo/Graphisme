@@ -12,13 +12,13 @@ services:
       - NODE_ENV=production
       - NEXTAUTH_URL=http://localhost:3002
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-mkXA6svwThjuMCbXT4c7s+lvaPZyEIWbTdw3LlvK6Oo=}
-      - OLLAMA_API_URL=http://ollama:11434
+      - OLLAMA_API_URL=http://host.docker.internal:11434
     volumes:
       - ./src/lib/db/data:/app/src/lib/db/data
       - ./public:/app/public
     restart: unless-stopped
-    depends_on:
-      - ollama
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   # Ollama - Service IA Local
   ollama:

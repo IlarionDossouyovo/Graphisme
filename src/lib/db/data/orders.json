@@ -1,0 +1,39 @@
+{
+  "orders": [
+    {
+      "id": "ord_demo_001",
+      "orderNumber": "CMD-2026-001",
+      "customerId": "usr_demo_001",
+      "customer": {
+        "name": "Client Démo",
+        "email": "demo@graphisme.electron",
+        "phone": "+229 01 00 00 00"
+      },
+      "items": [
+        {
+          "productId": "prod_001",
+          "name": "Site Web Vitrine",
+          "quantity": 1,
+          "price": 250000
+        }
+      ],
+      "subtotal": 250000,
+      "shipping": 0,
+      "tax": 0,
+      "total": 250000,
+      "currency": "XOF",
+      "status": "pending",
+      "paymentMethod": "card",
+      "paymentStatus": "pending",
+      "shippingAddress": {
+        "street": "123 Rue Principale",
+        "city": "Cotonou",
+        "country": "Bénin"
+      },
+      "notes": "Commande de démonstration",
+      "createdAt": "2026-07-15T10:30:00Z",
+      "updatedAt": "2026-07-15T10:30:00Z"
+    }
+  ],
+  "nextId": 2
+}

@@ -20,12 +20,16 @@ export async function POST(request: Request) {
       )
     }
 
+    // Get all orders for order number generation
+    const allOrders = orders.getAll()
+
     // Generate order ID
     const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 
     // Create order object
     const order = {
       id: orderId,
+      orderNumber: `CMD-${new Date().getFullYear()}-${String(allOrders.length + 1).padStart(3, '0')}`,
       items: items.map((item: any) => ({
         productId: item.id,
         name: item.name,
@@ -40,11 +44,31 @@ export async function POST(request: Request) {
         address: customer.address || '',
         city: customer.city || '',
       },
+      subtotal: total,
+      shipping: 0,
+      tax: 0,
       total,
+      currency: 'XOF',
       status: 'pending',
+      paymentMethod: customer.paymentMethod || 'card',
       paymentStatus: 'pending',
+      shippingAddress: {
+        street: customer.address || '',
+        city: customer.city || '',
+        country: 'Bénin'
+      },
+      notes: customer.note || '',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+    }
+
+    // Save order to database
+    try {
+      orders.create(order)
+      console.log('Order saved to database:', orderId)
+    } catch (dbError) {
+      console.error('Failed to save order:', dbError)
+      // Continue even if DB save fails - order is still created
     }
 
     // In a real app, you would:
@@ -54,7 +78,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      orderId,
+      orderId: order.orderNumber,
       message: 'Commande créée avec succès',
       order,
     })
