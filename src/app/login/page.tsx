@@ -127,8 +127,8 @@ export default function LoginPage() {
         
         console.log('Redirecting to:', redirectUrl)
         
-        // Direct redirect - use replace to avoid history issues
-        window.location.href = redirectUrl
+        // Use location.assign for redirect
+        window.location.assign(redirectUrl)
       } else {
         // Inscription
         const response = await fetch('/api/users', {
