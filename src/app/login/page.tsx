@@ -44,6 +44,10 @@ export default function LoginPage() {
         const user = JSON.parse(storedUser)
         setCurrentUser(user)
         setIsLoggedIn(true)
+        
+        // Auto-redirect if already logged in
+        const redirectUrl = user.role === 'admin' ? '/admin' : '/client'
+        window.location.href = redirectUrl
       } catch (e) {
         // Invalid token, stay on login
       }
