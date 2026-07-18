@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Providers } from '@/components/Providers'
 import AnimatedBackground from '@/components/AnimatedBackground'
+import AIChat from '@/components/AIChat'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://graphisme.electron'),
@@ -61,6 +62,7 @@ export default function RootLayout({
         <AnimatedBackground />
         <Providers>
           {children}
+          <AIChat />
         </Providers>
       </body>
     </html>
