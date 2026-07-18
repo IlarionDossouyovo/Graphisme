@@ -194,11 +194,31 @@ export default function AIChat() {
         throw new Error(data.error || 'Erreur lors de la réponse')
       }
 
+      const newMessages = [...messages, { role: 'user', content: userMessage }, { 
+        role: 'assistant', 
+        content: data.response,
+        agent: selectedAgent
+      }]
+      
       setMessages(prev => [...prev, { 
         role: 'assistant', 
         content: data.response,
         agent: selectedAgent
       }])
+      
+      // Save conversation to database
+      try {
+        await fetch('/api/conversations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agent: selectedAgent,
+            messages: newMessages.map(m => ({ role: m.role, content: m.content }))
+          })
+        })
+      } catch (convError) {
+        console.error('Failed to save conversation:', convError)
+      }
       
       // Speak the response if autoSpeak is enabled
       if (autoSpeak) {
@@ -207,7 +227,7 @@ export default function AIChat() {
     } catch (error: any) {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `❌ ${error.message}\n\nVérifiez que **Ollama** est démarré sur votre machine.\n\nCommande: \`ollama serve\``,
+        content: `Erreur: ${error.message}. Verifiez qu'Ollama est demarre.`,
         agent: selectedAgent
       }])
     } finally {

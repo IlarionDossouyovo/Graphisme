@@ -94,6 +94,21 @@ export interface Message {
   createdAt: string
 }
 
+export interface Conversation {
+  id: string
+  agent: string
+  messages: Array<{
+    role: 'user' | 'assistant'
+    content: string
+  }>
+  clientName?: string
+  clientEmail?: string
+  projectId?: string
+  status: 'active' | 'completed' | 'archived'
+  createdAt: string
+  updatedAt: string
+}
+
 export interface Product {
   id: string
   name: string
@@ -397,6 +412,58 @@ export const messages = {
     messages.push(newMessage)
     writeJson('messages.json', messages)
     return newMessage
+  }
+}
+
+// Conversations for AI Chat
+export const conversations = {
+  getAll: () => readJson<Conversation>('conversations.json'),
+  
+  getById: (id: string) => readJson<Conversation>('conversations.json').find(c => c.id === id),
+  
+  getByAgent: (agent: string) => readJson<Conversation>('conversations.json').filter(c => c.agent === agent),
+  
+  create: (conversation: Omit<Conversation, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const convs = readJson<Conversation>('conversations.json')
+    const newConv: Conversation = {
+      ...conversation,
+      id: generateId(),
+      status: 'active',
+      createdAt: now(),
+      updatedAt: now()
+    }
+    convs.push(newConv)
+    writeJson('conversations.json', convs)
+    return newConv
+  },
+  
+  update: (id: string, data: Partial<Conversation>) => {
+    const convs = readJson<Conversation>('conversations.json')
+    const index = convs.findIndex(c => c.id === id)
+    if (index !== -1) {
+      convs[index] = { ...convs[index], ...data, updatedAt: now() }
+      writeJson('conversations.json', convs)
+      return convs[index]
+    }
+    return null
+  },
+  
+  addMessage: (id: string, message: { role: 'user' | 'assistant', content: string }) => {
+    const convs = readJson<Conversation>('conversations.json')
+    const index = convs.findIndex(c => c.id === id)
+    if (index !== -1) {
+      convs[index].messages.push(message)
+      convs[index].updatedAt = now()
+      writeJson('conversations.json', convs)
+      return convs[index]
+    }
+    return null
+  },
+  
+  delete: (id: string) => {
+    const convs = readJson<Conversation>('conversations.json')
+    const filtered = convs.filter(c => c.id !== id)
+    writeJson('conversations.json', filtered)
   }
 }
 
