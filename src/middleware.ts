@@ -1,0 +1,85 @@
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import jwt from 'jsonwebtoken'
+
+const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
+
+// JWT token verification helper
+function verifyToken(token: string) {
+  try {
+    return jwt.verify(token, JWT_SECRET) as {
+      id: string
+      email: string
+      name: string
+      role: string
+    }
+  } catch {
+    return null
+  }
+}
+
+// Middleware to protect admin and client routes
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  
+  // Skip auth routes and public routes
+  if (
+    pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/login') ||
+    pathname === '/' ||
+    pathname.startsWith('/shop') ||
+    pathname.startsWith('/portfolio') ||
+    pathname.startsWith('/services') ||
+    pathname.startsWith('/contact') ||
+    pathname.startsWith('/about') ||
+    pathname.startsWith('/ai-team') ||
+    pathname.startsWith('/pricing') ||
+    pathname.startsWith('/blog') ||
+    pathname.startsWith('/demo') ||
+    pathname.startsWith('/marketplace') ||
+    pathname.startsWith('/cart')
+  ) {
+    return NextResponse.next()
+  }
+
+  // Get auth token from cookie
+  const authToken = request.cookies.get('auth-token')?.value
+
+  if (!authToken) {
+    const loginUrl = new URL('/login', request.url)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  const user = verifyToken(authToken)
+
+  if (!user) {
+    const loginUrl = new URL('/login', request.url)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  // Admin routes protection
+  if (pathname.startsWith('/admin')) {
+    if (user.role !== 'admin') {
+      const loginUrl = new URL('/login?error=unauthorized', request.url)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
+
+  // Client routes protection - allow both admin and client
+  if (pathname.startsWith('/client')) {
+    if (user.role !== 'client' && user.role !== 'admin') {
+      const loginUrl = new URL('/login?error=unauthorized', request.url)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
+
+  return NextResponse.next()
+}
+
+// Define which routes to protect
+export const config = {
+  matcher: [
+    '/admin/:path*',
+    '/client/:path*',
+  ],
+}
