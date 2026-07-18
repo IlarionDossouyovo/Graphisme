@@ -122,24 +122,22 @@ export default function LoginPage() {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
-        // Stockage localStorage
+        // Stockage localStorage avec token
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user))
+          if (data.token) {
+            localStorage.setItem('token', data.token)
+          }
         }
         
         // Redirect
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin' : '/client'
         
-        // Show success message and redirect
-        alert('Connexion réussie! Redirection vers ' + redirectUrl)
-        
         setIsLoading(false)
         
-        // Use setTimeout to ensure alert shows first
-        setTimeout(() => {
-          window.location.href = redirectUrl
-        }, 100)
+        // Redirect directly without alert - use location.replace
+        window.location.replace(redirectUrl)
         return
       } else {
         // Inscription
