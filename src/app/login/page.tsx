@@ -95,6 +95,8 @@ export default function LoginPage() {
     try {
       if (isLogin) {
         // Connexion - utiliser API personnalisée
+        console.log('Attempting login with:', formData.email)
+        
         const response = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -106,12 +108,13 @@ export default function LoginPage() {
         })
 
         const data = await response.json()
+        console.log('Login response:', response.status, data)
 
         if (!response.ok) {
           throw new Error(data.error || 'Erreur de connexion')
         }
 
-        console.log('Login success:', data)
+        console.log('Login success, user role:', data.user?.role)
         
         // Store user info in localStorage for client-side access
         if (data.user) {
@@ -122,10 +125,10 @@ export default function LoginPage() {
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin' : '/client'
         
-        console.log('Redirecting to:', redirectUrl, 'role:', userRole)
+        console.log('Redirecting to:', redirectUrl)
         
-        // Direct redirect without setTimeout
-        window.location.replace(redirectUrl)
+        // Direct redirect - use replace to avoid history issues
+        window.location.href = redirectUrl
       } else {
         // Inscription
         const response = await fetch('/api/users', {
