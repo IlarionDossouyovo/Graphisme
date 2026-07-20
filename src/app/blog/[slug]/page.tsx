@@ -9,6 +9,7 @@ import {
   ChevronRight, User, MessageCircle, Home, ShoppingCart
 } from 'lucide-react'
 import CartButton from '@/components/cart-button'
+import Navbar from '@/components/Navigation'
 
 interface Article {
   id: string
@@ -135,7 +136,9 @@ function ArticleDetailContent() {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-premium-black pt-24">
+      <div className="min-h-screen bg-premium-black">
+        <Navbar />
+        <div className="pt-24">
         <div className="max-w-4xl mx-auto px-6 py-12 text-center">
           <div className="text-6xl mb-4">📭</div>
           <h1 className="text-2xl font-bold text-white mb-4">Article non trouvé</h1>
@@ -149,7 +152,9 @@ function ArticleDetailContent() {
   }
 
   return (
-    <div className="min-h-screen bg-premium-black pt-24 pb-20">
+    <div className="min-h-screen bg-premium-black">
+      <Navbar />
+      <div className="pt-24 pb-20">
       <div className="max-w-4xl mx-auto px-6">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
