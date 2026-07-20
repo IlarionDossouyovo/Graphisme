@@ -11,6 +11,7 @@ const conversationSchema = z.object({
   clientName: z.string().optional(),
   clientEmail: z.string().optional(),
   projectId: z.string().optional(),
+  status: z.enum(['active', 'completed', 'archived']).optional().default('active'),
 })
 
 // GET all conversations
@@ -58,6 +59,7 @@ export async function POST(request: Request) {
       clientName: validatedData.clientName,
       clientEmail: validatedData.clientEmail,
       projectId: validatedData.projectId,
+      status: validatedData.status,
     })
 
     return NextResponse.json(conversation, { status: 201 })
