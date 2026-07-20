@@ -26,6 +26,7 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/login') ||
+    pathname.startsWith('/api/') ||
     pathname === '/' ||
     pathname.startsWith('/shop') ||
     pathname.startsWith('/portfolio') ||
@@ -38,8 +39,11 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/demo') ||
     pathname.startsWith('/marketplace') ||
     pathname.startsWith('/cart') ||
-    pathname.startsWith('/admin') ||
-    pathname.startsWith('/client')
+    pathname.startsWith('/art-gallery') ||
+    pathname.startsWith('/ai-studio') ||
+    pathname.startsWith('/print-shop') ||
+    pathname.startsWith('/affiliate') ||
+    pathname.startsWith('/founder-ai-center')
   ) {
     return NextResponse.next()
   }
