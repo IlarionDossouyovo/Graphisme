@@ -59,25 +59,32 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Accueil', href: '/' },
+    { name: 'À Propos', href: '/about' },
     { name: 'Services', href: '/services' },
     { name: 'Boutique', href: '/shop' },
+    { name: 'Galerie', href: '/art-gallery' },
+    { name: 'IA Studio', href: '/ai-studio' },
     { name: 'Blog', href: '/blog' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Équipe IA', href: '/ai-team' },
     { name: 'Tarifs', href: '/pricing' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Admin', href: '/admin' },
   ]
 
   const navItemsMobile = [
     { name: 'Accueil', href: '/' },
+    { name: 'À Propos', href: '/about' },
     { name: 'Services', href: '/services' },
     { name: 'Boutique', href: '/shop' },
+    { name: 'Galerie', href: '/art-gallery' },
+    { name: 'IA Studio', href: '/ai-studio' },
     { name: 'Blog', href: '/blog' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Équipe IA', href: '/ai-team' },
     { name: 'Tarifs', href: '/pricing' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Impression', href: '/print-shop' },
+    { name: 'Affiliation', href: '/affiliate' },
     { name: 'Admin', href: '/admin' },
     { name: 'Rapport', href: '/client' },
   ]
