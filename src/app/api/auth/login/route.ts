@@ -11,7 +11,8 @@ function generateToken(user: any) {
     role: user.role,
     createdAt: Date.now()
   }
-  return Buffer.from(JSON.stringify(payload)).toString('base64')
+  // Use btoa for base64 encoding (works in Edge runtime)
+  return btoa(JSON.stringify(payload))
 }
 
 export async function POST(request: Request) {

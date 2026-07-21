@@ -4,8 +4,8 @@ import type { NextRequest } from 'next/server'
 // Simple token verification using base64 (works in Edge runtime)
 function verifyToken(token: string) {
   try {
-    // Token format: base64 encoded JSON object
-    const decoded = JSON.parse(Buffer.from(token, 'base64').toString('utf-8'))
+    // Use atob for base64 decode (works in Edge runtime)
+    const decoded = JSON.parse(atob(token))
     if (decoded.id && decoded.role) {
       console.log('[Middleware] Token decoded:', decoded)
       return decoded
