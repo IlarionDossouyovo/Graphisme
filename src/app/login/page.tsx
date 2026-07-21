@@ -112,27 +112,13 @@ export default function LoginPage() {
           }
         }
         
-        console.log('Connexion réussie, utilisateur:', data.user)
-        console.log('Rôle:', data.user?.role)
-        
-        // Redirect selon le rôle
+        // Redirect selon le rôle - utilisation directe de window.location
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin/' : '/client/'
         
-        console.log('Redirection vers:', redirectUrl)
-        
-        setIsLoading(false)
-        
-        // Petit délai pour assurer la sauvegarde du localStorage
-        setTimeout(() => {
-          try {
-            router.push(redirectUrl)
-          } catch (err) {
-            console.error('Erreur de redirection:', err)
-            // Fallback vers window.location
-            window.location.href = redirectUrl
-          }
-        }, 100)
+        // Redirection immédiate
+        window.location.href = redirectUrl
+        return
       } else {
         // Inscription
         const response = await fetch('/api/users', {
@@ -154,7 +140,7 @@ export default function LoginPage() {
 
         // Inscription réussie - rediriger vers le dashboard client
         alert('Compte créé! Redirection vers le dashboard...')
-        await router.push('/client/')
+        window.location.href = '/client/'
         return
       }
     } catch (err: any) {
