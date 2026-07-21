@@ -345,14 +345,29 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
     document.body.removeChild(link)
   }
 
-  const handleTool = (toolName: string) => {
+  const handleTool = async (toolName: string) => {
     if (!image) return
+    
     setIsProcessing(true)
-    // Simulate processing
-    setTimeout(() => {
+    
+    try {
+      if (toolName === 'Recadrage') {
+        // Open a simple crop modal (simplified version)
+        const newWidth = prompt('Largeur en pixels:', '800')
+        const newHeight = prompt('Hauteur en pixels:', '800')
+        if (newWidth && newHeight) {
+          alert(`Image recadrée à ${newWidth}x${newHeight}! (Simulation)`)
+        }
+      } else if (toolName === 'Suppression du fond') {
+        alert('🚀 Fonctionnalité premium - Suppression du fond avec IA!\n\nEn production, cette fonction utilisera une API comme remove.bg pour supprimer automatiquement le fond de votre image.')
+      } else if (toolName === 'Upscale') {
+        alert('🚀 Fonctionnalité premium - Upscale 4K!\n\nEn production, cette fonction utilisera une IA de super-résolution pour agrandir votre image sans perte de qualité.')
+      } else if (toolName === 'Recolor') {
+        alert('🚀 Fonctionnalité premium - Recolor IA!\n\nEn production, cette fonction utilisera une IA pour modifier automatiquement les couleurs de votre image.')
+      }
+    } finally {
       setIsProcessing(false)
-      alert(`${toolName} - Cette fonctionnalité nécessite une API externe. En production, l'image sera traitée et retournée.`)
-    }, 1500)
+    }
   }
 
   const resetAdjustments = () => {
@@ -414,6 +429,12 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
+          {image && (
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-gold text-sm font-medium">✨ Image générée</span>
+              <span className="text-gray-500 text-xs">Zoom: {zoom}%</span>
+            </div>
+          )}
           <div className="glass-premium rounded-2xl p-8 flex items-center justify-center min-h-[400px] overflow-hidden">
             {image ? (
               <div className="relative">
@@ -421,7 +442,7 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
                 <img 
                   src={image} 
                   alt="Generated" 
-                  className="max-w-full max-h-[500px] object-contain rounded-lg"
+                  className="max-w-full max-h-[500px] object-contain rounded-lg shadow-2xl"
                   style={imageStyle}
                 />
               </div>
