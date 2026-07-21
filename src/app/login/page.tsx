@@ -125,10 +125,8 @@ export default function LoginPage() {
         // Arrêter le chargement
         setIsLoading(false)
         
-        // Redirection avec setTimeout
-        setTimeout(() => {
-          window.location.replace(redirectUrl)
-        }, 500)
+        // Forcer la redirection
+        window.location.assign(redirectUrl)
       } else {
         // Inscription
         const response = await fetch('/api/users', {
