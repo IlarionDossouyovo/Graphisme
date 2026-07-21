@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -10,7 +10,7 @@ import {
   ChevronRight, Check, Copy, RefreshCw, Zap,
   Sliders, Crop, Wand, Palette as PaletteIcon,
   Maximize2, ZoomIn, ZoomOut, FlipHorizontal, FlipVertical,
-  Loader2, X
+  Loader2, X, Upload, FileText, Trash2
 } from 'lucide-react'
 
 // Logo Component
@@ -77,11 +77,21 @@ const aspectRatios = [
 const PromptBuilder = ({ 
   prompt, 
   setPrompt,
-  onGenerate 
+  onGenerate,
+  uploadedFiles,
+  handleFileUpload,
+  removeFile,
+  isUploading,
+  fileInputRef
 }: { 
   prompt: string
   setPrompt: (prompt: string) => void
   onGenerate: () => void
+  uploadedFiles: {name: string, url: string, type: string}[]
+  handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void
+  removeFile: (index: number) => void
+  isUploading: boolean
+  fileInputRef: React.RefObject<HTMLInputElement>
 }) => {
   const [subject, setSubject] = useState('')
   const [style, setStyle] = useState('')
@@ -275,6 +285,69 @@ const PromptBuilder = ({
           placeholder="What to avoid..."
           className="input-premium"
         />
+      </div>
+
+      {/* File Upload Section */}
+      <div>
+        <label className="block text-sm text-gray-400 mb-2">
+          Fichiers joints (optionnel)
+        </label>
+        
+        {/* Hidden file input */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+          accept="image/*,.pdf,.doc,.docx,.txt"
+          multiple
+          className="hidden"
+        />
+        
+        {/* Upload button and preview */}
+        <div className="space-y-2">
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="w-full py-3 border-2 border-dashed border-white/20 rounded-xl text-gray-400 hover:border-gold/50 hover:text-gold transition-all flex items-center justify-center gap-2"
+          >
+            {isUploading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <Upload className="w-5 h-5" />
+            )}
+            {isUploading ? 'Chargement...' : 'Télécharger des fichiers'}
+          </button>
+          
+          {/* File previews */}
+          {uploadedFiles.length > 0 && (
+            <div className="flex gap-2 flex-wrap">
+              {uploadedFiles.map((file, index) => (
+                <div key={index} className="relative group">
+                  {file.type === 'image' ? (
+                    <div className="w-16 h-16 rounded-lg overflow-hidden border border-white/10">
+                      <img src={file.url} alt={file.name} className="w-full h-full object-cover" />
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+                      <FileText className="w-4 h-4 text-gold" />
+                      <span className="text-xs text-white max-w-[80px] truncate">{file.name}</span>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => removeFile(index)}
+                    className="absolute -top-2 -right-2 bg-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X className="w-3 h-3 text-white" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          <p className="text-xs text-gray-500">
+            Images, PDF, DOC, TXT (max 10MB par fichier)
+          </p>
+        </div>
       </div>
 
       <button
@@ -783,6 +856,47 @@ export default function AIStudioPage() {
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
+  
+  // File upload state
+  const [uploadedFiles, setUploadedFiles] = useState<{name: string, url: string, type: string}[]>([])
+  const [isUploading, setIsUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Handle file upload
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files) return
+
+    setIsUploading(true)
+    const newFiles: {name: string, url: string, type: string}[] = []
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      if (file.size > 10 * 1024 * 1024) {
+        alert(`Le fichier ${file.name} est trop volumineux (max 10MB)`)
+        continue
+      }
+      const url = URL.createObjectURL(file)
+      newFiles.push({
+        name: file.name,
+        url: url,
+        type: file.type.startsWith('image/') ? 'image' : 'file'
+      })
+    }
+
+    setUploadedFiles(prev => [...prev, ...newFiles])
+    setIsUploading(false)
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  // Remove uploaded file
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index))
+  }
 
   const handleGenerate = () => {
     if (!prompt.trim()) {
@@ -892,6 +1006,11 @@ export default function AIStudioPage() {
                         prompt={prompt}
                         setPrompt={setPrompt}
                         onGenerate={handleGenerate}
+                        uploadedFiles={uploadedFiles}
+                        handleFileUpload={handleFileUpload}
+                        removeFile={removeFile}
+                        isUploading={isUploading}
+                        fileInputRef={fileInputRef}
                       />
                     </div>
                   </motion.div>
