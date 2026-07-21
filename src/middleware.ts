@@ -58,14 +58,14 @@ export function middleware(request: NextRequest) {
   }
 
   if (!authToken) {
-    const loginUrl = new URL('/login', request.url)
+    const loginUrl = new URL('/login/', request.url)
     return NextResponse.redirect(loginUrl)
   }
 
   const user = verifyToken(authToken)
 
   if (!user) {
-    const loginUrl = new URL('/login', request.url)
+    const loginUrl = new URL('/login/', request.url)
     return NextResponse.redirect(loginUrl)
   }
 

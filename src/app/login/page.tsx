@@ -114,7 +114,7 @@ export default function LoginPage() {
         
         // Redirect selon le rôle
         const userRole = data.user?.role
-        const redirectUrl = userRole === 'admin' ? '/admin' : '/client'
+        const redirectUrl = userRole === 'admin' ? '/admin/' : '/client/'
         
         setIsLoading(false)
         window.location.href = redirectUrl
@@ -139,7 +139,7 @@ export default function LoginPage() {
 
         // Inscription réussie - rediriger vers le dashboard client
         alert('Compte créé! Redirection vers le dashboard...')
-        await router.push('/client')
+        await router.push('/client/')
         return
       }
     } catch (err: any) {
