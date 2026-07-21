@@ -3,10 +3,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
   Bot, Send, X, ChevronDown, Loader2, Phone, Mail, MapPin,
   ArrowLeft, Sparkles, MessageSquare, Lightbulb, CheckCircle, AlertCircle,
-  Volume2, VolumeX, Mic, MicOff, User, Zap, Settings
+  Volume2, VolumeX, Mic, MicOff, User, Zap, Settings, Paperclip, 
+  Image as ImageIcon, FileText, Download, Trash2, Eye
 } from 'lucide-react'
 import { voiceService, VoiceGender, VoiceQuality } from '@/lib/voice'
 
@@ -26,6 +28,16 @@ interface Message {
   content: string
   agent?: string
   timestamp: Date
+  attachments?: Attachment[]
+}
+
+interface Attachment {
+  id: string
+  name: string
+  type: 'image' | 'file'
+  url: string
+  size: number
+  preview?: string
 }
 
 export default function ChatPage() {
@@ -43,7 +55,74 @@ export default function ChatPage() {
   const [voiceGender, setVoiceGender] = useState<VoiceGender>('male')
   const [voiceQuality, setVoiceQuality] = useState<VoiceQuality>('premium')
   const [showVoiceSettings, setShowVoiceSettings] = useState(false)
+  const [attachments, setAttachments] = useState<Attachment[]>([])
+  const [isUploading, setIsUploading] = useState(false)
+  const [showFilePreview, setShowFilePreview] = useState(false)
+  const [selectedAttachment, setSelectedAttachment] = useState<Attachment | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // File upload handler
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    setIsUploading(true)
+    const newAttachments: Attachment[] = []
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      
+      // Check file size (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        alert(`Le fichier ${file.name} est trop volumineux (max 10MB)`)
+        continue
+      }
+
+      // Determine file type
+      const isImage = file.type.startsWith('image/')
+      
+      // Create local URL for preview
+      const url = URL.createObjectURL(file)
+      
+      const attachment: Attachment = {
+        id: Date.now().toString() + i,
+        name: file.name,
+        type: isImage ? 'image' : 'file',
+        url: url,
+        size: file.size,
+        preview: isImage ? url : undefined
+      }
+      
+      newAttachments.push(attachment)
+    }
+
+    setAttachments(prev => [...prev, ...newAttachments])
+    setIsUploading(false)
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  // Remove attachment
+  const removeAttachment = (id: string) => {
+    setAttachments(prev => {
+      const att = prev.find(a => a.id === id)
+      if (att) {
+        URL.revokeObjectURL(att.url)
+      }
+      return prev.filter(a => a.id !== id)
+    })
+  }
+
+  // Format file size
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return bytes + ' B'
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
+  }
 
   // Initialize speech recognition
   useEffect(() => {
@@ -152,17 +231,19 @@ export default function ChatPage() {
   }, [messages])
 
   const handleSend = async () => {
-    if (!input.trim() || !selectedAgent || isLoading) return
+    if (!input.trim() && attachments.length === 0 || !selectedAgent || isLoading) return
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
-      content: input,
-      timestamp: new Date()
+      content: input || (attachments.length > 0 ? `J'ai partagé ${attachments.length} fichier(s)` : ''),
+      timestamp: new Date(),
+      attachments: attachments.length > 0 ? [...attachments] : undefined
     }
 
     setMessages(prev => [...prev, userMessage])
     setInput('')
+    setAttachments([])
     setIsLoading(true)
 
     try {
@@ -411,6 +492,37 @@ export default function ChatPage() {
                         : 'bg-white/5 text-white px-4 py-2 rounded-2xl rounded-bl-md'
                     }`}>
                       <p className="whitespace-pre-wrap">{msg.content}</p>
+                      
+                      {/* Attachments Display */}
+                      {msg.attachments && msg.attachments.length > 0 && (
+                        <div className="flex gap-2 mt-2 flex-wrap">
+                          {msg.attachments.map((att) => (
+                            <div key={att.id}>
+                              {att.type === 'image' ? (
+                                <button
+                                  onClick={() => {
+                                    setSelectedAttachment(att)
+                                    setShowFilePreview(true)
+                                  }}
+                                  className="relative w-20 h-20 rounded-lg overflow-hidden border border-black/20 hover:opacity-90 transition-opacity"
+                                >
+                                  <img 
+                                    src={att.url} 
+                                    alt={att.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </button>
+                              ) : (
+                                <div className="flex items-center gap-2 bg-black/10 rounded-lg px-3 py-2">
+                                  <FileText className="w-4 h-4" />
+                                  <span className="text-xs max-w-[80px] truncate">{att.name}</span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
                       <p className={`text-xs mt-1 ${msg.role === 'user' ? 'text-black/50' : 'text-gray-500'}`}>
                         {msg.agent && <span className="mr-2">🤖 {msg.agent}</span>}
                       </p>
@@ -545,7 +657,66 @@ export default function ChatPage() {
 
               {/* Input */}
               <div className="p-4 border-t border-white/10">
+                {/* Attachment Preview */}
+                {attachments.length > 0 && (
+                  <div className="flex gap-2 mb-2 flex-wrap">
+                    {attachments.map((att) => (
+                      <div key={att.id} className="relative group">
+                        {att.type === 'image' ? (
+                          <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-white/10">
+                            <img 
+                              src={att.url} 
+                              alt={att.name}
+                              className="w-full h-full object-cover"
+                            />
+                            <button
+                              onClick={() => removeAttachment(att.id)}
+                              className="absolute -top-1 -right-1 bg-red-500 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="w-3 h-3 text-white" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="relative flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+                            <FileText className="w-4 h-4 text-gold" />
+                            <span className="text-xs text-white max-w-[100px] truncate">{att.name}</span>
+                            <span className="text-xs text-gray-500">{formatFileSize(att.size)}</span>
+                            <button
+                              onClick={() => removeAttachment(att.id)}
+                              className="text-gray-400 hover:text-red-400"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
                 <div className="flex gap-2">
+                  {/* File Upload Button */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileUpload}
+                    accept="image/*,.pdf,.doc,.docx,.txt,.xls,.xlsx"
+                    multiple
+                    className="hidden"
+                  />
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={!isConnected || isLoading || isUploading}
+                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+                    title="Joindre un fichier"
+                  >
+                    {isUploading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Paperclip className="w-5 h-5" />
+                    )}
+                  </button>
+                  
                   <input
                     type="text"
                     value={input}
@@ -572,11 +743,16 @@ export default function ChatPage() {
                   )}
                   <button
                     onClick={handleSend}
-                    disabled={!input.trim() || !isConnected || isLoading}
+                    disabled={(!input.trim() && attachments.length === 0) || !isConnected || isLoading}
                     className="bg-gold hover:bg-gold/80 text-black px-6 py-3 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
                     <Send className="w-5 h-5" />
                   </button>
+                </div>
+                
+                {/* File upload hint */}
+                <div className="text-xs text-gray-500 mt-2 text-center">
+                  Images (PNG, JPG, GIF) • Documents (PDF, DOC, TXT) • Tableurs (XLS, XLSX)
                 </div>
               </div>
             </motion.div>
@@ -628,6 +804,67 @@ export default function ChatPage() {
                   </button>
                 ))}
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* File Preview Modal */}
+      <AnimatePresence>
+        {showFilePreview && selectedAttachment && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowFilePreview(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-4xl max-h-[90vh] w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setShowFilePreview(false)}
+                className="absolute -top-12 right-0 text-white hover:text-gold transition-colors"
+              >
+                <X className="w-8 h-8" />
+              </button>
+              
+              {/* Image preview */}
+              {selectedAttachment.type === 'image' && (
+                <div className="flex flex-col items-center">
+                  <img
+                    src={selectedAttachment.url}
+                    alt={selectedAttachment.name}
+                    className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                  />
+                  <div className="mt-4 text-center">
+                    <p className="text-white font-medium">{selectedAttachment.name}</p>
+                    <p className="text-gray-400 text-sm">{formatFileSize(selectedAttachment.size)}</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* File info */}
+              {selectedAttachment.type === 'file' && (
+                <div className="glass-card p-8 text-center">
+                  <FileText className="w-16 h-16 text-gold mx-auto mb-4" />
+                  <p className="text-white font-medium text-lg mb-2">{selectedAttachment.name}</p>
+                  <p className="text-gray-400 mb-4">{formatFileSize(selectedAttachment.size)}</p>
+                  <a
+                    href={selectedAttachment.url}
+                    download={selectedAttachment.name}
+                    className="inline-flex items-center gap-2 bg-gold text-black px-6 py-3 rounded-xl font-medium hover:bg-gold/80 transition-colors"
+                  >
+                    <Download className="w-5 h-5" />
+                    Télécharger
+                  </a>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
