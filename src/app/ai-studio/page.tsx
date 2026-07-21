@@ -594,13 +594,15 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
 // Mockup Generator
 const MockupGenerator = ({ image, onBack }: { image: string | null; onBack: () => void }) => {
   const mockups = [
-    { id: 'living_room', name: 'Salon', icon: '🛋️' },
-    { id: 'office', name: 'Bureau', icon: '💼' },
-    { id: 'bedroom', name: 'Chambre', icon: '🛏️' },
-    { id: 'hotel', name: 'Hôtel', icon: '🏨' },
-    { id: 'restaurant', name: 'Restaurant', icon: '🍽️' },
-    { id: 'villa', name: 'Villa', icon: '🏡' },
+    { id: 'living_room', name: 'Salon', icon: '🛋️', bg: 'from-amber-900/50 to-orange-900/50' },
+    { id: 'office', name: 'Bureau', icon: '💼', bg: 'from-gray-700 to-gray-900' },
+    { id: 'bedroom', name: 'Chambre', icon: '🛏️', bg: 'from-blue-900/50 to-indigo-900/50' },
+    { id: 'hotel', name: 'Hôtel', icon: '🏨', bg: 'from-yellow-900/50 to-amber-900/50' },
+    { id: 'restaurant', name: 'Restaurant', icon: '🍽️', bg: 'from-orange-900/50 to-red-900/50' },
+    { id: 'villa', name: 'Villa', icon: '🏡', bg: 'from-green-900/50 to-emerald-900/50' },
   ]
+
+  const [selectedMockup, setSelectedMockup] = useState<string | null>(null)
 
   return (
     <div className="space-y-6">
@@ -619,36 +621,66 @@ const MockupGenerator = ({ image, onBack }: { image: string | null; onBack: () =
         {image ? 'Cliquez sur un environnement pour prévisualiser votre artwork' : 'Générez d\'abord une image pour créer un mockup'}
       </p>
 
+      {/* Preview du mockup sélectionné */}
+      {selectedMockup && image && (
+        <div className="glass-premium rounded-2xl p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h4 className="text-lg font-semibold text-white">
+              Aperçu: {mockups.find(m => m.id === selectedMockup)?.name}
+            </h4>
+            <button
+              onClick={() => setSelectedMockup(null)}
+              className="text-gray-400 hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className={`h-64 rounded-xl bg-gradient-to-br ${mockups.find(m => m.id === selectedMockup)?.bg} p-4 flex items-center justify-center`}>
+            <img 
+              src={image} 
+              alt="Preview" 
+              className="max-h-full max-w-full object-contain rounded-lg shadow-2xl" 
+            />
+          </div>
+          <div className="flex justify-center mt-4">
+            <button className="btn-premium" onClick={() => {
+              const link = document.createElement('a')
+              link.href = image
+              link.download = `mockup-${selectedMockup}.png`
+              link.click()
+            }}>
+              <span className="flex items-center gap-2">
+                <Download className="w-5 h-5" />
+                Télécharger Mockup HD
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Grille des mockups */}
       <div className="grid md:grid-cols-3 gap-4">
         {mockups.map((mockup) => (
           <motion.div
             key={mockup.id}
-            className="glass-premium rounded-2xl p-6 text-center hover:bg-white/10 transition-all cursor-pointer"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            onClick={() => image && setSelectedMockup(mockup.id)}
+            className={`glass-premium rounded-2xl p-4 text-center transition-all cursor-pointer ${
+              selectedMockup === mockup.id ? 'ring-2 ring-gold' : 'hover:bg-white/10'
+            } ${!image && 'opacity-50 cursor-not-allowed'}`}
+            whileHover={image ? { scale: 1.02 } : {}}
+            whileTap={image ? { scale: 0.98 } : {}}
           >
-            <div className="h-32 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 mb-4 flex items-center justify-center">
+            <div className={`h-24 rounded-lg bg-gradient-to-br ${mockup.bg} mb-3 flex items-center justify-center`}>
               {image ? (
-                <img src={image} alt={mockup.name} className="w-full h-full object-cover rounded-lg" />
+                <img src={image} alt={mockup.name} className="w-full h-full object-cover rounded-lg opacity-60" />
               ) : (
-                <span className="text-5xl">{mockup.icon}</span>
+                <span className="text-4xl">{mockup.icon}</span>
               )}
             </div>
-            <h4 className="text-white font-semibold text-lg">{mockup.name}</h4>
+            <span className="text-white font-medium">{mockup.name}</span>
           </motion.div>
         ))}
       </div>
-
-      {image && (
-        <div className="flex justify-center mt-6">
-          <button className="btn-premium">
-            <span className="flex items-center gap-2">
-              <Download className="w-5 h-5" />
-              Télécharger Mockup HD
-            </span>
-          </button>
-        </div>
-      )}
     </div>
   )
 }
