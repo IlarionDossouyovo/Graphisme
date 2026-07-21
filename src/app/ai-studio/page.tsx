@@ -297,6 +297,78 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
   const [contrast, setContrast] = useState(100)
   const [saturation, setSaturation] = useState(100)
   const [zoom, setZoom] = useState(100)
+  const [flipH, setFlipH] = useState(false)
+  const [flipV, setFlipV] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
+
+  const handleCopy = async () => {
+    if (!image) return
+    try {
+      const response = await fetch(image)
+      const blob = await response.blob()
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob })
+      ])
+      alert('Image copiée dans le presse-papiers!')
+    } catch (err) {
+      alert('Impossible de copier l\'image')
+    }
+  }
+
+  const handleShare = async () => {
+    if (!image) return
+    if (navigator.share) {
+      try {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        const file = new File([blob], 'artwork.png', { type: 'image/png' })
+        await navigator.share({
+          title: 'Mon artwork AI',
+          text: 'Créé avec Graphisme AI Studio',
+          files: [file]
+        })
+      } catch (err) {
+        console.log('Partage annulé')
+      }
+    } else {
+      alert('Fonction de partage non disponible sur ce navigateur')
+    }
+  }
+
+  const handleDownload = () => {
+    if (!image) return
+    const link = document.createElement('a')
+    link.href = image
+    link.download = 'artwork-graphisme.png'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const handleTool = (toolName: string) => {
+    if (!image) return
+    setIsProcessing(true)
+    // Simulate processing
+    setTimeout(() => {
+      setIsProcessing(false)
+      alert(`${toolName} - Cette fonctionnalité nécessite une API externe. En production, l'image sera traitée et retournée.`)
+    }, 1500)
+  }
+
+  const resetAdjustments = () => {
+    setBrightness(100)
+    setContrast(100)
+    setSaturation(100)
+    setFlipH(false)
+    setFlipV(false)
+    setZoom(100)
+  }
+
+  const imageStyle = {
+    filter: `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`,
+    transform: `scale(${zoom/100}) scaleX(${flipH ? -1 : 1}) scaleY(${flipV ? -1 : 1})`,
+    transformOrigin: 'center'
+  }
 
   return (
     <div className="space-y-6">
@@ -309,25 +381,49 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
           Retour au générateur
         </button>
         <div className="flex gap-2">
-          <button className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white transition-colors">
+          <button 
+            onClick={handleCopy}
+            disabled={!image}
+            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+          >
             <Copy className="w-5 h-5" />
           </button>
-          <button className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white transition-colors">
+          <button 
+            onClick={handleShare}
+            disabled={!image}
+            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+          >
             <Share2 className="w-5 h-5" />
           </button>
-          <button className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white transition-colors">
+          <button 
+            onClick={handleDownload}
+            disabled={!image}
+            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+          >
             <Download className="w-5 h-5" />
           </button>
         </div>
       </div>
 
+      {isProcessing && (
+        <div className="glass-premium rounded-xl p-4 text-center">
+          <Loader2 className="w-6 h-6 mx-auto animate-spin text-gold" />
+          <p className="text-gray-400 mt-2">Traitement en cours...</p>
+        </div>
+      )}
+
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="glass-premium rounded-2xl p-8 flex items-center justify-center min-h-[400px] overflow-hidden">
             {image ? (
-              <div className="relative" style={{ transform: `scale(${zoom/100})`, transformOrigin: 'center' }}>
+              <div className="relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={image} alt="Generated" className="max-w-full max-h-[500px] object-contain rounded-lg" />
+                <img 
+                  src={image} 
+                  alt="Generated" 
+                  className="max-w-full max-h-[500px] object-contain rounded-lg"
+                  style={imageStyle}
+                />
               </div>
             ) : (
               <div className="text-center">
@@ -340,28 +436,56 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
           <div className="flex items-center justify-center gap-4 mt-4">
             <button 
               onClick={() => setZoom(Math.max(50, zoom - 10))}
-              className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white"
+              disabled={!image}
+              className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white disabled:opacity-50"
             >
               <ZoomOut className="w-5 h-5" />
             </button>
             <span className="text-gray-400 text-sm">{zoom}%</span>
             <button 
               onClick={() => setZoom(Math.min(200, zoom + 10))}
-              className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white"
+              disabled={!image}
+              className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white disabled:opacity-50"
             >
               <ZoomIn className="w-5 h-5" />
             </button>
-            <button className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+            <button 
+              onClick={() => setFlipH(!flipH)}
+              disabled={!image}
+              className={`p-2 rounded-lg transition-colors ${flipH ? 'bg-gold text-black' : 'bg-white/5 text-gray-400 hover:text-white'} disabled:opacity-50`}
+            >
               <FlipHorizontal className="w-5 h-5" />
             </button>
-            <button className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+            <button 
+              onClick={() => setFlipV(!flipV)}
+              disabled={!image}
+              className={`p-2 rounded-lg transition-colors ${flipV ? 'bg-gold text-black' : 'bg-white/5 text-gray-400 hover:text-white'} disabled:opacity-50`}
+            >
               <FlipVertical className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={resetAdjustments}
+              disabled={!image}
+              className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white disabled:opacity-50"
+              title="Réinitialiser"
+            >
+              <RotateCcw className="w-5 h-5" />
             </button>
           </div>
         </div>
 
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Ajustements</h3>
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-white">Ajustements</h3>
+            {(brightness !== 100 || contrast !== 100 || saturation !== 100) && (
+              <button 
+                onClick={resetAdjustments}
+                className="text-xs text-gold hover:text-gold-light"
+              >
+                Réinitialiser
+              </button>
+            )}
+          </div>
           
           <div className="space-y-4">
             <div>
@@ -375,7 +499,8 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
                 max="200"
                 value={brightness}
                 onChange={(e) => setBrightness(Number(e.target.value))}
-                className="w-full accent-gold"
+                disabled={!image}
+                className="w-full accent-gold disabled:opacity-50"
               />
             </div>
             
@@ -390,7 +515,8 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
                 max="200"
                 value={contrast}
                 onChange={(e) => setContrast(Number(e.target.value))}
-                className="w-full accent-gold"
+                disabled={!image}
+                className="w-full accent-gold disabled:opacity-50"
               />
             </div>
             
@@ -405,7 +531,8 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
                 max="200"
                 value={saturation}
                 onChange={(e) => setSaturation(Number(e.target.value))}
-                className="w-full accent-gold"
+                disabled={!image}
+                className="w-full accent-gold disabled:opacity-50"
               />
             </div>
           </div>
@@ -413,26 +540,46 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
           <div className="pt-4 border-t border-white/10 space-y-2">
             <h4 className="text-sm font-medium text-white mb-3">Outils</h4>
             <div className="grid grid-cols-2 gap-2">
-              <button className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm">
+              <button 
+                onClick={() => handleTool('Recadrage')}
+                disabled={!image || isProcessing}
+                className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm disabled:opacity-50"
+              >
                 <Crop className="w-4 h-4" />
                 Recadrer
               </button>
-              <button className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm">
+              <button 
+                onClick={() => handleTool('Suppression du fond')}
+                disabled={!image || isProcessing}
+                className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm disabled:opacity-50"
+              >
                 <Wand className="w-4 h-4" />
                 Supprimer fond
               </button>
-              <button className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm">
+              <button 
+                onClick={() => handleTool('Upscale')}
+                disabled={!image || isProcessing}
+                className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm disabled:opacity-50"
+              >
                 <Maximize2 className="w-4 h-4" />
                 Upscale
               </button>
-              <button className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm">
+              <button 
+                onClick={() => handleTool('Recolor')}
+                disabled={!image || isProcessing}
+                className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm disabled:opacity-50"
+              >
                 <PaletteIcon className="w-4 h-4" />
                 Recolor
               </button>
             </div>
           </div>
 
-          <button className="btn-premium w-full mt-4">
+          <button 
+            onClick={handleDownload}
+            disabled={!image}
+            className="btn-premium w-full mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <span className="flex items-center justify-center gap-2">
               <Download className="w-5 h-5" />
               Télécharger HD
