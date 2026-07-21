@@ -119,8 +119,8 @@ export default function LoginPage() {
         if (redirectInProgress.current) return
         redirectInProgress.current = true
         
-        const userRole = data.user?.role
-        const redirectUrl = userRole === 'admin' ? '/admin/' : '/client/'
+        // Utiliser l'URL de redirection de l'API
+        const redirectUrl = data.redirectUrl || (data.user?.role === 'admin' ? '/admin/' : '/client/')
         
         // Arrêter le chargement
         setIsLoading(false)

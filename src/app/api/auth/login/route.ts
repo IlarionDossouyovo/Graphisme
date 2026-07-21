@@ -50,6 +50,7 @@ export async function POST(request: Request) {
     // Create response with cookie
     const response = NextResponse.json({
       success: true,
+      redirectUrl: user.role === 'admin' ? '/admin/' : '/client/',
       user: {
         id: user.id,
         email: user.email,
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
 
     // Set auth cookie
     response.cookies.set('auth-token', token, {
-      httpOnly: false,
+      httpOnly: true,
       secure: false,
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7, // 7 days
