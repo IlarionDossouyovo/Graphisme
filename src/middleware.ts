@@ -48,27 +48,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Get auth token from cookie OR from Authorization header
-  let authToken = request.cookies.get('auth-token')?.value
-  
-  // Also check Authorization header for client-side tokens
-  const authHeader = request.headers.get('authorization')
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    authToken = authHeader.substring(7)
-  }
-
-  if (!authToken) {
-    const loginUrl = new URL('/login/', request.url)
-    return NextResponse.redirect(loginUrl)
-  }
-
-  const user = verifyToken(authToken)
-
-  if (!user) {
-    const loginUrl = new URL('/login/', request.url)
-    return NextResponse.redirect(loginUrl)
-  }
-
+  // Skip authentication check for now - use client-side auth only
+  // TODO: Implement proper server-side auth later
   return NextResponse.next()
 }
 
