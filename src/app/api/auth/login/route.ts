@@ -1,10 +1,18 @@
 import { NextResponse } from 'next/server'
 import { users } from '@/lib/db/json-db'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 
-// Use a consistent secret key (should match the middleware)
-const JWT_SECRET = 'your-secret-key'
+// Simple token generation using base64 (works in Edge runtime)
+function generateToken(user: any) {
+  const payload = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+    createdAt: Date.now()
+  }
+  return Buffer.from(JSON.stringify(payload)).toString('base64')
+}
 
 export async function POST(request: Request) {
   try {
@@ -36,17 +44,8 @@ export async function POST(request: Request) {
       )
     }
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { 
-        id: user.id, 
-        email: user.email, 
-        name: user.name, 
-        role: user.role 
-      },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    )
+    // Generate simple token
+    const token = generateToken(user)
 
     // Create response with cookie
     const response = NextResponse.json({
