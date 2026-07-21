@@ -7,13 +7,16 @@ const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
 // JWT token verification helper
 function verifyToken(token: string) {
   try {
-    return jwt.verify(token, JWT_SECRET) as {
+    const decoded = jwt.verify(token, JWT_SECRET) as {
       id: string
       email: string
       name: string
       role: string
     }
-  } catch {
+    console.log('[Middleware] Token decoded successfully:', decoded)
+    return decoded
+  } catch (error: any) {
+    console.log('[Middleware] Token verification failed:', error.message)
     return null
   }
 }
