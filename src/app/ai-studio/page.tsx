@@ -447,12 +447,12 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
 // Mockup Generator
 const MockupGenerator = ({ image, onBack }: { image: string | null; onBack: () => void }) => {
   const mockups = [
-    { id: 'living_room', name: 'Salon', preview: '🛋️', bg: 'bg-amber-100' },
-    { id: 'office', name: 'Bureau', preview: '💼', bg: 'bg-gray-100' },
-    { id: 'bedroom', name: 'Chambre', preview: '🛏️', bg: 'bg-blue-100' },
-    { id: 'hotel', name: 'Hôtel', preview: '🏨', bg: 'bg-yellow-100' },
-    { id: 'restaurant', name: 'Restaurant', preview: '🍽️', bg: 'bg-orange-100' },
-    { id: 'villa', name: 'Villa', preview: '🏡', bg: 'bg-green-100' },
+    { id: 'living_room', name: 'Salon', icon: '🛋️' },
+    { id: 'office', name: 'Bureau', icon: '💼' },
+    { id: 'bedroom', name: 'Chambre', icon: '🛏️' },
+    { id: 'hotel', name: 'Hôtel', icon: '🏨' },
+    { id: 'restaurant', name: 'Restaurant', icon: '🍽️' },
+    { id: 'villa', name: 'Villa', icon: '🏡' },
   ]
 
   return (
@@ -469,26 +469,26 @@ const MockupGenerator = ({ image, onBack }: { image: string | null; onBack: () =
 
       <h3 className="text-2xl font-bold text-white">Générateur de Mockup</h3>
       <p className="text-gray-400">
-        {image ? 'Visualisez votre oeuvre dans un environnement réel' : 'Générez d\'abord une image pour créer un mockup'}
+        {image ? 'Cliquez sur un environnement pour prévisualiser votre artwork' : 'Générez d\'abord une image pour créer un mockup'}
       </p>
 
       <div className="grid md:grid-cols-3 gap-4">
         {mockups.map((mockup) => (
-          <motion.button
+          <motion.div
             key={mockup.id}
+            className="glass-premium rounded-2xl p-6 text-center hover:bg-white/10 transition-all cursor-pointer"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="glass-premium rounded-2xl p-4 text-center card-premium-hover overflow-hidden"
           >
-            <div className={`h-40 rounded-lg ${mockup.bg} mb-4 flex items-center justify-center relative`}>
+            <div className="h-32 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 mb-4 flex items-center justify-center">
               {image ? (
-                <img src={image} alt="Mockup" className="w-full h-full object-cover rounded-lg opacity-80" />
+                <img src={image} alt={mockup.name} className="w-full h-full object-cover rounded-lg" />
               ) : (
-                <span className="text-6xl">{mockup.preview}</span>
+                <span className="text-5xl">{mockup.icon}</span>
               )}
             </div>
-            <h4 className="text-white font-semibold">{mockup.name}</h4>
-          </motion.button>
+            <h4 className="text-white font-semibold text-lg">{mockup.name}</h4>
+          </motion.div>
         ))}
       </div>
 
