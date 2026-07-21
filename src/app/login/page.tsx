@@ -56,7 +56,7 @@ export default function LoginPage() {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' })
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
       // Clear localStorage
       localStorage.removeItem('user')
       // Clear cookie manually
@@ -97,6 +97,7 @@ export default function LoginPage() {
         const response = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({
             email: formData.email,
             password: formData.password,
