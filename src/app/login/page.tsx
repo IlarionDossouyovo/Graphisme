@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Mail, Lock, User, ArrowRight, Sparkles, Eye, EyeOff, LogOut } from 'lucide-react'
@@ -34,6 +34,7 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState<any>(null)
+  const redirectInProgress = useRef(false)
 
   // Check if already logged in - show info but don't auto-redirect
   useEffect(() => {
@@ -77,6 +78,8 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    if (redirectInProgress.current) return
+    
     if (!formData.email || !formData.password) {
       setError('Veuillez remplir tous les champs')
       return
@@ -112,7 +115,10 @@ export default function LoginPage() {
           }
         }
         
-        // Redirect selon le rôle - utilisation directe de window.location
+        // Redirect selon le rôle
+        if (redirectInProgress.current) return
+        redirectInProgress.current = true
+        
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin/' : '/client/'
         
