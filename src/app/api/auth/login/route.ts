@@ -3,7 +3,8 @@ import { users } from '@/lib/db/json-db'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
+// Use a consistent secret key (should match the middleware)
+const JWT_SECRET = 'your-secret-key'
 
 export async function POST(request: Request) {
   try {

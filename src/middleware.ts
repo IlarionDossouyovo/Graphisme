@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
+// Use a consistent secret key (should match the login route)
+const JWT_SECRET = 'your-secret-key'
 
 // Force Node.js runtime for middleware (required for JWT verification)
 export const runtime = 'nodejs'
