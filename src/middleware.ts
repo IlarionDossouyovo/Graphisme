@@ -22,6 +22,8 @@ function verifyToken(token: string) {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
+  console.log('[Middleware] Checking path:', pathname)
+  
   // Skip auth routes and public routes
   if (
     pathname.startsWith('/api/auth') ||
@@ -45,13 +47,16 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/affiliate') ||
     pathname.startsWith('/founder-ai-center')
   ) {
+    console.log('[Middleware] Public path, allowing')
     return NextResponse.next()
   }
 
   // Get auth token from cookie
   const authToken = request.cookies.get('auth-token')?.value
+  console.log('[Middleware] Auth token present:', !!authToken)
 
   if (!authToken) {
+    console.log('[Middleware] No token, redirecting to login')
     const loginUrl = new URL('/login/', request.url)
     return NextResponse.redirect(loginUrl)
   }
@@ -59,10 +64,12 @@ export function middleware(request: NextRequest) {
   // Verify the token
   const user = verifyToken(authToken)
   if (!user) {
+    console.log('[Middleware] Invalid token, redirecting to login')
     const loginUrl = new URL('/login/', request.url)
     return NextResponse.redirect(loginUrl)
   }
 
+  console.log('[Middleware] User authenticated:', user.role)
   return NextResponse.next()
 }
 

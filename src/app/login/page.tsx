@@ -92,6 +92,8 @@ export default function LoginPage() {
     
     try {
       if (isLogin) {
+        console.log('Attempting login with:', formData.email)
+        
         const response = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -102,6 +104,7 @@ export default function LoginPage() {
         })
 
         const data = await response.json()
+        console.log('Login response:', data)
 
         if (!response.ok) {
           throw new Error(data.error || 'Erreur de connexion')
@@ -121,12 +124,15 @@ export default function LoginPage() {
         
         // Utiliser l'URL de redirection de l'API
         const redirectUrl = data.redirectUrl || (data.user?.role === 'admin' ? '/admin/' : '/client/')
+        console.log('Redirecting to:', redirectUrl)
         
         // Arrêter le chargement
         setIsLoading(false)
         
-        // Forcer la redirection
-        window.location.assign(redirectUrl)
+        // Forcer la redirection avec un petit délai pour laisser le temps au cookie d'être défini
+        setTimeout(() => {
+          window.location.href = redirectUrl
+        }, 100)
       } else {
         // Inscription
         const response = await fetch('/api/users', {
