@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
-  Sparkles, Wand2, Palette, Image, Layers, Download, 
+  Sparkles, Wand2, Palette, Image as ImageIcon, Layers, Download, 
   Settings, Play, Pause, RotateCcw, Save, Share2,
   ChevronRight, Check, Copy, RefreshCw, Zap,
   Sliders, Crop, Wand, Palette as PaletteIcon,
-  Maximize2, ZoomIn, ZoomOut, FlipHorizontal, FlipVertical
+  Maximize2, ZoomIn, ZoomOut, FlipHorizontal, FlipVertical,
+  Loader2, X
 } from 'lucide-react'
 
 // Logo Component
@@ -43,8 +45,8 @@ const artCategories = [
   { id: 'bedroom_decoration', name: 'Bedroom Decoration', icon: Layers },
   { id: 'living_room_decoration', name: 'Living Room', icon: Layers },
   { id: 'corporate_decoration', name: 'Corporate', icon: Layers },
-  { id: 'landscape', name: 'Landscape', icon: Image },
-  { id: 'portrait', name: 'Portrait', icon: Image },
+  { id: 'landscape', name: 'Landscape', icon: ImageIcon },
+  { id: 'portrait', name: 'Portrait', icon: ImageIcon },
   { id: 'watercolor', name: 'Watercolor', icon: Palette },
   { id: 'oil_painting', name: 'Oil Painting', icon: Palette },
   { id: '3d_art', name: '3D Art', icon: Layers },
@@ -321,10 +323,11 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <div className="glass-premium rounded-2xl p-8 flex items-center justify-center min-h-[400px]">
+          <div className="glass-premium rounded-2xl p-8 flex items-center justify-center min-h-[400px] overflow-hidden">
             {image ? (
-              <div className="relative">
-                <img src={image} alt="Generated" className="max-w-full" style={{ transform: `scale(${zoom/100})` }} />
+              <div className="relative" style={{ transform: `scale(${zoom/100})`, transformOrigin: 'center' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={image} alt="Generated" className="max-w-full max-h-[500px] object-contain rounded-lg" />
               </div>
             ) : (
               <div className="text-center">
@@ -442,14 +445,14 @@ const ImageEditor = ({ image, onBack }: { image: string | null; onBack: () => vo
 }
 
 // Mockup Generator
-const MockupGenerator = ({ onBack }: { onBack: () => void }) => {
+const MockupGenerator = ({ image, onBack }: { image: string | null; onBack: () => void }) => {
   const mockups = [
-    { id: 'living_room', name: 'Salon', preview: '🛋️' },
-    { id: 'office', name: 'Bureau', preview: '💼' },
-    { id: 'bedroom', name: 'Chambre', preview: '🛏️' },
-    { id: 'hotel', name: 'Hôtel', preview: '🏨' },
-    { id: 'restaurant', name: 'Restaurant', preview: '🍽️' },
-    { id: 'villa', name: 'Villa', preview: '🏡' },
+    { id: 'living_room', name: 'Salon', preview: '🛋️', bg: 'bg-amber-100' },
+    { id: 'office', name: 'Bureau', preview: '💼', bg: 'bg-gray-100' },
+    { id: 'bedroom', name: 'Chambre', preview: '🛏️', bg: 'bg-blue-100' },
+    { id: 'hotel', name: 'Hôtel', preview: '🏨', bg: 'bg-yellow-100' },
+    { id: 'restaurant', name: 'Restaurant', preview: '🍽️', bg: 'bg-orange-100' },
+    { id: 'villa', name: 'Villa', preview: '🏡', bg: 'bg-green-100' },
   ]
 
   return (
@@ -465,7 +468,9 @@ const MockupGenerator = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       <h3 className="text-2xl font-bold text-white">Générateur de Mockup</h3>
-      <p className="text-gray-400">Visualisez votre oeuvre dans un environnement réel</p>
+      <p className="text-gray-400">
+        {image ? 'Visualisez votre oeuvre dans un environnement réel' : 'Générez d\'abord une image pour créer un mockup'}
+      </p>
 
       <div className="grid md:grid-cols-3 gap-4">
         {mockups.map((mockup) => (
@@ -473,13 +478,30 @@ const MockupGenerator = ({ onBack }: { onBack: () => void }) => {
             key={mockup.id}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="glass-premium rounded-2xl p-8 text-center card-premium-hover"
+            className="glass-premium rounded-2xl p-4 text-center card-premium-hover overflow-hidden"
           >
-            <div className="text-6xl mb-4">{mockup.preview}</div>
+            <div className={`h-40 rounded-lg ${mockup.bg} mb-4 flex items-center justify-center relative`}>
+              {image ? (
+                <img src={image} alt="Mockup" className="w-full h-full object-cover rounded-lg opacity-80" />
+              ) : (
+                <span className="text-6xl">{mockup.preview}</span>
+              )}
+            </div>
             <h4 className="text-white font-semibold">{mockup.name}</h4>
           </motion.button>
         ))}
       </div>
+
+      {image && (
+        <div className="flex justify-center mt-6">
+          <button className="btn-premium">
+            <span className="flex items-center gap-2">
+              <Download className="w-5 h-5" />
+              Télécharger Mockup HD
+            </span>
+          </button>
+        </div>
+      )}
     </div>
   )
 }
@@ -560,14 +582,29 @@ export default function AIStudioPage() {
   const [mode, setMode] = useState<'generate' | 'editor' | 'mockup'>('generate')
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null)
 
   const handleGenerate = () => {
+    if (!prompt.trim()) {
+      alert('Veuillez entrer un prompt ou sélectionner une catégorie')
+      return
+    }
+    
     setIsGenerating(true)
-    // Simulate generation
+    // Simulate generation with a placeholder image
     setTimeout(() => {
+      // Placeholder image - in production this would come from an AI API
+      const placeholderImages = [
+        'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800',
+        'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800',
+        'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800',
+        'https://images.unsplash.com/photo-1549887534-1541e9326642?w=800',
+      ]
+      const randomImage = placeholderImages[Math.floor(Math.random() * placeholderImages.length)]
+      setGeneratedImage(randomImage)
       setIsGenerating(false)
       setMode('editor')
-    }, 2000)
+    }, 3000)
   }
 
   return (
@@ -667,7 +704,7 @@ export default function AIStudioPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                   >
-                    <ImageEditor image={null} onBack={() => setMode('generate')} />
+                    <ImageEditor image={generatedImage} onBack={() => setMode('generate')} />
                   </motion.div>
                 )}
 
@@ -678,7 +715,7 @@ export default function AIStudioPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                   >
-                    <MockupGenerator onBack={() => setMode('generate')} />
+                    <MockupGenerator image={generatedImage} onBack={() => setMode('generate')} />
                   </motion.div>
                 )}
               </AnimatePresence>
