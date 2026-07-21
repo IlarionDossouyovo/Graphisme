@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import jwt from 'jsonwebtoken'
 
+const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
+
 // Force Node.js runtime for middleware (required for JWT verification)
 export const runtime = 'nodejs'
-
-const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
 
 // JWT token verification helper
 function verifyToken(token: string) {
