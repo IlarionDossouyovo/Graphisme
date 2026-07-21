@@ -9,7 +9,6 @@ import {
   ChevronRight, User, MessageCircle, Home, ShoppingCart
 } from 'lucide-react'
 import CartButton from '@/components/cart-button'
-import Navbar from '@/components/Navigation'
 
 interface Article {
   id: string
@@ -147,6 +146,7 @@ function ArticleDetailContent() {
             Retour au blog
           </Link>
         </div>
+        </div>
       </div>
     )
   }
@@ -155,32 +155,32 @@ function ArticleDetailContent() {
     <div className="min-h-screen bg-premium-black">
       <Navbar />
       <div className="pt-24 pb-20">
-      <div className="max-w-4xl mx-auto px-6">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
-          <Link href="/" className="hover:text-gold transition-colors">Accueil</Link>
-          <ChevronRight className="w-4 h-4" />
-          <Link href="/blog" className="hover:text-gold transition-colors">Blog</Link>
-          <ChevronRight className="w-4 h-4" />
-          <span className="text-gold truncate max-w-[200px]">{article.title}</span>
-        </div>
-
-        {/* Article Header */}
-        <motion.header
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="px-3 py-1 bg-gold/20 text-gold text-xs font-semibold rounded-full">
-              {article.category}
-            </span>
-            {article.featured && (
-              <span className="px-3 py-1 bg-violet-IA/20 text-violet-IA text-xs font-semibold rounded-full">
-                Article mis en avant
-              </span>
-            )}
+        <div className="max-w-4xl mx-auto px-6">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-gray-400 mb-8">
+            <Link href="/" className="hover:text-gold transition-colors">Accueil</Link>
+            <ChevronRight className="w-4 h-4" />
+            <Link href="/blog" className="hover:text-gold transition-colors">Blog</Link>
+            <ChevronRight className="w-4 h-4" />
+            <span className="text-gold truncate max-w-[200px]">{article.title}</span>
           </div>
+
+          {/* Article Header */}
+          <motion.header
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-3 py-1 bg-gold/20 text-gold text-xs font-semibold rounded-full">
+                {article.category}
+              </span>
+              {article.featured && (
+                <span className="px-3 py-1 bg-violet-IA/20 text-violet-IA text-xs font-semibold rounded-full">
+                  Article mis en avant
+                </span>
+              )}
+            </div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {article.title}
@@ -337,6 +337,7 @@ function ArticleDetailContent() {
             </div>
           </motion.section>
         )}
+        </div>
       </div>
     </div>
   )
