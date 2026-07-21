@@ -3,12 +3,29 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
   Search, Filter, Heart, Download, ShoppingCart, 
   ZoomIn, X, ChevronLeft, ChevronRight, 
   Sparkles, Palette, Crown, Building2, Home, 
-  Users, Camera, Wand2, Grid, List
+  Users, Camera, Wand2, Grid, List, Check, Trash2
 } from 'lucide-react'
+
+// Sample artwork images from Unsplash
+const artworkImages = [
+  'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600',
+  'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600',
+  'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600',
+  'https://images.unsplash.com/photo-1549887534-1541e9326642?w=600',
+  'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600',
+  'https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=600',
+  'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=600',
+  'https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600',
+  'https://images.unsplash.com/photo-1549490349-8643362247b5?w=600',
+  'https://images.unsplash.com/photo-1551913902-c92207136625?w=600',
+  'https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?w=600',
+  'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?w=600',
+]
 
 // Logo Component
 const Logo = () => (
@@ -30,7 +47,7 @@ const Logo = () => (
   </div>
 )
 
-// Sample artwork data
+// Sample artwork data with real images
 const sampleArtworks = [
   {
     id: '1',
@@ -38,10 +55,11 @@ const sampleArtworks = [
     category: 'african_art',
     style: 'abstract',
     price: 299,
-    imageUrl: '/products/art1.jpg',
+    imageUrl: artworkImages[0],
     artist: 'AI Artist',
     likes: 234,
-    downloads: 45
+    downloads: 45,
+    description: 'Une œuvre abstraite inspirée des couleurs et motifs traditionnels africains, mélangés avec des techniques numériques modernes.'
   },
   {
     id: '2',
@@ -49,10 +67,11 @@ const sampleArtworks = [
     category: 'modern_art',
     style: 'digital',
     price: 349,
-    imageUrl: '/products/art2.jpg',
+    imageUrl: artworkImages[1],
     artist: 'AI Artist',
     likes: 189,
-    downloads: 32
+    downloads: 32,
+    description: 'Représentation contemporaine de la ville avec des lignes épurées et des couleurs vibrantes.'
   },
   {
     id: '3',
@@ -60,10 +79,11 @@ const sampleArtworks = [
     category: 'luxury_gold_art',
     style: 'minimalist',
     price: 499,
-    imageUrl: '/products/art3.jpg',
+    imageUrl: artworkImages[2],
     artist: 'AI Artist',
     likes: 312,
-    downloads: 67
+    downloads: 67,
+    description: 'Une pièce de luxe avec des accents dorés et une esthétique minimaliste raffinée.'
   },
   {
     id: '4',
@@ -71,10 +91,11 @@ const sampleArtworks = [
     category: 'office_decoration',
     style: 'realistic',
     price: 399,
-    imageUrl: '/products/art4.jpg',
+    imageUrl: artworkImages[3],
     artist: 'AI Artist',
     likes: 156,
-    downloads: 28
+    downloads: 28,
+    description: 'Décoration murale professionnelle pour espace de travail moderne et élégant.'
   },
   {
     id: '5',
@@ -82,21 +103,23 @@ const sampleArtworks = [
     category: 'living_room_decoration',
     style: 'realistic',
     price: 449,
-    imageUrl: '/products/art5.jpg',
+    imageUrl: artworkImages[4],
     artist: 'AI Artist',
     likes: 203,
-    downloads: 41
+    downloads: 41,
+    description: 'Œuvre artistique parfaite pour sublimer votre salon avec elegance.'
   },
   {
     id: '6',
-    title: 'Hotel Luxe',
+    title: 'Hôtel Luxe',
     category: 'hotel_decoration',
     style: 'minimalist',
     price: 599,
-    imageUrl: '/products/art6.jpg',
+    imageUrl: artworkImages[5],
     artist: 'AI Artist',
     likes: 278,
-    downloads: 53
+    downloads: 53,
+    description: 'Création exclusive pour hôtels et établissements de prestige.'
   },
   {
     id: '7',
@@ -104,10 +127,11 @@ const sampleArtworks = [
     category: 'bedroom_decoration',
     style: 'modern',
     price: 379,
-    imageUrl: '/products/art7.jpg',
+    imageUrl: artworkImages[6],
     artist: 'AI Artist',
     likes: 167,
-    downloads: 35
+    downloads: 35,
+    description: 'Ambiance relaxante et élégante pour votre chambre à coucher.'
   },
   {
     id: '8',
@@ -115,10 +139,11 @@ const sampleArtworks = [
     category: 'landscape',
     style: 'digital',
     price: 249,
-    imageUrl: '/products/art8.jpg',
+    imageUrl: artworkImages[7],
     artist: 'AI Artist',
     likes: 145,
-    downloads: 22
+    downloads: 22,
+    description: 'Paysage numérique apaisant avec des couleurs naturelles.'
   },
   {
     id: '9',
@@ -126,10 +151,11 @@ const sampleArtworks = [
     category: 'abstract_art',
     style: 'abstract',
     price: 299,
-    imageUrl: '/products/art9.jpg',
+    imageUrl: artworkImages[8],
     artist: 'AI Artist',
     likes: 198,
-    downloads: 38
+    downloads: 38,
+    description: 'Mouvement abstrait couleurs vives pour dynamiser votre espace.'
   },
   {
     id: '10',
@@ -137,10 +163,11 @@ const sampleArtworks = [
     category: 'art_3d',
     style: 'digital',
     price: 399,
-    imageUrl: '/products/art10.jpg',
+    imageUrl: artworkImages[9],
     artist: 'AI Artist',
     likes: 256,
-    downloads: 49
+    downloads: 49,
+    description: 'Ville futuriste en 3D avec une esthétique cyberpunk saisissante.'
   },
   {
     id: '11',
@@ -148,10 +175,11 @@ const sampleArtworks = [
     category: 'fantasy',
     style: 'illustration',
     price: 449,
-    imageUrl: '/products/art11.jpg',
+    imageUrl: artworkImages[10],
     artist: 'AI Artist',
     likes: 289,
-    downloads: 55
+    downloads: 55,
+    description: 'Univers fantasy magique créé par intelligence artificielle.'
   },
   {
     id: '12',
@@ -159,10 +187,11 @@ const sampleArtworks = [
     category: 'portrait',
     style: 'minimalist',
     price: 279,
-    imageUrl: '/products/art12.jpg',
+    imageUrl: artworkImages[11],
     artist: 'AI Artist',
     likes: 134,
-    downloads: 25
+    downloads: 25,
+    description: 'Portrait contemporain au style minimaliste épuré.'
   }
 ]
 
@@ -226,39 +255,78 @@ const Navbar = () => (
 )
 
 // Artwork Card
-const ArtworkCard = ({ artwork, onClick, index }: { artwork: any; onClick: () => void; index: number }) => (
+const ArtworkCard = ({ 
+  artwork, 
+  onClick, 
+  index,
+  onAddToCart,
+  onToggleLike,
+  isInCart,
+  isLiked
+}: { 
+  artwork: any; 
+  onClick: () => void; 
+  index: number;
+  onAddToCart: (artwork: any) => void;
+  onToggleLike: (id: string) => void;
+  isInCart: boolean;
+  isLiked: boolean;
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: index * 0.05 }}
     className="glass-premium rounded-2xl overflow-hidden card-premium-hover cursor-pointer group"
-    onClick={onClick}
   >
-    <div className="relative aspect-square overflow-hidden">
+    <div className="relative aspect-square overflow-hidden" onClick={onClick}>
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
-      <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-        <button className="w-12 h-12 rounded-full bg-gold/20 backdrop-blur flex items-center justify-center text-gold hover:bg-gold/40 transition-all">
+      <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+        <button 
+          onClick={(e) => { e.stopPropagation(); onClick(); }}
+          className="w-12 h-12 rounded-full bg-gold/20 backdrop-blur flex items-center justify-center text-gold hover:bg-gold/40 transition-all"
+        >
           <ZoomIn className="w-6 h-6" />
         </button>
-        <button className="w-12 h-12 rounded-full bg-gold/20 backdrop-blur flex items-center justify-center text-gold hover:bg-gold/40 transition-all">
-          <ShoppingCart className="w-6 h-6" />
+        <button 
+          onClick={(e) => { e.stopPropagation(); onAddToCart(artwork); }}
+          className={`w-12 h-12 rounded-full backdrop-blur flex items-center justify-center transition-all ${
+            isInCart 
+              ? 'bg-green-500/40 text-green-400' 
+              : 'bg-gold/20 text-gold hover:bg-gold/40'
+          }`}
+        >
+          {isInCart ? <Check className="w-6 h-6" /> : <ShoppingCart className="w-6 h-6" />}
         </button>
       </div>
-      <div className="w-full h-full bg-premium-card flex items-center justify-center">
-        <Palette className="w-20 h-20 text-gold/20" />
+      <div className="w-full h-full bg-premium-card flex items-center justify-center overflow-hidden">
+        <img 
+          src={artwork.imageUrl} 
+          alt={artwork.title}
+          className="w-full h-full object-cover"
+        />
       </div>
       <div className="absolute top-4 left-4 badge-gold z-20">
         {categoryLabels[artwork.category] || artwork.category}
       </div>
+      <button
+        onClick={(e) => { e.stopPropagation(); onToggleLike(artwork.id); }}
+        className={`absolute top-4 right-4 w-10 h-10 rounded-full backdrop-blur flex items-center justify-center z-20 transition-all ${
+          isLiked 
+            ? 'bg-red-500/40 text-red-400' 
+            : 'bg-black/30 text-white/70 hover:text-red-400'
+        }`}
+      >
+        <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
+      </button>
     </div>
-    <div className="p-4">
+    <div className="p-4" onClick={onClick}>
       <h3 className="text-white font-semibold mb-1">{artwork.title}</h3>
       <p className="text-gray-500 text-sm mb-3">par {artwork.artist}</p>
       <div className="flex items-center justify-between">
         <span className="text-gold font-bold text-xl">{artwork.price}€</span>
         <div className="flex items-center gap-3 text-gray-400 text-sm">
           <span className="flex items-center gap-1">
-            <Heart className="w-4 h-4" /> {artwork.likes}
+            <Heart className="w-4 h-4" /> {artwork.likes + (isLiked ? 1 : 0)}
           </span>
           <span className="flex items-center gap-1">
             <Download className="w-4 h-4" /> {artwork.downloads}
@@ -403,6 +471,52 @@ export default function ArtGalleryPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [selectedArtwork, setSelectedArtwork] = useState<any>(null)
+  const [cart, setCart] = useState<any[]>([])
+  const [likedArtworks, setLikedArtworks] = useState<string[]>([])
+  const [addedToCart, setAddedToCart] = useState<string | null>(null)
+  
+  // Load cart from localStorage
+  useEffect(() => {
+    const savedCart = localStorage.getItem('artGalleryCart')
+    if (savedCart) {
+      setCart(JSON.parse(savedCart))
+    }
+    const savedLikes = localStorage.getItem('artGalleryLikes')
+    if (savedLikes) {
+      setLikedArtworks(JSON.parse(savedLikes))
+    }
+  }, [])
+  
+  // Save cart to localStorage
+  useEffect(() => {
+    localStorage.setItem('artGalleryCart', JSON.stringify(cart))
+  }, [cart])
+  
+  // Save likes to localStorage
+  useEffect(() => {
+    localStorage.setItem('artGalleryLikes', JSON.stringify(likedArtworks))
+  }, [likedArtworks])
+  
+  const handleAddToCart = (artwork: any) => {
+    if (cart.find(item => item.id === artwork.id)) {
+      // Already in cart - remove it
+      setCart(cart.filter(item => item.id !== artwork.id))
+      setAddedToCart(null)
+    } else {
+      // Add to cart
+      setCart([...cart, { ...artwork, quantity: 1 }])
+      setAddedToCart(artwork.id)
+      setTimeout(() => setAddedToCart(null), 2000)
+    }
+  }
+  
+  const handleToggleLike = (id: string) => {
+    if (likedArtworks.includes(id)) {
+      setLikedArtworks(likedArtworks.filter(l => l !== id))
+    } else {
+      setLikedArtworks([...likedArtworks, id])
+    }
+  }
   
   // Filter artworks
   const filteredArtworks = sampleArtworks.filter(artwork => {
@@ -447,6 +561,10 @@ export default function ArtGalleryPage() {
                     artwork={artwork}
                     index={index}
                     onClick={() => setSelectedArtwork(artwork)}
+                    onAddToCart={handleAddToCart}
+                    onToggleLike={handleToggleLike}
+                    isInCart={!!cart.find(item => item.id === artwork.id)}
+                    isLiked={likedArtworks.includes(artwork.id)}
                   />
                 ))}
               </div>
@@ -475,8 +593,12 @@ export default function ArtGalleryPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="grid md:grid-cols-2">
-                <div className="aspect-square bg-premium-card flex items-center justify-center">
-                  <Palette className="w-32 h-32 text-gold/20" />
+                <div className="aspect-square bg-premium-card flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={selectedArtwork.imageUrl} 
+                    alt={selectedArtwork.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="p-8">
                   <button
@@ -491,30 +613,49 @@ export default function ArtGalleryPage() {
                   <p className="text-gray-400 mb-4">par {selectedArtwork.artist}</p>
                   
                   <p className="text-gray-300 mb-6">
-                    Une oeuvre d'art exclusive en style {selectedArtwork.style}, 
-                    parfaite pour la decoration {categoryLabels[selectedArtwork.category]?.toLowerCase()}.
+                    {selectedArtwork.description}
                   </p>
                   
                   <div className="flex items-center gap-4 mb-6">
                     <span className="text-gold font-bold text-3xl">{selectedArtwork.price}€</span>
                     <span className="text-gray-500 line-through">{selectedArtwork.price * 1.5}€</span>
+                    <span className="text-green-400 text-sm">-33%</span>
                   </div>
                   
                   <div className="flex gap-4">
-                    <button className="btn-premium flex-1">
+                    <button 
+                      onClick={() => handleAddToCart(selectedArtwork)}
+                      className={`btn-premium flex-1 ${cart.find(item => item.id === selectedArtwork.id) ? 'bg-green-500 hover:bg-green-600' : ''}`}
+                    >
                       <span className="flex items-center justify-center gap-2">
-                        <ShoppingCart className="w-5 h-5" />
-                        Ajouter au panier
+                        {cart.find(item => item.id === selectedArtwork.id) ? (
+                          <>
+                            <Check className="w-5 h-5" />
+                            Dans le panier
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingCart className="w-5 h-5" />
+                            Ajouter au panier
+                          </>
+                        )}
                       </span>
                     </button>
-                    <button className="px-4 py-3 rounded-xl border border-gold/30 text-gold hover:bg-gold/10 transition-colors">
-                      <Heart className="w-5 h-5" />
+                    <button 
+                      onClick={() => handleToggleLike(selectedArtwork.id)}
+                      className={`px-4 py-3 rounded-xl border transition-colors ${
+                        likedArtworks.includes(selectedArtwork.id)
+                          ? 'border-red-500/50 bg-red-500/10 text-red-400'
+                          : 'border-gold/30 text-gold hover:bg-gold/10'
+                      }`}
+                    >
+                      <Heart className={`w-5 h-5 ${likedArtworks.includes(selectedArtwork.id) ? 'fill-current' : ''}`} />
                     </button>
                   </div>
                   
                   <div className="flex items-center gap-6 mt-6 pt-6 border-t border-white/10">
                     <div className="flex items-center gap-2 text-gray-400">
-                      <Heart className="w-4 h-4" /> {selectedArtwork.likes}
+                      <Heart className="w-4 h-4" /> {selectedArtwork.likes + (likedArtworks.includes(selectedArtwork.id) ? 1 : 0)}
                     </div>
                     <div className="flex items-center gap-2 text-gray-400">
                       <Download className="w-4 h-4" /> {selectedArtwork.downloads}
