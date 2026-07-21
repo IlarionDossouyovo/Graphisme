@@ -122,9 +122,14 @@ export default function LoginPage() {
         const userRole = data.user?.role
         const redirectUrl = userRole === 'admin' ? '/admin/' : '/client/'
         
+        // Alerte de débogage
+        alert('Connexion réussie! Redirection vers ' + redirectUrl)
+        
+        // Arrêter le chargement
+        setIsLoading(false)
+        
         // Redirection immédiate
         window.location.href = redirectUrl
-        return
       } else {
         // Inscription
         const response = await fetch('/api/users', {
