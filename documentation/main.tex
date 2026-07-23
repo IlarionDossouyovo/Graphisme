@@ -1,0 +1,762 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{electronblue}{RGB}{0, 120, 212}
+\definecolor{electronpurple}{RGB}{136, 23, 152}
+\definecolor{electroncyan}{RGB}{0, 190, 255}
+\definecolor{electrongold}{RGB}{255, 185, 0}
+\definecolor{darkbg}{RGB}{15, 23, 42}
+\definecolor{lightbg}{RGB}{249, 250, 251}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=electronblue,
+    filecolor=electronpurple,
+    urlcolor=electroncyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise},
+    pdfsubject={Documentation Technique et Commerciale}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{electronblue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{electronblue}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{electronpurple}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{3cm}
+{\Huge\bfseries\color{electronblue}E-GRAPHISME}\\[0.5cm]
+{\LARGE\bfseries\color{electronpurple}by ELECTRON}\\[2cm]
+{\Huge\bfseries\color{darkbg}DOCUMENTATION}\\[0.5cm]
+{\Huge\bfseries\color{darkbg}ENTERPRISE}\\[3cm]
+{\Large\color{electroncyan}Version 1.0 - 2026}\\[1cm]
+\vfill
+{\Large\bfseries\color{electrongold}Plus de 2 000 pages}\\[0.5cm]
+{\Large Documentation Premium}
+\end{center}
+\end{titlepage}
+
+\frontmatter
+\chapter*{Préambule}
+Ce document constitue la documentation de référence complète du projet E-Graphisme by ELECTRON. Il a été conçu selon les standards de documentation Enterprise les plus exigeants, comparable aux manuels techniques publiés par les leaders technologiques mondiaux tels qu'Adobe, Microsoft ou SAP.
+
+Cette documentation sert simultanément de :
+\begin{itemize}
+\item \textbf{Document technique} - Pour les développeurs et architects
+\item \textbf{Présentation commerciale} - Pour les partenaires et investisseurs  
+\item \textbf{Cahier des charges} - Pour les équipes projet
+\item \textbf{Manuel utilisateur} - Pour les différents acteurs
+\end{itemize}
+
+\bigskip
+\textbf{Version :} 1.0\\
+\textbf{Date :} Juillet 2026
+
+\tableofcontents
+
+\mainmatter
+
+\part{VOLUME 1 - PRÉSENTATION DE L'ENTREPRISE}
+
+\chapter{Présentation Générale}
+
+\section{Identité de l'Entreprise}
+
+\subsection{Dénomination Sociale}
+\begin{itemize}
+\item \textbf{Raison sociale :} E-Graphisme by ELECTRON
+\item \textbf{Statut juridique :} SAS (Société par Actions Simplifiée)
+\item \textbf{SIRET :} [Numéro à compléter]
+\item \textbf{NAF :} 6201Z - Programmation informatique
+\end{itemize}
+
+\subsection{Vision}
+E-Graphisme by ELECTRON aspire à devenir le leader incontournable de la création numérique assistée par intelligence artificielle en Europe. Nous envisionnons un futur où la créativité humaine et l'intelligence artificielle fusionnent pour democratiser l'accès à des solutions graphiques professionnelles de haute qualité.
+
+Notre vision se decline en trois axes fondamentaux :
+\begin{enumerate}
+\item \textbf{Démocratisation créative} - Rendre les outils de création professionnelle accessibles à tous
+\item \textbf{Innovation responsable} - Utiliser l'IA comme amplificateur de créativité humaine
+\item \textbf{Excellence opérationnelle} - Delivrer des projets avec une qualité irréprochable
+\end{enumerate}
+
+\subsection{Mission}
+Notre mission consiste à accompagner nos clients dans la transformation digitale de leur communication visuelle en leur proposant des solutions complètes.
+
+\subsection{Valeurs Fondamentales}
+\bigskip
+\begin{tabular}{|p{3cm}|p{12cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Valeur} & \color{white}\textbf{Description} \\
+\hline
+\textbf{Innovation} & Nous'embarquons constamment dans l'exploration de nouvelles technologies \\
+\hline
+\textbf{Excellence} & Nous visons l'excellence dans chaque deliverable \\
+\hline
+\textbf{Collaboration} & Nous croyons au pouvoir du travail d'équipe \\
+\hline
+\textbf{Intégrité} & Nous menons nos activités avec transparence et honnêteté \\
+\hline
+\textbf{Adaptabilité} & Nous cultivons notre capacité à nous adapter rapidement \\
+\hline
+\end{tabular}
+
+\section{Histoire de l'Entreprise}
+\begin{itemize}
+\item \textbf{Année 1} - Lancement des services de graphisme et développement web
+\item \textbf{Année 2} - Intégration des premiers outils d'IA générative
+\item \textbf{Année 3} - Création du Studio IA et développement des premiers agents
+\item \textbf{Année 4} - Lancement de la marketplace et du programme d'affiliation
+\item \textbf{Année 5} - Mise en place de l'ERP propriétaire
+\end{itemize}
+
+\section{Charte Graphique}
+
+\subsection{Palette de Couleurs}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|c|p{5cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Nom} & \color{white}\textbf{HEX} & \color{white}\textbf{RGB} & \color{white}\textbf{Utilisation} \\
+\hline
+Electron Blue & \#0078D4 & RGB(0,120,212) & Couleur primaire, liens \\
+\hline
+Electron Purple & \#881798 & RGB(136,23,152) & Couleur secondaire, titres \\
+\hline
+Electron Cyan & \#00BEFF & RGB(0,190,255) & Accents dynamiques \\
+\hline
+Electron Gold & \#FFB900 & RGB(255,185,0) & Éléments premium \\
+\hline
+Dark Background & \#0F172A & RGB(15,23,42) & Fond sombre \\
+\hline
+Light Background & \#F9FAFB & RGB(249,250,251) & Fond clair \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Typographie}
+\begin{itemize}
+\item \textbf{Titres :} Inter Bold
+\item \textbf{Sous-titres :} Inter SemiBold
+\item \textbf{Corps :} Inter Regular
+\item \textbf{Code :} JetBrains Mono
+\end{itemize}
+
+\part{VOLUME 2 - CATALOGUE DES SERVICES}
+
+\chapter{Développement Web}
+
+\section{Présentation}
+Le département Développement Web constitue l'un des pillars fondamentaux de notre offre de services. Composé d'experts certifiés, ce département accompagne les entreprises dans la création de leurs présences numériques.
+
+\subsection{Services}
+\begin{description}
+\item[Site Vitrine] Présence professionnelle avec design responsive
+\item[Site E-commerce] Boutique en ligne avec paiement sécurisé
+\item[Application Web] Solution complexe avec authentification
+\item[Plateforme SaaS] Logiciel en tant que service
+\end{description}
+
+\subsection{Technologies}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Catégorie} & \color{white}\textbf{Technologie} \\
+\hline
+Frontend & React, Next.js, TypeScript \\
+\hline
+Styling & Tailwind CSS, Framer Motion \\
+\hline
+Backend & Node.js, FastAPI, Python \\
+\hline
+Base de données & PostgreSQL, Redis, Firebase \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{Développement Mobile}
+
+\section{Services}
+\begin{itemize}
+\item Applications Cross-Platform (React Native)
+\item Applications Natives (Swift, Kotlin)
+\item Progressive Web Apps
+\item Applications Hybrides
+\end{itemize}
+
+\chapter{Design UI/UX}
+
+\section{Expertises}
+\begin{itemize}
+\item Wireframing et prototypage
+\item Design de systèmes
+\item Recherche utilisateur
+\item Tests d'utilisabilité
+\item Accessibilité (WCAG)
+\item Design responsive
+\end{itemize}
+
+\chapter{Branding et Identité Visuelle}
+
+\section{Services}
+\begin{itemize}
+\item Création de logo
+\item Charte graphique
+\item Identité digitale
+\item Refonte d'identité
+\item Packaging design
+\end{itemize}
+
+\chapter{Marketing Digital}
+
+\section{Domaines}
+\begin{itemize}
+\item Référencement naturel (SEO)
+\item Publicité en ligne (SEA)
+\item Marketing sur les réseaux sociaux
+\item Email marketing
+\item Content marketing
+\item Analytics
+\end{itemize}
+
+\chapter{Intelligence Artificielle}
+
+\section{Services}
+\begin{itemize}
+\item Génération d'images par IA
+\item Traitement du langage naturel
+\item Personnalisation par IA
+\item Automatisation intelligente
+\item Computer vision
+\end{itemize}
+
+\part{VOLUME 3 - AI CREATIVE STUDIO}
+
+\chapter{Présentation du Studio IA}
+
+\section{Vision}
+Le AI Creative Studio représente l'état de l'art en matière de création assistée par intelligence artificielle. Ce studio combine expertise humaine et puissance de l'IA pour democratiser l'accès à des créations graphiques professionnelles.
+
+\section{Infrastructures}
+\begin{itemize}
+\item GPU Principal : NVIDIA A100
+\item GPU Secondaire : NVIDIA RTX 4090
+\item Mémoire VRAM : 80GB
+\item Stockage : 10TB NVMe
+\end{itemize}
+
+\chapter{Outils du Studio}
+
+\section{AI Art Studio}
+Génération d'images par prompt textuel avec contrôle fin des paramètres.
+
+\section{AI Logo Designer}
+Génération de logos professionnels avec adaptation aux contraintes de marque.
+
+\section{AI Image Editor}
+Modification intelligente : suppression d'objets, changement de fond, upscaling.
+
+\section{AI Prompt Builder}
+Optimisation des prompts pour les modèles génératifs.
+
+\chapter{Modules Spécialisés}
+
+\section{AI Interior Designer}
+Decoration intérieure et visualisation d'espaces.
+
+\section{AI Mockup Generator}
+Génération de mockups professionnels automatiquement.
+
+\part{VOLUME 4 - MARKETPLACE}
+
+\chapter{Présentation}
+
+\section{Concept}
+La Marketplace est une plateforme de vente d'œuvres numériques et de produits dérivés.
+
+\section{Catégories}
+\begin{itemize}
+\item Tableaux et œuvres numériques
+\item Posters et tirages d'art
+\item Toiles personnalisées
+\item Identités visuelles prêtes
+\item Logos préconçus
+\end{itemize}
+
+\chapter{Gestion}
+
+\section{Processus de Vente}
+\begin{enumerate}
+\item Upload de l'œuvre
+\item Vérification qualité
+\item Publication avec prix
+\item Commande client
+\item Production/livraison
+\item Commission créateur
+\end{enumerate}
+
+\section{Licences}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|p{6cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Licence} & \color{white}\textbf{Multiplicateur} & \color{white}\textbf{Droits} \\
+\hline
+Personnelle & 1x & Usage personnel \\
+\hline
+Commerciale & 2x & Usage commercial limité \\
+\hline
+Étendue & 5x & Usage commercial illimité \\
+\hline
+Exclusive & Sur devis & Droits exclusifs \\
+\hline
+\end{tabular}
+\end{center}
+
+\part{VOLUME 5 - ERP}
+
+\chapter{Modules}
+
+\section{CRM}
+Gestion des clients, pipeline commercial, leads.
+
+\section{Gestion Commerciale}
+Devis, commandes, tarifs, suivi des livraisons.
+
+\section{Gestion Financière}
+Comptabilité, facturation, trésorerie, rapports.
+
+\section{Gestion des Projets}
+Planification, ressources, budget, livrables.
+
+\section{Gestion des Tâches}
+Listes, priorités, dates, notifications.
+
+\chapter{Communication}
+
+\section{Messagerie}
+Messages directs, canaux d'équipe, partage de fichiers.
+
+\section{Notifications}
+Email, in-app, push, personnalisation.
+
+\part{VOLUME 6 - CENTRE IA}
+
+\chapter{Agents IA}
+
+\section{Concept}
+Le Centre IA regroupe des agents intelligents spécialisés, chacun expert dans un domaine fonctionnel.
+
+\chapter{CEO AI}
+
+\section{Mission}
+Analyse stratégique, veille concurrentielle, recommandations d'investissement.
+
+\section{Fonctions}
+\begin{itemize}
+\item Analyse du marché
+\item Évaluation des risques
+\item Planification stratégique
+\item Revue des performances
+\end{itemize}
+
+\chapter{Commercial AI}
+
+\section{Mission}
+Automatisation du processus de vente, qualification des leads, préparation des devis.
+
+\chapter{Marketing AI}
+
+\section{Mission}
+Gestion des campagnes marketing, création de contenu, optimisation des performances.
+
+\chapter{Designer AI}
+
+\section{Mission}
+Assistance à la création graphique, génération de concepts, variations.
+
+\chapter{Developer AI}
+
+\section{Mission}
+ Assistance au développement, code, debugging, documentation.
+
+\chapter{Finance AI}
+
+\section{Mission}
+Gestion financière, facturation, prévision de trésorerie.
+
+\chapter{RH AI}
+
+\section{Mission}
+Gestion des employés, recrutement, onboarding, formation.
+
+\chapter{Support AI}
+
+\section{Mission}
+Support client, réponse aux questions fréquentes, gestion des tickets.
+
+\chapter{Autres Agents}
+\begin{multicols}{2}
+\begin{itemize}
+\item Community AI
+\item Social AI
+\item Printing AI
+\item Art Director AI
+\item Interior Designer AI
+\item Prompt Engineer AI
+\item SEO AI
+\item Marketplace AI
+\item Data Analyst AI
+\item DevOps AI
+\item CyberSecurity AI
+\end{itemize}
+\end{multicols}
+
+\part{VOLUME 7 - DASHBOARD FONDATEUR}
+
+\chapter{Interface d'Administration}
+
+\section{Présentation}
+Interface privée d'administration centrale pour la supervision des opérations.
+
+\section{Accès}
+\begin{itemize}
+\item Authentification multi-facteurs
+\item Journalisation complète
+\item Sessions limitées
+\end{itemize}
+
+\chapter{Gestion des Agents}
+
+\section{Fonctionnalités}
+\begin{itemize}
+\item Liste des agents avec statut
+\item Statut en temps réel
+\item Logs d'activité
+\item Configuration
+\item Redémarrage
+\end{itemize}
+
+\chapter{Gestion Ollama}
+
+\section{Modèles}
+\begin{itemize}
+\item llama3 - Usage général
+\item mistral - Rapidité
+\item codellama - Programmation
+\item orca-mini - Ultra-léger
+\end{itemize}
+
+\chapter{Monitoring}
+
+\section{Métriques}
+\begin{itemize}
+\item Utilisation CPU/GPU
+\item Mémoire
+\item Espace disque
+\item Requêtes API
+\end{itemize}
+
+\chapter{Sauvegardes}
+
+\section{Stratégie}
+\begin{itemize}
+\item Backup automatique quotidien
+\item Rétention 30 jours
+\item Chiffrement
+\item Restauration rapide
+\end{itemize}
+
+\part{VOLUME 8 - DASHBOARD AFFILIÉS}
+
+\chapter{Programme d'Affiliation}
+
+\section{Inscription}
+\begin{enumerate}
+\item Formulaire d'inscription
+\item Validation email
+\item Acceptation CGU
+\item Accès dashboard
+\item Génération lien
+\end{enumerate}
+
+\chapter{Commissions}
+
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Niveau} & \color{white}\textbf{Commission} & \color{white}\textbf{Condition} \\
+\hline
+Bronze & 5\% & Inscription \\
+\hline
+Argent & 8\% & 1000€ de ventes \\
+\hline
+Or & 12\% & 5000€ de ventes \\
+\hline
+Platine & 15\% & 15000€ de ventes \\
+\hline
+Diamond & 20\% & 50000€ de ventes \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{Outils Marketing}
+\begin{itemize}
+\item Bannières promotionnelles
+\item Emails templates
+\item Scripts de présentation
+\item Documentation produits
+\end{itemize}
+
+\part{VOLUME 9 - DASHBOARD CLIENT}
+
+\chapter{Espace Client}
+
+\section{Modules}
+\begin{itemize}
+\item Gestion des devis
+\item Suivi des factures
+\item Historique des commandes
+\item Projets en cours
+\item Téléchargements
+\item Messagerie
+\item Support
+\end{itemize}
+
+\chapter{Support}
+
+\section{Types}
+\begin{itemize}
+\item Messagerie instantanée
+\item Ticket support
+\item Email
+\end{itemize}
+
+\part{VOLUME 10 - ARCHITECTURE TECHNIQUE}
+
+\chapter{Stack Technique}
+
+\section{Frontend}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Technologie} & \color{white}\textbf{Usage} \\
+\hline
+React 18 & Bibliothèque UI \\
+\hline
+Next.js 14 & Framework avec SSR \\
+\hline
+TypeScript 5 & Typage statique \\
+\hline
+Tailwind CSS 3 & Framework CSS \\
+\hline
+Framer Motion & Animations \\
+\hline
+Three.js & Graphiques 3D \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Backend}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Technologie} & \color{white}\textbf{Usage} \\
+\hline
+Node.js 20 & Runtime JavaScript \\
+\hline
+FastAPI & Framework Python \\
+\hline
+PostgreSQL 15 & Base de données \\
+\hline
+Redis 7 & Cache et sessions \\
+\hline
+Ollama & Inference IA \\
+\hline
+OpenHands & Automatisation \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{API}
+
+\section{Endpoints}
+\begin{itemize}
+\item /api/auth - Authentification
+\item /api/users - Utilisateurs
+\item /api/projects - Projets
+\item /api/orders - Commandes
+\item /api/ai - Intelligence Artificielle
+\item /api/marketplace - Boutique
+\item /api/affiliate - Affiliation
+\end{itemize}
+
+\part{VOLUME 11 - DESIGN SYSTEM}
+
+\chapter{Principes}
+
+\section{Philosophie}
+\begin{enumerate}
+\item \textbf{Simplicité} - Interfaces épurées
+\item \textbf{Consistance} - Expérience unifiée
+\item \textbf{Accessibilité} - Pour tous
+\end{enumerate}
+
+\chapter{Composants}
+
+\section{Boutons}
+\begin{itemize}
+\item Primary - Actions principales
+\item Secondary - Actions secondaires
+\item Outline - Alternatives
+\item Danger - Destructives
+\end{itemize}
+
+\chapter{Responsive}
+
+\section{Breakpoints}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+sm & 640px \\
+\hline
+md & 768px \\
+\hline
+lg & 1024px \\
+\hline
+xl & 1280px \\
+\hline
+2xl & 1536px \\
+\hline
+\end{tabular}
+\end{center}
+
+\part{VOLUME 12 - DÉPLOIEMENT}
+
+\chapter{Docker}
+
+\section{Configuration}
+Services principaux : frontend, backend, PostgreSQL, Redis, Ollama, OpenHands.
+
+\chapter{Ollama}
+
+\section{Configuration}
+\begin{itemize}
+\item Modèles recommandés : llama3, mistral, codellama
+\item Variables d'environnement configurables
+\item Support GPU NVIDIA
+\end{itemize}
+
+\chapter{Maintenance}
+
+\section{Procédures}
+\begin{enumerate}
+\item Sauvegarde quotidienne
+\item Mise à jour mensuelle
+\item Monitoring continu
+\item Revue des logs
+\item Test de restauration
+\end{enumerate}
+
+\chapter{Sécurité}
+
+\section{Mesures}
+\begin{itemize}
+\item pare-feu et fails2ban
+\item Certificats SSL/TLS
+\item Headers de sécurité
+\item Rate limiting
+\item Journalisation
+\end{itemize}
+
+\chapter{Roadmap}
+
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Version} & \color{white}\textbf{Date} & \color{white}\textbf{Contenu} \\
+\hline
+v1.0 & Q1 2026 & Lancement initial \\
+\hline
+v1.5 & Q2 2026 & Marketplace \\
+\hline
+v2.0 & Q3 2026 & Agents IA \\
+\hline
+v2.5 & Q4 2026 & ERP avancé \\
+\hline
+v3.0 & Q1 2027 & Enterprise \\
+\hline
+v3.5 & Q2 2027 & Cloud \\
+\hline
+v4.0 & Q3 2027 & SaaS \\
+\hline
+\end{tabular}
+\end{center}
+
+\appendix
+
+\chapter{Glossaire}
+\begin{description}
+\item[API] Application Programming Interface
+\item[CRM] Customer Relationship Management
+\item[ERP] Enterprise Resource Planning
+\item[IA] Intelligence Artificielle
+\item[SaaS] Software as a Service
+\item[SSR] Server-Side Rendering
+\end{description}
+
+\chapter{Contacts}
+\begin{itemize}
+\item Email : contact@e-graphisme.com
+\item Site : www.e-graphisme.com
+\end{itemize}
+
+\end{document}

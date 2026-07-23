@@ -1,0 +1,696 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+\usepackage{wrapfig}
+
+\definecolor{electronblue}{RGB}{0, 120, 212}
+\definecolor{electronpurple}{RGB}{136, 23, 152}
+\definecolor{electroncyan}{RGB}{0, 190, 255}
+\definecolor{electrongold}{RGB}{255, 185, 0}
+\definecolor{darkbg}{RGB}{15, 23, 42}
+\definecolor{lightbg}{RGB}{249, 250, 251}
+\definecolor{softgray}{RGB}{248, 249, 250}
+\definecolor{mediumgray}{RGB}{107, 114, 128}
+\definecolor{success}{RGB}{34, 197, 94}
+\definecolor{warning}{RGB}{251, 191, 36}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=electronblue,
+    filecolor=electronpurple,
+    urlcolor=electroncyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 2},
+    pdfsubject={Catalogue des Services}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{electronblue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{electronblue}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{electronpurple}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{electronblue}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{electronpurple}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{darkbg}DOCUMENTATION}\\[0.3cm]
+{\huge\bfseries\color{darkbg}ENTERPRISE}\\[1cm]
+{\Large\bfseries\color{electroncyan}Volume 2}\\[0.5cm]
+{\Large\bfseries\color{darkbg}CATALOGUE PREMIUM DES SERVICES}\\[3cm]
+\vspace{2cm}
+{\Large\color{mediumgray}Là où la créativité rencontre la technologie}\\[3cm]
+{\Large\bfseries\color{electrongold}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume présente l'ensemble des services proposés par E-Graphisme by ELECTRON. Chaque département est détaillé avec ses prestations, fonctionnalités et options de personnalisation.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Volume :} 2\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{DESIGN GRAPHIQUE}
+
+\section{Présentation}
+Le département Design Graphique constitue le cœur créatif de E-Graphisme by ELECTRON. Sa mission est de concevoir des identités visuelles professionnelles et des supports de communication adaptés aux entreprises, institutions, associations et particuliers.
+
+\section{Création de Logo}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Type} & \color{white}\textbf{Description} \\
+\hline
+Logo Minimaliste & Design épuré, formes simples, impact visuel fort \\
+\hline
+Logo Premium & Conception avancée avec détails raffinés \\
+\hline
+Logo 3D & Effets de profondeur et de volume \\
+\hline
+Logo Luxe & Style haut de gamme, matériaux précieux \\
+\hline
+Logo Corporate & Identité professionnelle pour entreprises \\
+\hline
+Logo Monogramme & Initiales stylisées \\
+\hline
+Mascotte & Personnage illustrateur de la marque \\
+\hline
+Logo Signature & Script manuscrit personnalisé \\
+\hline
+Logo Animé & Mouvement et life \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Options Client}
+Le client peut :
+\begin{itemize}
+\item demander une création sur mesure ;
+\item générer plusieurs propositions avec l'IA ;
+\item modifier les couleurs, les typographies et les icônes ;
+\item exporter les fichiers aux formats SVG, PDF, PNG, EPS et AI.
+\end{itemize}
+
+\section{Identité Visuelle}
+\subsection{Charte Graphique Complète}
+\begin{itemize}
+\item Palette de couleurs
+\item Typographie
+\item Icônes
+\item Kit réseaux sociaux
+\item Signature e-mail
+\item Templates de présentation
+\end{itemize}
+
+\section{Supports Publicitaires}
+\begin{multicols}{3}
+\begin{itemize}
+\item Flyers
+\item Brochures
+\item Dépliants
+\item Affiches
+\item Kakémonos
+\item Roll-up
+\item Bâches
+\item Catalogues
+\item Cartes de visite
+\item Pochettes
+\item Enveloppes
+\item Calendriers
+\end{itemize}
+\end{multicols}
+
+\chapter{BRANDING}
+
+\section{Présentation}
+Le service Branding accompagne les entreprises dans la construction de leur image.
+
+\section{Fonctionnalités}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Service} & \color{white}\textbf{Description} \\
+\hline
+Étude du marché & Analyse concurrentielle et tendances \\
+\hline
+Positionnement & Définition de la place sur le marché \\
+\hline
+Identité de marque & Création d'une identité unique \\
+\hline
+Storytelling & Rédaction narrative de marque \\
+\hline
+Slogans & Création de phrases d'accroche \\
+\hline
+Ligne éditoriale & Guidelines de communication \\
+\hline
+Stratégie de communication & Plan média et canaux \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{DÉVELOPPEMENT WEB}
+
+\section{Types de Projets}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Type} & \color{white}\textbf{Description} \\
+\hline
+Site vitrine & Présence professionnelle clé en main \\
+\hline
+Site institutionnel & Présentation d'entreprise détaillée \\
+\hline
+E-commerce & Boutique en ligne complète \\
+\hline
+Marketplace & Place de marché multi-vendeurs \\
+\hline
+ERP & Progiciel de gestion intégré \\
+\hline
+CRM & Gestion de la relation client \\
+\hline
+SaaS & Logiciel en tant que service \\
+\hline
+Plateforme de formation & LMS avec cours et certifications \\
+\hline
+Réseau social & Plateforme communautaire \\
+\hline
+Intranet & Solution interne d'entreprise \\
+\hline
+Portail Client & Espace client personnalisé \\
+\hline
+Portail Fournisseur & Gestion fournisseurs \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Fonctionnalités}
+\begin{multicols}{2}
+\begin{itemize}
+\item Responsive Design
+\item Progressive Web App
+\item Multilingue
+\item SEO avancé
+\item Tableau de bord
+\item Paiements en ligne
+\item Gestion documentaire
+\item Gestion des utilisateurs
+\item Authentification sécurisée
+\end{itemize}
+\end{multicols}
+
+\chapter{DÉVELOPPEMENT MOBILE}
+
+\section{Plateformes}
+\begin{center}
+\begin{tabular}{|c|c|p{8cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Plateforme} & \color{white}\textbf{Technologie} & \color{white}\textbf{Caractéristiques} \\
+\hline
+Android & Kotlin & Native, performances optimales \\
+\hline
+iOS & Swift & Native, expérience Apple \\
+\hline
+Hybrides & React Native & Multi-plateforme, coût réduit \\
+\hline
+PWA & Web & Installation sans store \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Fonctions Mobiles}
+\begin{multicols}{2}
+\begin{itemize}
+\item Notifications Push
+\item Paiement Mobile
+\item Géolocalisation
+\item QR Code
+\item Scanner
+\item Caméra
+\item Synchronisation hors ligne
+\end{itemize}
+\end{multicols}
+
+\chapter{UI / UX DESIGN}
+
+\section{Composants du Design System}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Élément} & \color{white}\textbf{Description} \\
+\hline
+Wireframes & Maquettes fonctionnelles basse fidélité \\
+\hline
+Prototypes & Interactions fonctionnelles \\
+\hline
+Design Tokens & Variables de design réutilisables \\
+\hline
+Composants réutilisables & Bibliothèque de UI \\
+\hline
+Responsive Layout & Adaptation tous écrans \\
+\hline
+Animations & Micro-interactions et transitions \\
+\hline
+Dark Mode & Thème sombre \\
+\hline
+Light Mode & Thème clair \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{INTELLIGENCE ARTIFICIELLE}
+
+\section{Environnement}
+La plateforme intègre un environnement IA local piloté par Ollama, garantissant confidentialité et performance.
+
+\section{Capacités}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Capacité} & \color{white}\textbf{Description} \\
+\hline
+Assistant conversationnel & Dialogue intelligent et contextuel \\
+\hline
+Génération de contenu & Rédaction automatique de textes \\
+\hline
+Analyse documentaire & Extraction d'informations clés \\
+\hline
+OCR & Reconnaissance de caractères \\
+\hline
+Traduction & Conversion multilingue \\
+\hline
+Résumé automatique & Synthèse de documents \\
+\hline
+Création graphique & Génération d'images par IA \\
+\hline
+Recherche intelligente & Moteur de recherche sémantique \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{MARKETING DIGITAL}
+
+\section{Services}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Service} & \color{white}\textbf{Description} \\
+\hline
+SEO & Optimisation pour les moteurs de recherche \\
+\hline
+SEA & Publicité sur moteurs de recherche \\
+\hline
+Google Ads & Campagnes Google \\
+\hline
+Facebook Ads & Publicité Facebook/Meta \\
+\hline
+Instagram Ads & Visuels pour Instagram \\
+\hline
+TikTok Ads & Vidéos courtes sponsorisées \\
+\hline
+LinkedIn Ads & B2B professionnel \\
+\hline
+Email Marketing & Newsletters et automations \\
+\hline
+SMS Marketing & Messages texto \\
+\hline
+Community Management & Animation des réseaux sociaux \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{AI ART STUDIO}
+
+\section{Présentation}
+Le Studio Artistique est l'une des innovations majeures de la plateforme. Il permet de créer des œuvres uniques grâce à l'intelligence artificielle.
+
+\section{Styles Disponibles}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Style} & \color{white}\textbf{Description} \\
+\hline
+Tableaux modernes & Contemporain et épuré \\
+\hline
+Art abstrait & Formes et couleurs non figuratives \\
+\hline
+Art africain & Inspiration culturelle africaine \\
+\hline
+Art minimaliste & Simplicité et sobriété \\
+\hline
+Art contemporain & Créations actuelles \\
+\hline
+Art de luxe & Style premium et élégant \\
+\hline
+Pop Art & Mouvement artistique populaire \\
+\hline
+Peinture numérique & Simulation de peinture \\
+\hline
+Aquarelle & Effet-transparent-aqueux \\
+\hline
+Dessin au crayon & Style graphite \\
+\hline
+Effets 3D & Profondeur et volume \\
+\hline
+Art mural & Style graffiti et street art \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Personnalisation}
+Le client peut modifier :
+\begin{multicols}{3}
+\begin{itemize}
+\item les couleurs
+\item le style
+\item le format
+\item le niveau de détail
+\item les matériaux
+\item les cadres
+\item les dimensions
+\end{itemize}
+\end{multicols}
+
+\chapter{DÉCORATION}
+
+\section{Produits}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Produit} & \color{white}\textbf{Description} \\
+\hline
+Tableaux muraux & Œuvres d'art personnalisées \\
+\hline
+Toiles & Impression sur toile canvas \\
+\hline
+Cadres & Encadrements professionnels \\
+\hline
+Affiches & Prints haute qualité \\
+\hline
+Décorations d'entreprise & Aménagement de locaux \\
+\hline
+Décoration de salon & Maison et intérieur \\
+\hline
+Décoration de bureau & Espace de travail \\
+\hline
+Décoration d'hôtel & Hôtellerie et restauration \\
+\hline
+Décoration de restaurant & Ambiance alimentaire \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{IMPRESSION}
+
+\section{Supports Disponibles}
+\begin{multicols}{3}
+\begin{itemize}
+\item Toile Canvas
+\item Aluminium
+\item Verre
+\item PVC
+\item Forex
+\item Papier Premium
+\item Vinyle
+\item Tissu
+\end{itemize}
+\end{multicols}
+
+\section{Formats}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Format} & \color{white}\textbf{Dimensions} \\
+\hline
+A4 & 210 x 297 mm \\
+\hline
+A3 & 297 x 420 mm \\
+\hline
+A2 & 420 x 594 mm \\
+\hline
+A1 & 594 x 841 mm \\
+\hline
+A0 & 841 x 1189 mm \\
+\hline
+Personnalisé & Sur mesure \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{MARKETPLACE}
+
+\section{Fonctionnalités Vendeur}
+Chaque utilisateur pourra :
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Fonctionnalité} & \color{white}\textbf{Description} \\
+\hline
+Profil & Page personnelle vendeuse \\
+\hline
+Publication & Mise en ligne d'œuvres \\
+\hline
+Tarification & Fixation des prix \\
+\hline
+Suivi des ventes & Tableau de bord commercial \\
+\hline
+Gestion des licences & Contrôle des droits \\
+\hline
+Réponses aux avis & Interaction clients \\
+\hline
+Statistiques & Analytique détaillée \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{FORMATION}
+
+\section{Catalogue de Formations}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Formation} & \color{white}\textbf{Description} \\
+\hline
+Graphisme & Maîtrise des outils de design \\
+\hline
+Développement Web & Programmation frontend et backend \\
+\hline
+Marketing Digital & Stratégies en ligne \\
+\hline
+IA & Intelligence artificielle appliquée \\
+\hline
+E-commerce & Création de boutiques \\
+\hline
+SEO & Référencement naturel \\
+\hline
+Branding & Construction de marque \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Contenu des Formations}
+\begin{itemize}
+\item Vidéos tutoriels
+\item Documents PDF
+\item Exercices pratiques
+\item Certificats de réussite
+\item Quiz d'évaluation
+\end{itemize}
+
+\chapter{CONSEIL}
+
+\section{Accompagnement Stratégique}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Domaine} & \color{white}\textbf{Description} \\
+\hline
+Transformation digitale & Migration vers le numérique \\
+\hline
+Branding & Stratégie de marque \\
+\hline
+Marketing & Plan marketing \\
+\hline
+Intelligence artificielle & Implémentation IA \\
+\hline
+Architecture logicielle & Design système \\
+\hline
+Cybersécurité & Protection des données \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{MAINTENANCE}
+
+\section{Services}
+\begin{multicols}{2}
+\begin{itemize}
+\item Sauvegarde
+\item Supervision
+\item Mises à jour
+\item Optimisation
+\item Surveillance
+\item Assistance
+\end{itemize}
+\end{multicols}
+
+\chapter{HÉBERGEMENT}
+
+\section{Solutions}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Solution} & \color{white}\textbf{Description} \\
+\hline
+Hébergement local & Infrastructure sur site \\
+\hline
+Cloud privé & VPS dédié \\
+\hline
+Cloud public & Services cloud partagés \\
+\hline
+Docker & Conteneurisation \\
+\hline
+Clusters & Haute disponibilité \\
+\hline
+Sauvegardes automatiques & Backup quotidien \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{CYBERSÉCURITÉ}
+
+\section{Fonctions}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Fonction} & \color{white}\textbf{Description} \\
+\hline
+Contrôle des accès & Authentification et autorisations \\
+\hline
+Chiffrement & Protection des données sensibles \\
+\hline
+Journalisation & Traçabilité des actions \\
+\hline
+Protection des données & Conformité RGPD \\
+\hline
+Sauvegardes sécurisées & Backup chiffré \\
+\hline
+Audit de sécurité & Tests de vulnérabilité \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{SERVICES PREMIUM ENTERPRISE}
+
+\section{Présentation}
+Cette offre est destinée aux grandes entreprises.
+
+\section{Inclus}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electrongold}
+\color{white}\textbf{Service} & \color{white}\textbf{Description} \\
+\hline
+Accompagnement personnalisé & Manager de compte dédié \\
+\hline
+Architecture sur mesure & Solution personnalisée \\
+\hline
+Tableaux de bord avancés & Reporting бизнес \\
+\hline
+Support prioritaire & SLA garanti \\
+\hline
+IA locale Ollama & Modèles personnalisés \\
+\hline
+Admin Founder & Centre de commande exclusif \\
+\hline
+Espaces dédiés & Admin, Collab, Client, Affilié \\
+\hline
+\end{tabular}
+\end{center}
+
+\appendix
+
+\chapter{Index des Services}
+\begin{enumerate}
+\item Design Graphique
+\item Branding
+\item Développement Web
+\item Développement Mobile
+\item UI / UX Design
+\item Intelligence Artificielle
+\item Marketing Digital
+\item Studio IA Artistique
+\item Décoration Intérieure
+\item Impression Professionnelle
+\item Marketplace Artistique
+\item Formation
+\item Conseil
+\item Maintenance
+\item Hébergement
+\item Cybersécurité
+\item Services Premium Enterprise
+\end{enumerate}
+
+\end{document}

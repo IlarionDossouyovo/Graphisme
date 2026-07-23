@@ -1,0 +1,583 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{electronblue}{RGB}{0, 120, 212}
+\definecolor{electronpurple}{RGB}{136, 23, 152}
+\definecolor{electroncyan}{RGB}{0, 190, 255}
+\definecolor{electrongold}{RGB}{255, 185, 0}
+\definecolor{darkbg}{RGB}{15, 23, 42}
+\definecolor{lightbg}{RGB}{249, 250, 251}
+\definecolor{softgray}{RGB}{248, 249, 250}
+\definecolor{mediumgray}{RGB}{107, 114, 128}
+\definecolor{success}{RGB}{34, 197, 94}
+\definecolor{warning}{RGB}{251, 191, 36}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=electronblue,
+    filecolor=electronpurple,
+    urlcolor=electroncyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 5},
+    pdfsubject={AI Center & Agents IA Enterprise}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{electronblue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{electronblue}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{electronpurple}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{electronblue}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{electronpurple}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{darkbg}AI CENTER}\\[0.3cm]
+{\huge\bfseries\color{darkbg}Le Centre de Commandement de l'Intelligence Artificielle}\\[1cm]
+{\Large\bfseries\color{electroncyan}Volume 5}\\[3cm]
+\vspace{2cm}
+{\Large\color{mediumgray}Une entreprise où chaque département est assisté par une IA spécialisée,}\\[0.5cm]
+{\Large\color{mediumgray}coordonnée depuis un centre de supervision privé réservé au Fondateur.}\\[3cm]
+{\Large\bfseries\color{electrongold}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume présente le AI Center et les Agents IA Enterprise, le centre de commandement de l'intelligence artificielle de la plateforme E-Graphisme by ELECTRON.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Volume :} 5\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{LE AI CENTER}
+
+\section{Présentation}
+Le AI Center constitue le cerveau numérique de E-Graphisme by ELECTRON. Tous les agents IA résident dans cet environnement sécurisé.
+
+Contrairement à un chatbot classique, il s'agit d'une organisation virtuelle, où chaque IA possède un métier, des responsabilités, une mémoire, des outils et un domaine de compétence.
+
+Toutes les interactions sont exécutées localement grâce à Ollama, garantissant confidentialité et maîtrise des données.
+
+\chapter{ARCHITECTURE GÉNÉRALE}
+
+\section{Fonctions de l'Orchestrator}
+Le centre est organisé autour d'un AI Orchestrator, qui coordonne les échanges entre les agents.
+
+\bigskip
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Fonction} & \color{white}\textbf{Description} \\
+\hline
+Répartition des tâches & Distribution aux agents adaptés \\
+\hline
+Planification & Ordonnancement des actions \\
+\hline
+Priorisation & Gestion des urgences \\
+\hline
+Suivi d'exécution & Monitoring des tâches \\
+\hline
+Journalisation & Logging complet \\
+\hline
+Gestion des événements & Réponse aux incidents \\
+\hline
+Synchronisation des mémoires & Partage d'informations \\
+\hline
+Remontée des alertes & Notification des problèmes \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{AI ORCHESTRATOR}
+
+\section{Rôle}
+L'AI Orchestrator remplace les moteurs d'automatisation externes. Il reçoit les demandes, identifie les compétences nécessaires, sollicite les agents concernés puis consolide leurs réponses.
+
+\section{Exemple de Flux}
+\begin{enumerate}
+\item Un client demande un site e-commerce
+\item L'Orchestrator consulte le Commercial IA
+\item Le Designer IA prépare une proposition graphique
+\item Le Développeur IA évalue la faisabilité
+\item Le Finance IA établit un devis
+\item Le CEO AI valide si nécessaire
+\item Les tâches sont créées dans l'ERP
+\end{enumerate}
+
+\chapter{CENTRE PRIVÉ DU FONDATEUR}
+
+\section{Accès}
+Accessible uniquement au Fondateur.
+
+\section{Fonctionnalités}
+Cette interface permet de :
+\begin{itemize}
+\item voir tous les agents ;
+\item démarrer ou arrêter un agent ;
+\item choisir le modèle Ollama utilisé par chaque agent ;
+\item modifier les prompts système ;
+\item consulter les journaux ;
+\item gérer les connaissances ;
+\item surveiller les performances CPU/GPU ;
+\item suivre les conversations internes.
+\end{itemize}
+
+\chapter{HIÉRARCHIE DES AGENTS}
+
+\section{Niveau Exécutif}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Agent} & \color{white}\textbf{Rôle} \\
+\hline
+CEO AI & Direction générale \\
+\hline
+Executive Assistant AI & Assistant exécutif \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Niveau Direction}
+\begin{multicols}{2}
+\begin{itemize}
+\item Commercial AI
+\item Marketing AI
+\item Finance AI
+\item RH AI
+\item Juridique AI
+\item Production AI
+\end{itemize}
+\end{multicols}
+
+\section{Niveau Créatif}
+\begin{multicols}{2}
+\begin{itemize}
+\item Designer AI
+\item Branding AI
+\item Art Director AI
+\item Motion AI
+\item Interior Designer AI
+\end{itemize}
+\end{multicols}
+
+\section{Niveau Technique}
+\begin{multicols}{2}
+\begin{itemize}
+\item Frontend AI
+\item Backend AI
+\item Full Stack AI
+\item DevOps AI
+\item Database AI
+\item Cybersecurity AI
+\end{itemize}
+\end{multicols}
+
+\section{Niveau Opérationnel}
+\begin{multicols}{2}
+\begin{itemize}
+\item Support AI
+\item Marketplace AI
+\item Impression AI
+\item Logistique AI
+\item Community Manager AI
+\item Formation AI
+\end{itemize}
+\end{multicols}
+
+\chapter{DÉPARTEMENTS IA}
+
+\section{CEO AI}
+\subsection{Responsabilités}
+\begin{itemize}
+\item supervision globale ;
+\item arbitrage ;
+\item validation des décisions importantes ;
+\item suivi des objectifs.
+\end{itemize}
+
+\section{Executive Assistant AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item planification ;
+\item agenda ;
+\item rappels ;
+\item préparation des réunions ;
+\item synthèse des rapports.
+\end{itemize}
+
+\section{Commercial AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item qualification des prospects ;
+\item devis ;
+\item suivi commercial ;
+\item relances ;
+\item gestion des contrats.
+\end{itemize}
+
+\section{Marketing AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item stratégie digitale ;
+\item campagnes ;
+\item SEO ;
+\item réseaux sociaux ;
+\item génération de contenus.
+\end{itemize}
+
+\section{Designer AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item création de logos ;
+\item affiches ;
+\item identités visuelles ;
+\item supports imprimés ;
+\item maquettes.
+\end{itemize}
+
+\section{Art Director AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item supervision artistique ;
+\item contrôle qualité ;
+\item cohérence visuelle ;
+\item validation des créations.
+\end{itemize}
+
+\section{Interior Designer AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item recommandations de décoration ;
+\item simulation d'intégration d'œuvres ;
+\item harmonie des couleurs ;
+\item choix des cadres.
+\end{itemize}
+
+\section{Frontend AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item interfaces React ;
+\item composants ;
+\item animations ;
+\item responsive design.
+\end{itemize}
+
+\section{Backend AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item API ;
+\item authentification ;
+\item logique métier ;
+\item sécurité.
+\end{itemize}
+
+\section{Full Stack AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item coordination entre Frontend et Backend ;
+\item optimisation des performances.
+\end{itemize}
+
+\section{DevOps AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item Docker ;
+\item sauvegardes ;
+\item surveillance ;
+\item déploiements.
+\end{itemize}
+
+\section{Database AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item PostgreSQL ;
+\item Redis ;
+\item Firebase ;
+\item optimisation des requêtes.
+\end{itemize}
+
+\section{Cybersecurity AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item contrôle des accès ;
+\item audit ;
+\item chiffrement ;
+\item surveillance.
+\end{itemize}
+
+\section{Finance AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item devis ;
+\item factures ;
+\item paiements ;
+\item rapports financiers.
+\end{itemize}
+
+\section{RH AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item recrutement ;
+\item gestion des collaborateurs ;
+\item formation ;
+\item évaluations.
+\end{itemize}
+
+\section{Support AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item assistance ;
+\item tickets ;
+\item FAQ ;
+\item résolution des incidents.
+\end{itemize}
+
+\section{Marketplace AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item gestion des œuvres ;
+\item publication ;
+\item modération ;
+\item recommandations.
+\end{itemize}
+
+\section{Impression AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item préparation des fichiers ;
+\item contrôle des formats ;
+\item gestion des commandes d'impression.
+\end{itemize}
+
+\section{Community Manager AI}
+\subsection{Fonctions}
+\begin{itemize}
+\item calendrier éditorial ;
+\item publications ;
+\item interactions avec la communauté.
+\end{itemize}
+
+\chapter{COMMUNICATION ENTRE LES AGENTS}
+
+\section{Messagerie Interne}
+Les agents échangent des informations via une messagerie interne.
+
+\section{Characteristics}
+Chaque message est :
+\begin{itemize}
+\item horodaté ;
+\item signé ;
+\item enregistré ;
+\item traçable.
+\end{itemize}
+
+Le Fondateur peut consulter ces échanges pour comprendre les décisions prises.
+
+\chapter{MÉMOIRE DES AGENTS}
+
+\section{Niveaux de Mémoire}
+Chaque agent dispose de plusieurs niveaux de mémoire :
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Type} & \color{white}\textbf{Description} \\
+\hline
+Mémoire de session & Données temporaires \\
+\hline
+Mémoire métier & Compétences et procédures \\
+\hline
+Mémoire documentaire & Base de connaissances \\
+\hline
+Historique des interactions & Traçabilité \\
+\hline
+Bibliothèque de procédures & Méthodologies \\
+\hline
+\end{tabular}
+\end{center}
+
+Les connaissances sont isolées par domaine afin d'éviter les interférences.
+
+\chapter{BIBLIOTHÈQUE DE CONNAISSANCES}
+
+\section{Bases Documentaires}
+Chaque département possède une base documentaire dédiée.
+
+\section{Exemples}
+\begin{itemize}
+\item normes graphiques ;
+\item guides de développement ;
+\item procédures commerciales ;
+\item modèles de devis ;
+\item chartes internes ;
+\item FAQ.
+\end{itemize}
+
+\chapter{GESTION DES MODÈLES OLLAMA}
+
+\section{Options du Fondateur}
+Le Fondateur peut :
+\begin{itemize}
+\item associer un modèle à chaque agent ;
+\item définir des profils de performance (rapide, équilibré, qualité) ;
+\item mettre à jour les modèles ;
+\item suivre leur utilisation et leur consommation de ressources.
+\end{itemize}
+
+\chapter{DASHBOARD DU FONDATEUR}
+
+\section{Vue d'Ensemble en Temps Réel}
+\begin{multicols}{2}
+\begin{itemize}
+\item état des agents ;
+\item charge CPU/GPU ;
+\item projets actifs ;
+\item revenus ;
+\item ventes Marketplace ;
+\item statistiques ERP ;
+\item alertes ;
+\item sauvegardes ;
+\item notifications.
+\end{itemize}
+\end{multicols}
+
+\chapter{DASHBOARD DES AGENTS}
+
+\section{Espace de Chaque Agent}
+Chaque agent possède un espace avec :
+\begin{multicols}{2}
+\begin{itemize}
+\item tâches en cours ;
+\item historique ;
+\item indicateurs de performance ;
+\item outils disponibles ;
+\item paramètres.
+\end{itemize}
+\end{multicols}
+
+\chapter{JOURNAL DES ACTIVITÉS}
+
+\section{Opérations Enregistrées}
+Toutes les opérations importantes sont enregistrées :
+\begin{multicols}{2}
+\begin{itemize}
+\item connexions ;
+\item créations ;
+\item modifications ;
+\item validations ;
+\item erreurs ;
+\item actions des agents.
+\end{itemize}
+\end{multicols}
+
+Ces journaux facilitent l'audit et le diagnostic.
+
+\chapter{SÉCURITÉ ET PERMISSIONS}
+
+\section{Contrôle d'Accès}
+Le Centre IA applique un contrôle d'accès par rôles.
+
+\section{Profils Principaux}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Profil} & \color{white}\textbf{Accès} \\
+\hline
+Fondateur & Complet \\
+\hline
+Administrateur & Étendu \\
+\hline
+Employé & Restreint \\
+\hline
+Client & Limité \\
+\hline
+Affilié & Minimal \\
+\hline
+\end{tabular}
+\end{center}
+
+Chaque profil dispose uniquement des autorisations nécessaires.
+
+\chapter{ÉVOLUTIONS FUTURES}
+
+\section{Fonctionnalités Prévues}
+Les prochaines versions pourront intégrer :
+\begin{itemize}
+\item assistants vocaux multilingues ;
+\item réunions IA collaboratives ;
+\item génération de vidéos et de présentations ;
+\item analyse prédictive avancée ;
+\item jumeau numérique de l'entreprise pour simuler des scénarios de croissance.
+\end{itemize}
+
+\appendix
+
+\chapter{Index}
+\begin{enumerate}
+\item Présentation du AI Center
+\item Architecture générale
+\item AI Orchestrator
+\item Centre privé du Fondateur
+\item Hiérarchie des Agents IA
+\item Départements IA
+\item Communication entre les Agents
+\item Mémoire des Agents
+\item Bibliothèque de connaissances
+\item Gestion des modèles Ollama
+\item Dashboard du Fondateur
+\item Dashboard des Agents
+\item Journal des activités
+\item Sécurité et permissions
+\item Évolutions futures
+\end{enumerate}
+
+\end{document}

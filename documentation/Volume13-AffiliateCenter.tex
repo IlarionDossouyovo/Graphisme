@@ -1,0 +1,454 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{noir}{RGB}{9, 9, 11}
+\definecolor{bleuIA}{RGB}{37, 99, 235}
+\definecolor{violet}{RGB}{124, 58, 237}
+\definecolor{cyan}{RGB}{6, 182, 212}
+\definecolor{or}{RGB}{212, 175, 55}
+\definecolor{vert}{RGB}{34, 197, 94}
+\definecolor{gris}{RGB}{107, 114, 128}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=bleuIA,
+    filecolor=violet,
+    urlcolor=cyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 13},
+    pdfsubject={Affiliate Center Dashboard}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{bleuIA}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{bleuIA}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{violet}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{bleuIA}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{violet}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{noir}AFFILIATE CENTER}\\[0.3cm]
+{\huge\bfseries\color{noir}DASHBOARD AFFILIÉS}\\[1cm]
+{\Large\bfseries\color{cyan}Volume 13}\\[3cm]
+\vspace{2cm}
+{\Large\color{gris}Le Centre Intelligent des Partenaires et Revendeurs}\\[0.5cm]
+{\Large\color{gris}Accès : Affiliés • Revendeurs • Ambassadeurs • Partenaires Premium}\\[3cm]
+{\Large\bfseries\color{or}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume présente le Dashboard Affiliés de E-Graphisme by ELECTRON.
+
+\bigskip
+\textbf{Classification :} Affiliés\\
+\textbf{Volume :} 13\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{VISION DE L'AFFILIATE CENTER}
+
+\section{Concept}
+Chaque affilié dispose de sa propre mini-entreprise numérique. La plateforme lui fournit automatiquement outils, contenus, intelligence artificielle, marketing, statistiques et formation.
+
+\chapter{ACCUEIL PREMIUM}
+
+\section{Widgets}
+\begin{multicols}{2}
+\begin{itemize}
+\item commissions du jour
+\item ventes
+\item prospects
+\item nouveaux clients
+\item classement
+\item campagnes
+\item statistiques
+\item notifications
+\end{itemize}
+\end{multicols}
+
+\chapter{PROFIL AFFILIÉ}
+
+\section{Informations}
+\begin{multicols}{2}
+\begin{itemize}
+\item identité
+\item photo
+\item réseaux sociaux
+\item pays
+\item langue
+\item portefeuille
+\item niveau
+\end{itemize}
+\end{multicols}
+
+\chapter{STATUT ET CERTIFICATION}
+
+\section{Niveaux}
+\begin{multicols}{3}
+\begin{itemize}
+\item Débutant
+\item Bronze
+\item Argent
+\item Or
+\item Platine
+\item Diamant
+\item Elite
+\item Ambassadeur
+\item Master Partner
+\end{itemize}
+\end{multicols}
+
+\chapter{TABLEAU DE BORD COMMERCIAL}
+
+\section{Visualisation}
+\begin{multicols}{2}
+\begin{itemize}
+\item chiffre d'affaires généré
+\item commissions
+\item taux de conversion
+\item nouveaux prospects
+\item objectifs
+\end{itemize}
+\end{multicols}
+
+\chapter{MON RÉSEAU}
+
+\section{Affichage}
+\begin{multicols}{2}
+\begin{itemize}
+\item filleuls directs
+\item équipe
+\item croissance
+\item activité
+\item performances
+\end{itemize}
+\end{multicols}
+
+\chapter{PROSPECTS}
+
+\section{Gestion}
+\begin{multicols}{2}
+\begin{itemize}
+\item nouveaux contacts
+\item relances
+\item historique
+\item statut
+\end{itemize}
+\end{multicols}
+
+\chapter{CLIENTS PARRAINÉS}
+
+\section{Affichage}
+\begin{multicols}{2}
+\begin{itemize}
+\item commandes
+\item abonnements
+\item historique
+\item revenus générés
+\end{itemize}
+\end{multicols}
+
+\chapter{CRM PERSONNEL}
+
+\section{Fonctionnalités}
+\begin{multicols}{2}
+\begin{itemize}
+\item prospects
+\item rendez-vous
+\item tâches
+\item relances
+\item notes
+\end{itemize}
+\end{multicols}
+
+\chapter{QR CODE CENTER}
+
+\section{Génération}
+\begin{multicols}{2}
+\begin{itemize}
+\item QR Codes
+\item cartes numériques
+\item affiches
+\item flyers
+\item cartes de visite
+\end{itemize}
+\end{multicols}
+
+\chapter{LIENS D'AFFILIATION}
+
+\section{Création}
+\begin{multicols}{2}
+\begin{itemize}
+\item liens personnalisés
+\item liens courts
+\item campagnes
+\item paramètres UTM
+\item suivi des clics
+\end{itemize}
+\end{multicols}
+
+\chapter{AI MARKETING CENTER}
+
+\section{Création automatique}
+\begin{multicols}{2}
+\begin{itemize}
+\item publications
+\item publicités
+\item emails
+\item SMS
+\item slogans
+\item articles
+\item campagnes
+\end{itemize}
+\end{multicols}
+
+\chapter{COMMISSIONS}
+
+\section{Affichage}
+\begin{multicols}{2}
+\begin{itemize}
+\item commissions validées
+\item commissions en attente
+\item historique
+\item bonus
+\end{itemize}
+\end{multicols}
+
+\chapter{PAIEMENTS}
+
+\section{Suivi}
+\begin{multicols}{2}
+\begin{itemize}
+\item virements
+\item retraits
+\item historique
+\item justificatifs
+\end{itemize}
+\end{multicols}
+
+\chapter{CENTRE DE FORMATION}
+
+\section{Accès}
+\begin{multicols}{2}
+\begin{itemize}
+\item vidéos
+\item PDF
+\item examens
+\item certifications
+\item webinaires
+\end{itemize}
+\end{multicols}
+
+\chapter{CLASSEMENTS}
+
+\section{Affichage}
+\begin{multicols}{2}
+\begin{itemize}
+\item Top 10
+\item Top mensuel
+\item Top annuel
+\item progression personnelle
+\end{itemize}
+\end{multicols}
+
+\chapter{RÉCOMPENSES}
+
+\section{Système}
+\begin{multicols}{2}
+\begin{itemize}
+\item badges
+\item trophées
+\item bonus
+\item cadeaux
+\item certifications
+\end{itemize}
+\end{multicols}
+
+\chapter{MESSAGERIE}
+
+\section{Communication}
+\begin{multicols}{2}
+\begin{itemize}
+\item support
+\item responsables
+\item autres affiliés
+\end{itemize}
+\end{multicols}
+
+\chapter{SUPPORT}
+
+\section{Demandes}
+\begin{multicols}{2}
+\begin{itemize}
+\item tickets
+\item demandes
+\item assistance
+\end{itemize}
+\end{multicols}
+
+\chapter{STATISTIQUES}
+
+\section{Visualisation}
+\begin{multicols}{2}
+\begin{itemize}
+\item clics
+\item visites
+\item ventes
+\item conversions
+\item revenus
+\end{itemize}
+\end{multicols}
+
+\chapter{PARAMÈTRES}
+
+\section{Configuration}
+\begin{multicols}{2}
+\begin{itemize}
+\item notifications
+\item langue
+\item devise
+\item thème
+\item préférences
+\end{itemize}
+\end{multicols}
+
+\chapter{SÉCURITÉ}
+
+\section{Fonctions}
+\begin{multicols}{2}
+\begin{itemize}
+\item double authentification
+\item appareils autorisés
+\item historique des connexions
+\item gestion des sessions
+\end{itemize}
+\end{multicols}
+
+\chapter{AI BUSINESS COACH}
+
+\section{Assistant}
+Chaque affilié bénéficie d'un coach IA qui analyse ses performances, recommande des actions commerciales, prépare un plan de prospection, propose des objectifs réalistes et identifie les services les plus adaptés à promouvoir.
+
+\chapter{CENTRE PREMIUM}
+
+\section{Accès}
+\begin{multicols}{2}
+\begin{itemize}
+\item modèles exclusifs
+\item campagnes premium
+\item formations avancées
+\item événements privés
+\item outils supplémentaires
+\end{itemize}
+\end{multicols}
+
+\chapter{AI SALES ASSISTANT}
+
+\section{Assistant commercial}
+Créer un assistant commercial IA dédié à chaque affilié capable de répondre automatiquement aux prospects, préparer des devis, générer des propositions commerciales, qualifier les leads, rappeler les relances importantes et suggérer les meilleures offres.
+
+\chapter{CENTRE D'ÉVÉNEMENTS}
+
+\section{Défis}
+\begin{multicols}{2}
+\begin{itemize}
+\item concours mensuels
+\item objectifs personnalisés
+\item missions saisonnières
+\item campagnes nationales
+\item campagnes internationales
+\end{itemize}
+\end{multicols}
+
+\chapter{RÉSEAU MULTI-NIVEAUX}
+
+\section{Gestion}
+\begin{itemize}
+\item suivi des filleuls directs et indirects
+\item commissions configurables par niveau
+\item visualisation de l'arborescence
+\item analyse des performances
+\item tableaux de bord de croissance
+\end{itemize}
+
+\appendix
+
+\chapter{Index}
+\begin{enumerate}
+\item Vision Affiliate Center
+\item Accueil Premium
+\item Profil Affilié
+\item Statut et Certification
+\item Tableau de Bord Commercial
+\item Mon Réseau
+\item Prospects
+\item Clients Parrainés
+\item CRM Personnel
+\item QR Code Center
+\item Liens d'Affiliation
+\item AI Marketing Center
+\item Commissions
+\item Paiements
+\item Centre de Formation
+\item Classements
+\item Récompenses
+\item Messagerie
+\item Support
+\item Statistiques
+\item Paramètres
+\item Sécurité
+\item AI Business Coach
+\item Centre Premium
+\item AI Sales Assistant
+\item Centre d'Événéments
+\item Réseau Multi-Niveaux
+\end{enumerate}
+
+\end{document}
