@@ -1,0 +1,399 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{electronblue}{RGB}{0, 120, 212}
+\definecolor{electronpurple}{RGB}{136, 23, 152}
+\definecolor{electroncyan}{RGB}{0, 190, 255}
+\definecolor{electrongold}{RGB}{255, 185, 0}
+\definecolor{darkbg}{RGB}{15, 23, 42}
+\definecolor{lightbg}{RGB}{249, 250, 251}
+\definecolor{softgray}{RGB}{248, 249, 250}
+\definecolor{mediumgray}{RGB}{107, 114, 128}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=electronblue,
+    filecolor=electronpurple,
+    urlcolor=electroncyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 1},
+    pdfsubject={Présentation Corporate}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{electronblue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{electronblue}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{electronpurple}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{electronblue}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{electronpurple}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{darkbg}DOCUMENTATION}\\[0.3cm]
+{\huge\bfseries\color{darkbg}ENTERPRISE}\\[1cm]
+{\Large\bfseries\color{electroncyan}Volume 1}\\[0.5cm]
+{\Large\bfseries\color{darkbg}PRÉSENTATION CORPORATE}\\[3cm]
+\vspace{2cm}
+{\Large\color{mediumgray}Là où la créativité rencontre la technologie}\\[1cm]
+{\Large\color{electronpurple}Enterprise AI Creative Studio}\\[2cm]
+{\Large\bfseries\color{electrongold}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+
+Bienvenue dans la documentation Enterprise d'E-Graphisme by ELECTRON, une plateforme de nouvelle génération qui réunit au sein d'un même environnement les métiers de la création graphique, du développement logiciel, du marketing digital, de l'intelligence artificielle, de la décoration et du commerce électronique.
+
+Notre ambition est de proposer une plateforme capable d'accompagner une entreprise depuis la conception de son identité visuelle jusqu'à la commercialisation de ses produits et services, tout en s'appuyant sur une équipe d'agents IA spécialisés fonctionnant en local grâce à Ollama.
+
+Cette documentation a été conçue selon les standards des plus grandes entreprises technologiques. Elle constitue la référence absolue pour le développement, la maintenance et la présentation de la plateforme aux partenaires et investisseurs.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Version :} 2026\\
+\textbf{Date :} Juillet 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{Notre Vision}
+
+Construire l'une des plateformes créatives les plus complètes d'Afrique, capable de fournir des services numériques et artistiques de niveau international, tout en offrant un environnement sécurisé, performant et évolutif.
+
+Nous souhaitons démocratiser l'accès à la création assistée par IA et permettre aux entreprises, aux artistes et aux particuliers de concevoir, gérer et vendre leurs projets à partir d'une plateforme unique.
+
+\bigskip
+\begin{center}
+\begin{large}
+\textit{``Là où la créativité rencontre la technologie''}
+\end{large}
+\end{center}
+
+\chapter{Notre Mission}
+
+Fournir un environnement intégré permettant de :
+
+\begin{itemize}
+\item concevoir des identités visuelles professionnelles ;
+\item développer des sites web et applications modernes ;
+\item produire des œuvres artistiques originales ;
+\item commercialiser des créations numériques et physiques ;
+\item automatiser les processus internes grâce à l'intelligence artificielle ;
+\item offrir une expérience utilisateur haut de gamme.
+\end{itemize}
+
+\chapter{Nos Valeurs}
+
+\section{Innovation}
+Nous intégrons les technologies les plus récentes afin d'améliorer les performances de nos services.
+
+\section{Excellence}
+Chaque projet est conçu avec une exigence de qualité comparable aux standards des grandes entreprises technologiques.
+
+\section{Créativité}
+Nous encourageons la création originale et l'innovation visuelle.
+
+\section{Transparence}
+Chaque client bénéficie d'un suivi clair de son projet.
+
+\section{Sécurité}
+Les données sont protégées par une architecture moderne et des mécanismes de contrôle d'accès.
+
+\chapter{Organisation}
+
+\section{Création Graphique}
+\begin{multicols}{2}
+\begin{itemize}
+\item Logos
+\item Chartes graphiques
+\item Affiches
+\item Flyers
+\item Cartes de visite
+\item Brochures
+\item Catalogues
+\item Packaging
+\end{itemize}
+\end{multicols}
+
+\section{Développement Web}
+\begin{multicols}{2}
+\begin{itemize}
+\item Sites vitrines
+\item Plateformes e-commerce
+\item Applications SaaS
+\item ERP
+\item CRM
+\item Portails clients
+\item Progressive Web Apps
+\end{itemize}
+\end{multicols}
+
+\section{Développement Mobile}
+\begin{multicols}{2}
+\begin{itemize}
+\item Android
+\item iOS
+\item Applications hybrides
+\item Interfaces responsives
+\end{itemize}
+\end{multicols}
+
+\section{Marketing Digital}
+\begin{multicols}{2}
+\begin{itemize}
+\item SEO
+\item Publicité
+\item Réseaux sociaux
+\item Email marketing
+\item Création de contenu
+\item Stratégie digitale
+\end{itemize}
+\end{multicols}
+
+\section{Intelligence Artificielle}
+\begin{multicols}{2}
+\begin{itemize}
+\item Agents IA spécialisés
+\item Assistance client
+\item Création graphique assistée
+\item Génération d'images
+\item Analyse documentaire
+\item OCR
+\item Génération de contenu
+\end{itemize}
+\end{multicols}
+
+\chapter{Décoration et Art}
+
+Ce département constitue l'une des principales innovations de la plateforme.
+
+Les utilisateurs pourront :
+
+\begin{itemize}
+\item créer leurs propres tableaux artistiques ;
+\item personnaliser les styles ;
+\item choisir les dimensions ;
+\item sélectionner les cadres ;
+\item générer des collections ;
+\item publier leurs œuvres ;
+\item vendre leurs créations.
+\end{itemize}
+
+\chapter{Écosystème}
+
+La plateforme est composée de plusieurs modules interconnectés :
+
+\begin{enumerate}
+\item Site institutionnel
+\item Boutique
+\item Studio IA
+\item Marketplace
+\item ERP
+\item CRM
+\item Centre des Agents IA
+\item Dashboard Administrateur
+\item Dashboard Client
+\item Dashboard Affilié
+\item Centre de formation
+\item Blog
+\item Base documentaire
+\end{enumerate}
+
+\chapter{Positionnement}
+
+E-Graphisme se distingue par l'intégration de plusieurs univers dans une seule plateforme :
+
+\begin{itemize}
+\item agence digitale ;
+\item studio de création ;
+\item place de marché artistique ;
+\item système de gestion d'entreprise ;
+\item environnement d'intelligence artificielle.
+\end{itemize}
+
+Cette approche permet d'offrir une expérience unifiée, où les différents services communiquent entre eux et simplifient le parcours des utilisateurs.
+
+\chapter{Public Cible}
+
+La plateforme s'adresse notamment à :
+
+\begin{multicols}{2}
+\begin{itemize}
+\item entrepreneurs ;
+\item PME ;
+\item grandes entreprises ;
+\item agences de communication ;
+\item graphistes ;
+\item développeurs ;
+\item architectes d'intérieur ;
+\item décorateurs ;
+\item artistes ;
+\item créateurs de contenu ;
+\item établissements scolaires ;
+\item administrations publiques.
+\end{itemize}
+\end{multicols}
+
+\chapter{Proposition de Valeur}
+
+La plateforme permet de :
+
+\begin{itemize}
+\item centraliser les activités créatives et commerciales ;
+\item réduire les délais de production ;
+\item améliorer le suivi des projets ;
+\item faciliter la collaboration entre les différents métiers ;
+\item produire des contenus de qualité grâce à l'IA ;
+\item offrir des espaces dédiés aux clients, aux affiliés et aux administrateurs.
+\end{itemize}
+
+\chapter{Perspectives d'Évolution}
+
+La feuille de route prévoit l'ajout progressif de nouvelles fonctionnalités, telles que :
+
+\begin{itemize}
+\item assistant vocal ;
+\item création vidéo assistée par IA ;
+\item génération de modèles 3D ;
+\item réalité augmentée pour la décoration ;
+\item recommandations personnalisées ;
+\item gestion avancée des licences ;
+\item intégration de nouveaux modèles d'intelligence artificielle.
+\end{itemize}
+
+\chapter{Charte Graphique}
+
+\section{Palette de Couleurs}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|c|p{5cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Nom} & \color{white}\textbf{HEX} & \color{white}\textbf{RGB} & \color{white}\textbf{Utilisation} \\
+\hline
+Electron Blue & \#0078D4 & RGB(0,120,212) & Couleur primaire, liens \\
+\hline
+Electron Purple & \#881798 & RGB(136,23,152) & Couleur secondaire, titres \\
+\hline
+Electron Cyan & \#00BEFF & RGB(0,190,255) & Accents dynamiques, CTA \\
+\hline
+Electron Gold & \#FFB900 & RGB(255,185,0) & Éléments premium, succès \\
+\hline
+Dark Background & \#0F172A & RGB(15,23,42) & Fond sombre, en-têtes \\
+\hline
+Light Background & \#F9FAFB & RGB(249,250,251) & Fond clair, zones de contenu \\
+\hline
+Text Primary & \#1E293B & RGB(30,41,59) & Texte principal \\
+\hline
+Text Secondary & \#64748B & RGB(100,116,139) & Texte secondaire, légendes \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Typographie}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|p{6cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Usage} & \color{white}\textbf{Police} & \color{white}\textbf{Caractéristiques} \\
+\hline
+Titres principaux & Inter Bold & Taille 24-48px, graisse Bold \\
+\hline
+Sous-titres & Inter SemiBold & Taille 18-24px, graisse SemiBold \\
+\hline
+Corps de texte & Inter Regular & Taille 14-16px, lisibilité optimale \\
+\hline
+Accents & Inter Light & Taille 12-14px, finesse visuelle \\
+\hline
+Code & JetBrains Mono & Monospace, développement \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Éléments Graphiques}
+\begin{itemize}
+\item \textbf{Formes} : Angles arrondis (8px), bordures subtiles
+\item \textbf{Ombres} : Ombres douces (box-shadow: 0 4px 6px rgba(0,0,0,0.1))
+\item \textbf{Animations} : Transitions fluides (300ms ease-in-out)
+\item \textbf{Icônes} : Lucide Icons et Heroicons
+\end{itemize}
+
+\appendix
+
+\chapter{Glossaire}
+\begin{description}
+\item[API] Application Programming Interface - Interface de programmation
+\item[CRM] Customer Relationship Management - Gestion de la relation client
+\item[ERP] Enterprise Resource Planning - Progiciel de gestion intégré
+\item[IA] Intelligence Artificielle
+\item[SaaS] Software as a Service - Logiciel en tant que service
+\item[SSR] Server-Side Rendering - Rendu côté serveur
+\item[SSG] Static Site Generation - Génération de site statique
+\item[PWA] Progressive Web App - Application web progressive
+\item[OCR] Optical Character Recognition - Reconnaissance optique de caractères
+\item[SEO] Search Engine Optimization - Optimisation pour les moteurs de recherche
+\item[SEA] Search Engine Advertising - Publicité sur les moteurs de recherche
+\end{description}
+
+\chapter{Contacts}
+
+\section{Équipe de Direction}
+\begin{itemize}
+\item \textbf{PDG} : [Nom à compléter]
+\item \textbf{Directeur Technique} : [Nom à compléter]
+\item \textbf{Directeur Commercial} : [Nom à compléter]
+\item \textbf{Directeur Artistique} : [Nom à compléter]
+\end{itemize}
+
+\section{Support}
+\begin{itemize}
+\item Email : contact@e-graphisme.com
+\item Téléphone : [Numéro à compléter]
+\item Site web : www.e-graphisme.com
+\end{itemize}
+
+\end{document}

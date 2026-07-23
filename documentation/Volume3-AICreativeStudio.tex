@@ -1,0 +1,549 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+\usepackage{wrapfig}
+
+\definecolor{electronblue}{RGB}{0, 120, 212}
+\definecolor{electronpurple}{RGB}{136, 23, 152}
+\definecolor{electroncyan}{RGB}{0, 190, 255}
+\definecolor{electrongold}{RGB}{255, 185, 0}
+\definecolor{darkbg}{RGB}{15, 23, 42}
+\definecolor{lightbg}{RGB}{249, 250, 251}
+\definecolor{softgray}{RGB}{248, 249, 250}
+\definecolor{mediumgray}{RGB}{107, 114, 128}
+\definecolor{success}{RGB}{34, 197, 94}
+\definecolor{warning}{RGB}{251, 191, 36}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=electronblue,
+    filecolor=electronpurple,
+    urlcolor=electroncyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 3},
+    pdfsubject={AI Creative Studio & Art Marketplace}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{electronblue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{electronblue}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{electronpurple}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{electronblue}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{electronpurple}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{darkbg}AI CREATIVE STUDIO}\\[0.3cm]
+{\huge\bfseries\color{darkbg}\& ART MARKETPLACE}\\[1cm]
+{\Large\bfseries\color{electroncyan}Volume 3}\\[3cm]
+\vspace{2cm}
+{\Large\color{mediumgray}Concevoir. Créer. Personnaliser. Commercialiser.}\\[1cm]
+{\Large\color{mediumgray}Là où la créativité rencontre la technologie}\\[3cm]
+{\Large\bfseries\color{electrongold}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume présente le AI Creative Studio et la Art Marketplace, les composants innovants de la plateforme E-Graphisme by ELECTRON. Ces modules permettent à toute personne de créer des œuvres originales et de les commercialiser.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Volume :} 3\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{AI CREATIVE STUDIO}
+
+\section{Présentation}
+Le AI Creative Studio est le cœur créatif de la plateforme. Il permet à toute personne, même sans compétences en graphisme, de produire des œuvres originales destinées à la decoration ou à la vente.
+
+Le studio fonctionne entièrement avec les modèles IA locaux exécutés via Ollama, garantissant confidentialité, contrôle et indépendance.
+
+\section{Objectifs}
+Le Studio permet de :
+\begin{itemize}
+\item créer des tableaux decoratifs ;
+\item produire des œuvres numériques ;
+\item personnalisés les créations ;
+\item générer des affiches ;
+\item préparer les fichiers pour l'impression ;
+\item publier les œuvres sur la boutique intégrée.
+\end{itemize}
+
+\chapter{AI CREATIVE ENGINE}
+
+\section{Le Moteur Créatif}
+Le moteur créatif orchestre l'ensemble des outils de génération.
+
+\section{Capacités}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Capacité} & \color{white}\textbf{Description} \\
+\hline
+Génération d'images & Création d'œuvres originales par IA \\
+\hline
+Amélioration d'images & Upscaling et enhancement \\
+\hline
+Déclinaisons artistiques & Variations de style \\
+\hline
+Harmonisation des couleurs & Palette cohérente \\
+\hline
+Suppression de l'arrière-plan & Background removal \\
+\hline
+Agrandissement haute définition & Super-resolution \\
+\hline
+Restauration d'images anciennes & Repair et enhancement \\
+\hline
+Création de variantes & Versions alternatives \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{PROMPT BUILDER PREMIUM}
+
+\section{Présentation}
+Le Prompt Builder guide l'utilisateur dans la création de son œuvre.
+
+\section{Paramètres Disponibles}
+\begin{multicols}{2}
+\begin{itemize}
+\item Sujet principal
+\item Style artistique
+\item Palette de couleurs
+\item Ambiance
+\item Niveau de détail
+\item Éclairage
+\item Composition
+\item Textures
+\item Matériaux
+\item Résolution
+\item Format
+\item Orientation
+\item Éléments à exclure
+\end{itemize}
+\end{multicols}
+
+\section{Modèles Prédéfinis}
+Des modèles prédéfinis permettent de démarrer rapidement.
+
+\chapter{GÉNÉRATEUR ARTISTIQUE IA}
+
+\section{Catégories de Styles}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Catégorie} & \color{white}\textbf{Description} \\
+\hline
+Art abstrait & Formes et couleurs non figuratives \\
+\hline
+Art africain & Inspiration culturelle africaine \\
+\hline
+Art moderne & Courant artistique contemporain \\
+\hline
+Art contemporain & Créations actuelles \\
+\hline
+Minimalisme & Simplicité et sobriété \\
+\hline
+Pop Art & Mouvement artistique populaire \\
+\hline
+Street Art & Art urbain et graffiti \\
+\hline
+Cubisme & Formes géométriques \\
+\hline
+Impressionnisme & Effets lumineux \\
+\hline
+Aquarelle & Transparence aqueuse \\
+\hline
+Huile & Technique classique \\
+\hline
+Dessin & Traits et hachures \\
+\hline
+Fusain & Effet graphite \\
+\hline
+Illustration & Style dessinée \\
+\hline
+Manga & Bande dessinée japonaise \\
+\hline
+Fantasy & Univers imaginaires \\
+\hline
+Cyberpunk & Futurisme urbain \\
+\hline
+Architecture & Bâtiments et monuments \\
+\hline
+Paysage & Scènes naturelles \\
+\hline
+Portrait & Figures humaines \\
+\hline
+Animaux & Faune et flore \\
+\hline
+Nature & Végétaux et écosystèmes \\
+\hline
+Luxe & Style premium Noir \& Or \\
+\hline
+Décoration d'entreprise & Corporate art \\
+\hline
+\end{tabular}
+\end{center}
+
+Chaque génération peut être enregistrée, modifiée ou publiée.
+
+\chapter{AI INTERIOR DESIGNER}
+
+\section{Présentation}
+Le client peut importer une photo de son intérieur.
+
+\section{Analyse de la Pièce}
+L'IA analyse :
+\begin{itemize}
+\item les dimensions de la pièce ;
+\item les couleurs dominantes ;
+\item le style du mobilier ;
+\item la luminosité ;
+\item l'emplacement des murs disponibles.
+\end{itemize}
+
+\section{Proposition d'Œuvres}
+Elle propose ensuite plusieurs œuvres adaptées et crée une simulation réaliste de leur intégration dans la pièce.
+
+\chapter{AI MOCKUP STUDIO}
+
+\section{Présentation}
+Avant l'achat, les créations peuvent être visualisées dans différents environnements.
+
+\section{Espaces Disponibles}
+\begin{multicols}{2}
+\begin{itemize}
+\item Salon
+\item Chambre
+\item Bureau
+\item Salle de réunion
+\item Restaurant
+\item Hôtel
+\item Hall d'accueil
+\item Boutique
+\item Galerie
+\end{itemize}
+\end{multicols}
+
+\section{Personnalisation}
+Le client peut modifier :
+\begin{itemize}
+\item la couleur du mur ;
+\item le type d'éclairage ;
+\item le cadre ;
+\item la taille de l'œuvre.
+\end{itemize}
+
+\chapter{AI FRAME STUDIO}
+
+\section{Configurateur de Cadres}
+Le configurateur de cadres permet de choisir :
+\begin{multicols}{2}
+\begin{itemize}
+\item Bois naturel
+\item Noir mat
+\item Blanc
+\item Or
+\item Argent
+\item Aluminium
+\item Cadre flottant
+\item Cadre personnalisé
+\end{itemize}
+\end{multicols}
+
+Un aperçu est généré instantanément.
+
+\chapter{PRINT CENTER}
+
+\section{Présentation}
+Le centre d'impression prépare automatiquement les fichiers.
+
+\section{Formats de Sortie}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Format} & \color{white}\textbf{Description} \\
+\hline
+PDF & Document vectoriel imprimable \\
+\hline
+PNG & Image avec transparence \\
+\hline
+TIFF & Haute qualité pour impression \\
+\hline
+SVG & Vectoriel scalable \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Qualité d'Impression}
+\begin{itemize}
+\item 300 DPI (haute résolution)
+\item CMJN (couleurs imprimables)
+\item Fond perdu (3mm)
+\item Repères de coupe
+\end{itemize}
+
+Les fichiers sont prêts pour une impression professionnelle.
+
+\chapter{MARKETPLACE}
+
+\section{Présentation}
+La boutique intégrée permet :
+\begin{itemize}
+\item de publier une création ;
+\item de définir un prix ;
+\item de choisir une licence ;
+\item d'ajouter une description ;
+\item de suivre les ventes.
+\end{itemize}
+
+\section{Fiche Produit}
+Chaque fiche produit comprend :
+\begin{multicols}{2}
+\begin{itemize}
+\item Galerie d'images
+\item Informations techniques
+\item Avis
+\item Notation
+\item Historique des ventes
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES LICENCES}
+
+\section{Niveaux de Licence}
+\begin{center}
+\begin{tabular}{|c|c|p{8cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Niveau} & \color{white}\textbf{Description} & \color{white}\textbf{Droits} \\
+\hline
+Usage personnel & Standard & Usage privé uniquement \\
+\hline
+Usage commercial & Pro & Utilisation professionnelle \\
+\hline
+Exclusivité & Premium & Droits transférés \\
+\hline
+\end{tabular}
+\end{center}
+
+Chaque licence précise les droits d'utilisation et les restrictions.
+
+\chapter{COLLECTIONS PREMIUM}
+
+\section{Présentation}
+Les œuvres peuvent être regroupées par thèmes.
+
+\section{Exemples de Collections}
+\begin{multicols}{2}
+\begin{itemize}
+\item Afrique Moderne
+\item Nature
+\item Luxe
+\item Minimalisme
+\item Architecture
+\item Art Sacré
+\item Bureau Premium
+\item Hôtellerie
+\item Restaurants
+\item Résidences
+\end{itemize}
+\end{multicols}
+
+Les collections facilitent la navigation des visiteurs.
+
+\chapter{DASHBOARD ARTISTE}
+
+\section{Présentation}
+Chaque créateur dispose d'un espace personnel.
+
+\section{Fonctionnalités}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Fonctionnalité} & \color{white}\textbf{Description} \\
+\hline
+Portefeuille d'œuvres & Galerie personnelle \\
+\hline
+Statistiques de ventes & Analytique commerciale \\
+\hline
+Gestion des licences & Contrôle des droits \\
+\hline
+Suivi des revenus & Revenus et paiements \\
+\hline
+Historique des commandes & Log des ventes \\
+\hline
+Export des rapports & Données exploitables \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{DASHBOARD ACHETEUR}
+
+\section{Fonctionnalités}
+Les acheteurs peuvent :
+\begin{itemize}
+\item suivre leurs commandes ;
+\item télécharger les versions numériques ;
+\item consulter leurs factures ;
+\item enregistrer leurs favoris ;
+\item échanger avec le support.
+\end{itemize}
+
+\chapter{DASHBOARD ADMINISTRATEUR}
+
+\section{Supervision}
+L'administration supervise :
+\begin{multicols}{2}
+\begin{itemize}
+\item Les artistes
+\item Les collections
+\item Les catégories
+\item Les commandes
+\item Les paiements
+\item Les signalements
+\item Les statistiques
+\item Les contenus mis en avant
+\end{itemize}
+\end{multicols}
+
+\chapter{AUTOMATISATION INTERNE}
+
+\section{Processus Automatisés}
+Le système gère automatiquement :
+\begin{itemize}
+\item la création des miniatures ;
+\item l'optimisation des images ;
+\item la génération des aperçus ;
+\item la mise à jour des statistiques ;
+\item les notifications ;
+\item les rapports.
+\end{itemize}
+
+L'orchestration est assurée par le moteur interne de la plateforme, connecté aux modèles Ollama.
+
+\chapter{TECHNOLOGIES}
+
+\section{Stack Technique}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Technologie} & \color{white}\textbf{Usage} \\
+\hline
+React & Interface utilisateur \\
+\hline
+Next.js & Framework frontend \\
+\hline
+TypeScript & Typage statique \\
+\hline
+Tailwind CSS & Framework CSS \\
+\hline
+Framer Motion & Animations \\
+\hline
+Three.js & Graphiques 3D \\
+\hline
+Node.js & Runtime backend \\
+\hline
+Docker & Conteneurisation \\
+\hline
+PostgreSQL & Base de données \\
+\hline
+Redis & Cache \\
+\hline
+Firebase & Authentification \\
+\hline
+Ollama & Inference IA locale \\
+\hline
+OpenHands & Automatisation \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{ÉVOLUTIONS PRÉVUES}
+
+\section{Roadmap}
+Les prochaines versions intégreront :
+\begin{itemize}
+\item Création de modèles 3D
+\item Réalité augmentée pour visualiser les œuvres dans une pièce
+\item Recommandation personnalisée basée sur les préférences des utilisateurs
+\item Création de collections automatiques
+\item Moteur de recherche sémantique des œuvres
+\item Export vers des partenaires d'impression
+\item Génération assistée de descriptions marketing
+\end{itemize}
+
+\appendix
+
+\chapter{Index}
+\begin{enumerate}
+\item AI Creative Studio
+\item AI Creative Engine
+\item Prompt Builder Premium
+\item Générateur Artistique IA
+\item AI Interior Designer
+\item AI Mockup Studio
+\item AI Frame Studio
+\item Print Center
+\item Marketplace
+\item Gestion des Licences
+\item Collections Premium
+\item Dashboard Artiste
+\item Dashboard Acheteur
+\item Dashboard Administrateur
+\item Automatisation Interne
+\item Technologies
+\item Évolutions Prévues
+\end{enumerate}
+
+\end{document}
