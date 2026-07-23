@@ -1,0 +1,636 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{noir}{RGB}{11, 11, 15}
+\definecolor{anthracite}{RGB}{22, 24, 29}
+\definecolor{blanc}{RGB}{255, 255, 255}
+\definecolor{or}{RGB}{212, 175, 55}
+\definecolor{orClair}{RGB}{232, 199, 102}
+\definecolor{bleuIA}{RGB}{37, 99, 235}
+\definecolor{bleuNuit}{RGB}{15, 23, 42}
+\definecolor{violetIA}{RGB}{109, 40, 217}
+\definecolor{cyan}{RGB}{34, 211, 238}
+\definecolor{vert}{RGB}{34, 197, 94}
+\definecolor{rouge}{RGB}{239, 68, 68}
+\definecolor{orange}{RGB}{249, 115, 22}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=bleuIA,
+    filecolor=violetIA,
+    urlcolor=cyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Cahier des Charges - Production Multimédia},
+    pdfsubject={Multimedia Production Brief}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{bleuIA}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{bleuIA}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{violetIA}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{bleuIA}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{violetIA}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{noir}CAHIER DES CHARGES}\\[0.3cm]
+{\huge\bfseries\color{noir}PRODUCTION MULTIMÉDIA}\\[1cm]
+{\Large\bfseries\color{cyan}Enterprise Edition}\\[3cm]
+\vspace{2cm}
+{\Large\color{anthracite}OBJECTIF}\\[0.5cm]
+{\Large\color{noir}Créer une identité visuelle premium, homogène et immersive}\\[0.3cm]
+{\Large\color{noir}couvrant l'ensemble de la plateforme.}\\[3cm]
+{\Large\bfseries\color{or}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préambule}
+\addcontentsline{toc}{chapter}{Préambule}
+Ce cahier des charges définit les spécifications pour la production de tous les médias visuels et audiovisuels de E-Graphisme by ELECTRON. Il sert de référence pour la création des images, vidéos, animations, voix off et effets sonores.
+
+\bigskip
+\textbf{Classification :} Interne - Partageable\\
+\textbf{Version :} 1.0\\
+\textbf{Date :} Juillet 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{OBJECTIF}
+
+\section{Objectif Global}
+Créer une identité visuelle premium, homogène et immersive couvrant l'ensemble de la plateforme, des supports commerciaux et des contenus marketing.
+
+\section{Périmètre}
+Tous les médias devront être réutilisables sur :
+\begin{itemize}
+\item Site Web
+\item Application Web
+\item ERP, CRM
+\item AI Studio
+\item Marketplace
+\item Dashboard Fondateur
+\item Dashboard Administrateur
+\item Dashboard Client
+\item Dashboard Affiliés
+\item Blog
+\item Réseaux sociaux (YouTube, LinkedIn, Facebook, Instagram, TikTok, WhatsApp Business)
+\item Présentations investisseurs
+\item Formation
+\item Documentation
+\end{itemize}
+
+\chapter{STYLE VISUEL}
+
+\section{Positionnement}
+Une identité visuelle inspirée des standards de :
+
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{bleuIA}
+\color{white}\textbf{Entreprise} & \color{white}\textbf{Inspiration} \\
+\hline
+Apple & Simplicité et élégance \\
+\hline
+Adobe & Créativité professionnelle \\
+\hline
+NVIDIA & Innovation technologique \\
+\hline
+Stripe & Modernité et confiance \\
+\hline
+Notion & Clarté et minimalisme \\
+\hline
+Figma & Collaboration et design \\
+\hline
+Microsoft & Accessibilité \\
+\hline
+OpenAI & Intelligence et avancées \\
+\hline
+\end{tabular}
+\end{center}
+
+\skip
+\skip
+\textit{Sans copier leur identité, mais en visant un niveau de finition comparable.}
+
+\section{Atmosphère}
+\begin{multicols}{3}
+\begin{itemize}
+\item Premium
+\item Futuriste
+\item Luxe
+\item Élégante
+\item Moderne
+\item Minimaliste
+\item Corporate
+\item High-Tech
+\item IA
+\item Innovation
+\item Créativité
+\end{itemize}
+\end{multicols}
+
+\chapter{PALETTE DE COULEURS}
+
+\section{Palette Principale}
+\begin{center}
+\begin{tabular}{|c|c|c|p{6cm}|}
+\hline
+\rowcolor{noir}
+\color{white}\textbf{Nom} & \color{white}\textbf{HEX} & \color{white}\textbf{RGB} & \color{white}\textbf{Utilisation} \\
+\hline
+Noir Profond & \#0B0B0B & RGB(11,11,15) & Fond principal, texte \\
+\hline
+Anthracite & \#16181D & RGB(22,24,29) & Fond secondaire \\
+\hline
+Blanc & \#FFFFFF & RGB(255,255,255) & Texte, contrastes \\
+\hline
+Or Premium & \#D4AF37 & RGB(212,175,55) & Accents premium \\
+\hline
+Or Clair & \#E8C766 & RGB(232,199,102) & Highlights \\
+\hline
+Bleu IA & \#2563EB & RGB(37,99,235) & Liens, CTA \\
+\hline
+Bleu Nuit & \#0F172A & RGB(15,23,42) & Fond sombre \\
+\hline
+Violet IA & \#6D28D9 & RGB(109,40,217) & IA, créativité \\
+\hline
+Cyan & \#22D3EE & RGB(34,211,238) & Accents dynamiques \\
+\hline
+Vert Succès & \#22C55E & RGB(34,197,94) & Validations \\
+\hline
+Rouge Alerte & \#EF4444 & RGB(239,68,68) & Erreurs, alertes \\
+\hline
+Orange Accent & \#F97316 & RGB(249,115,22) & Avertissements \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{TYPOGRAPHIE}
+
+\section{Familles de Polices}
+\begin{center}
+\begin{tabular}{|c|c|p{6cm}|}
+\hline
+\rowcolor{violetIA}
+\color{white}\textbf{Usage} & \color{white}\textbf{Police} & \color{white}\textbf{Caractéristiques} \\
+\hline
+Titres & Sora & Moderne, géométrique, technologie \\
+\hline
+Sous-titres & Space Grotesk & Distinctive, technique \\
+\hline
+Corps de texte & Inter & Lisibilité optimale \\
+\hline
+Interface & Manrope & Moderne, polyvalente \\
+\hline
+Code & JetBrains Mono & Monospace, développement \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{STYLE DES INTERFACES}
+
+\section{Éléments de Design}
+\begin{itemize}
+\item Glassmorphism - Effets de verre translucide
+\item Soft Shadows - Ombres douces et diffuses
+\item Premium Cards - Cartes avec profondeur
+\item Rounded Corners - Angles 16-24 px
+\item Dégradés subtils - Transitions fluides
+\item Effets de profondeur - Couches et z-index
+\item Animations fluides - 60 FPS
+\item Icônes vectorielles - Lucide, Heroicons
+\item Responsive - Desktop / Tablette / Mobile
+\end{itemize}
+
+\chapter{BIBLIOTHÈQUE D'IMAGES}
+
+\section{Identité}
+\begin{multicols}{2}
+\begin{itemize}
+\item Logo principal
+\item Logo monochrome
+\item Logo doré
+\item Icône
+\item Favicon
+\item Signature
+\end{itemize}
+\end{multicols}
+
+\section{Couvertures}
+\begin{multicols}{2}
+\begin{itemize}
+\item Page d'accueil
+\item ERP
+\item CRM
+\item AI Center
+\item Marketplace
+\item Dashboard
+\item Blog
+\item Formation
+\item Boutique
+\item Portail Affiliés
+\item Portail Clients
+\end{itemize}
+\end{multicols}
+
+\section{Illustrations}
+\begin{multicols}{2}
+\begin{itemize}
+\item Développeurs
+\item Designers
+\item IA
+\item Robot
+\item Cloud
+\item Docker
+\item Ollama
+\item Cybersécurité
+\item Marketing
+\item Commerce
+\item Décoration
+\item Architecture
+\item Bureau moderne
+\end{itemize}
+\end{multicols}
+
+\section{Mockups}
+\begin{multicols}{2}
+\begin{itemize}
+\item MacBook
+\item Desktop
+\item Smartphone
+\item Tablette
+\item Salle de réunion
+\item Open Space
+\item Maison connectée
+\end{itemize}
+\end{multicols}
+
+\section{Images Artistiques}
+\begin{multicols}{2}
+\begin{itemize}
+\item Tableaux abstraits
+\item Luxe
+\item Art africain
+\item Minimalisme
+\item Décoration premium
+\item Hôtels
+\item Bureaux
+\item Villas
+\item Restaurants
+\end{itemize}
+\end{multicols}
+
+\chapter{VIDÉOS}
+
+\section{Vidéo Institutionnelle}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{bleuIA}
+\color{white}\textbf{Paramètre} & \color{white}\textbf{Valeur} \\
+\hline
+Durée & 3 à 5 minutes \\
+\hline
+Contenu & Vision, Services, IA, Marketplace, ERP, Studio Créatif, Conclusion \\
+\hline
+Format & 4K, 1080p \\
+\hline
+Ratio & 16:9 horizontal \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Vidéo Publicitaire}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{violetIA}
+\color{white}\textbf{Type} & \color{white}\textbf{Durée} \\
+\hline
+Spot principal & 30 secondes \\
+\hline
+Format réseau social & 15-60 secondes \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Vidéos Module}
+\begin{multicols}{2}
+\begin{itemize}
+\item Vidéo Marketplace
+\item Vidéo AI Studio
+\item Vidéo ERP
+\item Vidéo Centre IA
+\item Vidéo Formation
+\item Démo produit
+\item Tutoriel
+\end{itemize}
+\end{multicols}
+
+\chapter{ANIMATIONS}
+
+\section{Animations Logo}
+\begin{multicols}{3}
+\begin{itemize}
+\item Logo Reveal
+\item Particles
+\item Glow
+\item HUD futuriste
+\item Neural Network
+\item Lignes lumineuses
+\item Data Flow
+\end{itemize}
+\end{multicols}
+
+\section{Animations UI}
+\begin{multicols}{3}
+\begin{itemize}
+\item Transitions 3D
+\item Parallax
+\item Cards Animation
+\item Scroll Reveal
+\item Mouse Effects
+\item Gradient Motion
+\item Background Motion
+\item AI Brain Animation
+\end{itemize}
+\end{multicols}
+
+\chapter{VOIX OFF}
+
+\section{Voix Masculines}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|p{6cm}|}
+\hline
+\rowcolor{bleuNuit}
+\color{white}\textbf{Langue} & \color{white}\textbf{Accent} & \color{white}\textbf{Paramètres} \\
+\hline
+Français & Français & Professionnel, débit normal \\
+\hline
+Anglais & Américain & Corporate \\
+\hline
+Anglais & Britannique & Élégant \\
+\hline
+Espagnol & Espagnol & Energique \\
+\hline
+Allemand & Allemand & Sérieux \\
+\hline
+Arabe & Arabe & Moderne \\
+\hline
+Portugais & Brésilien & Chaleureux \\
+\hline
+Japonais & Japonais & Formel \\
+\hline
+Chinois & Mandarin & Professionnel \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Voix Féminines}
+\begin{center}
+\begin{tabular}{|c|c|p{6cm}|}
+\hline
+\rowcolor{violetIA}
+\color{white}\textbf{Langue} & \color{white}\textbf{Accent} & \color{white}\textbf{Paramètres} \\
+\hline
+Français & Français & Professionnelle, débit normal \\
+\hline
+Anglais & Américain & Corporate \\
+\hline
+Anglais & Britannique & Élégante \\
+\hline
+Espagnol & Espagnol & Energique \\
+\hline
+Allemand & Allemand & Sérieuse \\
+\hline
+Arabe & Arabe & Moderne \\
+\hline
+Portugais & Brésilien & Chaleureuse \\
+\hline
+Japonais & Japonais & Formelle \\
+\hline
+Chinois & Mandarin & Professionnelle \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Paramètres de Voix}
+\begin{multicols}{2}
+\begin{itemize}
+\item Accent : Au choix
+\item Débit : Lent / Normal / Rapide
+\item Émotion : Professionnel / Corporate / Motivant / Calme / Énergique / Narratif
+\end{itemize}
+\end{multicols}
+
+\chapter{MUSIQUE}
+
+\section{Catégories Musicales}
+\begin{multicols}{2}
+\begin{itemize}
+\item Corporate
+\item Epic
+\item Ambient
+\item Future Bass
+\item Technology
+\item Minimal
+\item Inspiration
+\item Innovation
+\item Business
+\end{itemize}
+\end{multicols}
+
+\chapter{EFFETS SONORES}
+
+\section{Effets d'Interface}
+\begin{multicols}{2}
+\begin{itemize}
+\item Notifications
+\item Whoosh
+\item Click
+\item Success
+\item Error
+\item AI
+\item Typing
+\item Loading
+\end{itemize}
+\end{multicols}
+
+\chapter{EXPORTS}
+
+\section{Formats Vidéo}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|c|p{6cm}|}
+\hline
+\rowcolor{cyan}
+\color{white}\textbf{Format} & \color{white}\textbf{Résolution} & \color{white}\textbf{Usage} \\
+\hline
+4K & 3840x2160 & Presentation premium \\
+\hline
+1080p & 1920x1080 & Usage standard \\
+\hline
+Carré & 1080x1080 & Instagram \\
+\hline
+Vertical & 1080x1920 & TikTok, Reels \\
+\hline
+Horizontal & 1920x1080 & YouTube, LinkedIn \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Formats Sous-titres}
+\begin{itemize}
+\item SRT
+\item VTT
+\item ASS
+\end{itemize}
+
+\section{Formats Container}
+\begin{itemize}
+\item MP4
+\item MOV
+\item WebM
+\end{itemize}
+
+\chapter{MÉDIATHÈQUE}
+
+\section{Organisation}
+\bigskip
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{or}
+\color{white}\textbf{Catégorie} & \color{white}\textbf{Contenu} \\
+\hline
+/images & Images, logos, icônes, illustrations \\
+\hline
+/videos & Vidéos, animations, démos \\
+\hline
+/audio & Musiques, voix off, effets sonores \\
+\hline
+/templates & Modèles de présentation, templates \\
+\hline
+/icons & Icônes vectorielles par catégorie \\
+\hline
+/animations & Animations réutilisables \\
+\hline
+/documents & Guides, procédures, documentation \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Variantes Requises}
+Chaque média doit être produit en :
+\begin{itemize}
+\item Variantes par langue (si applicable)
+\item Variantes par format (Desktop, Mobile, Tablette)
+\item Variantes par résolution
+\end{itemize}
+
+\chapter{PRÉCONISATIONS TECHNIQUES}
+
+\section{Images}
+\begin{itemize}
+\item Format : PNG, SVG, JPG, WebP
+\item Résolution : 72 DPI (web), 300 DPI (impression)
+\item Couleurs : sRGB, CMJN pour impression
+\item Optimisation : Compression sans perte
+\end{itemize}
+
+\section{Vidéos}
+\begin{itemize}
+\item Codec : H.264, H.265
+\item Débit : 8-15 Mbps (1080p), 20-35 Mbps (4K)
+\item Audio : AAC 256kbps
+\item Images/seconde : 24, 30, 60 FPS
+\end{itemize}
+
+\section{Animations}
+\begin{itemize}
+\item Format : Lottie, GIF, MP4, WebM
+\item Cadence : 60 FPS
+\item Durée : 2-10 secondes (loops)
+\item Optimisation : < 2MB pour web
+\end{itemize}
+
+\chapter{QUALITÉ}
+
+\section{Standards}
+\begin{itemize}
+\item Niveau de qualité comparable aux productions Apple, NVIDIA, Stripe
+\item Tests utilisateurs pour validation
+\item Accessibilité (contrastes, sous-titres)
+\item Optimisation performance web
+\item Cohérence identité visuelle
+\end{itemize}
+
+\appendix
+
+\chapter{INDEX}
+\begin{enumerate}
+\item Objectif
+\item Style Visuel
+\item Palette de Couleurs
+\item Typographie
+\item Style des Interfaces
+\item Bibliothèque d'Images
+\item Vidéos
+\item Animations
+\item Voix Off
+\item Musique
+\item Effets Sonores
+\item Exports
+\item Médiathèque
+\item Préconisations Techniques
+\item Qualité
+\end{enumerate}
+
+\end{document}
