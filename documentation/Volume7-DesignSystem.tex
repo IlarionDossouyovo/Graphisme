@@ -1,0 +1,718 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{noir}{RGB}{9, 9, 11}
+\definecolor{anthracite}{RGB}{24, 24, 27}
+\definecolor{bleuIA}{RGB}{37, 99, 235}
+\definecolor{violet}{RGB}{124, 58, 237}
+\definecolor{cyan}{RGB}{6, 182, 212}
+\definecolor{or}{RGB}{212, 175, 55}
+\definecolor{orClair}{RGB}{245, 215, 110}
+\definecolor{vert}{RGB}{34, 197, 94}
+\definecolor{rouge}{RGB}{239, 68, 68}
+\definecolor{orange}{RGB}{249, 115, 22}
+\definecolor{blanc}{RGB}{255, 255, 255}
+\definecolor{gris}{RGB}{107, 114, 128}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=bleuIA,
+    filecolor=violet,
+    urlcolor=cyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 7},
+    pdfsubject={UI/UX Design System}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{bleuIA}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{bleuIA}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{violet}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{bleuIA}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{violet}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{noir}UI/UX DESIGN SYSTEM}\\[0.3cm]
+{\huge\bfseries\color{noir}\& TEMPLATE LIBRARY}\\[1cm]
+{\Large\bfseries\color{cyan}Volume 7}\\[3cm]
+\vspace{2cm}
+{\Large\color{gris}Une identité visuelle unique,}\\[0.3cm]
+{\Large\color{gris}cohérente et évolutive}\\[3cm]
+{\Large\bfseries\color{or}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume constitue la référence graphique officielle de E-Graphisme by ELECTRON. Aucun module ne doit être développé sans respecter ce document.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Volume :} 7\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{VISION DESIGN}
+
+\section{Principes}
+Le Design System doit donner immédiatement une impression de qualité professionnelle.
+
+\section{Objectifs}
+\begin{multicols}{2}
+\begin{itemize}
+\item Premium
+\item Moderne
+\item Élégant
+\item Futuriste
+\item IA
+\item Corporate
+\item Responsive
+\item Fluide
+\end{itemize}
+\end{multicols}
+
+\section{Impression}
+L'utilisateur doit ressentir : \textit{``Cette plateforme est digne d'une grande entreprise technologique.''}
+
+\chapter{Brand Identity}
+
+\section{Valeurs}
+\begin{multicols}{3}
+\begin{itemize}
+\item Minimalisme
+\item Luxe
+\item Innovation
+\item Performance
+\item Confiance
+\item Créativité
+\end{itemize}
+\end{multicols}
+
+\chapter{Logo System}
+
+\section{Éléments}
+\begin{multicols}{2}
+\begin{itemize}
+\item Logo principal
+\item Logo secondaire
+\item Logo blanc
+\item Logo noir
+\item Logo or
+\item Icône
+\item Favicon
+\item Logo animé
+\item Logo Reveal
+\item Version Impression
+\item Version Réseaux sociaux
+\item Version Application
+\item Version Dashboard
+\end{itemize}
+\end{multicols}
+
+\chapter{Palette Premium}
+
+\section{Couleurs Principales}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{noir}
+\color{white}Nom & \color{white}HEX & \color{white}RGB \\
+\hline
+Noir Profond & \#09090B & RGB(9,9,11) \\
+\hline
+Anthracite & \#18181B & RGB(24,24,27) \\
+\hline
+Or Premium & \#D4AF37 & RGB(212,175,55) \\
+\hline
+Or Clair & \#F5D76E & RGB(245,215,110) \\
+\hline
+Blanc & \#FFFFFF & RGB(255,255,255) \\
+\hline
+Bleu IA & \#2563EB & RGB(37,99,235) \\
+\hline
+Violet & \#7C3AED & RGB(124,58,237) \\
+\hline
+Cyan & \#06B6D4 & RGB(6,182,212) \\
+\hline
+Vert & \#22C55E & RGB(34,197,94) \\
+\hline
+Orange & \#F97316 & RGB(249,115,22) \\
+\hline
+Rouge & \#EF4444 & RGB(239,68,68) \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{Gradient Library}
+
+\section{Dégradés}
+Plus de 100 dégradés prédéfinis :
+\begin{multicols}{2}
+\begin{itemize}
+\item Noir → Or
+\item Bleu → Violet
+\item Cyan → Bleu
+\item Or → Orange
+\item Noir → Bleu Nuit
+\item Anthracite → Transparent
+\item Violet → Cyan
+\end{itemize}
+\end{multicols}
+
+\chapter{Typography System}
+
+\section{Polices}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{bleuIA}
+\color{white}Usage & \color{white}Police \\
+\hline
+Titres & Sora \\
+\hline
+Sous-titres & Space Grotesk \\
+\hline
+Corps de texte & Inter \\
+\hline
+Interface & Manrope \\
+\hline
+Code & JetBrains Mono \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{Spacing System}
+
+\section{Échelons}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{violet}
+\color{white}Échelon & \color{white}Valeur \\
+\hline
+xs & 4 px \\
+\hline
+sm & 8 px \\
+\hline
+md & 16 px \\
+\hline
+lg & 24 px \\
+\hline
+xl & 32 px \\
+\hline
+2xl & 48 px \\
+\hline
+3xl & 64 px \\
+\hline
+4xl & 96 px \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{Grid System}
+
+\section{Structure}
+\begin{itemize}
+\item 12 Colonnes
+\item Responsive
+\item Desktop : 1920px+
+\item Laptop : 1600px
+\item Tablet : 1024px
+\item Mobile : 480px
+\end{itemize}
+
+\chapter{Glassmorphism}
+
+\section{Principes}
+\begin{multicols}{2}
+\begin{itemize}
+\item Verre dépoli
+\item Ombres douces
+\item Transparence
+\item Blur
+\item Bordures lumineuses
+\end{itemize}
+\end{multicols}
+
+\chapter{Neumorphism}
+
+\section{Éléments}
+\begin{multicols}{3}
+\begin{itemize}
+\item Widgets
+\item Boutons
+\item Inputs
+\item Cards
+\item Dashboard
+\end{itemize}
+\end{multicols}
+
+\chapter{Premium Cards}
+
+\section{Modèles}
+Plus de 200 modèles :
+\begin{multicols}{2}
+\begin{itemize}
+\item Service Card
+\item Portfolio Card
+\item Product Card
+\item Client Card
+\item Project Card
+\item Employee Card
+\item Statistics Card
+\item AI Agent Card
+\item Affiliate Card
+\item Marketplace Card
+\end{itemize}
+\end{multicols}
+
+\chapter{Buttons}
+
+\section{Types}
+\begin{multicols}{3}
+\begin{itemize}
+\item Primary
+\item Secondary
+\item Ghost
+\item Outline
+\item Gradient
+\item Danger
+\item Success
+\item AI Button
+\item Glass Button
+\item Icon Button
+\item Floating Button
+\end{itemize}
+\end{multicols}
+
+\chapter{Forms}
+
+\section{Formulaires}
+\begin{multicols}{3}
+\begin{itemize}
+\item Login
+\item Register
+\item Checkout
+\item Contact
+\item CRM
+\item ERP
+\item Marketplace
+\item Formation
+\item Support
+\item Affiliation
+\end{itemize}
+\end{multicols}
+
+\section{Fonctionnalités}
+\begin{itemize}
+\item Validation
+\item Auto Save
+\item Animations
+\item Accessibilité
+\end{itemize}
+
+\chapter{Navigation}
+
+\section{Composants}
+\begin{multicols}{3}
+\begin{itemize}
+\item Mega Menu
+\item Top Menu
+\item Sidebar
+\item Floating Menu
+\item Breadcrumb
+\item Search Bar
+\end{itemize}
+\end{multicols}
+
+\chapter{Sidebar}
+
+\section{Fonctionnalités}
+\begin{multicols}{2}
+\begin{itemize}
+\item Rétractable
+\item Responsive
+\item Animée
+\item Icônes
+\item Notifications
+\item Recherche
+\end{itemize}
+\end{multicols}
+
+\chapter{Dashboard Widgets}
+
+\section{Bibliothèque}
+Plus de 500 widgets :
+\begin{multicols}{3}
+\begin{itemize}
+\item Graphiques
+\item Calendrier
+\item Notifications
+\item Commandes
+\item IA
+\item Docker
+\item Ollama
+\item Statistiques
+\item Temps réel
+\end{itemize}
+\end{multicols}
+
+\chapter{Charts}
+
+\section{Types}
+\begin{multicols}{3}
+\begin{itemize}
+\item Line
+\item Area
+\item Bar
+\item Pie
+\item Radar
+\item Heatmap
+\item Timeline
+\item Financial
+\end{itemize}
+\end{multicols}
+
+\chapter{Marketplace UI}
+
+\section{Interfaces}
+\begin{multicols}{3}
+\begin{itemize}
+\item Page Produit
+\item Catalogue
+\item Filtres
+\item Recherche
+\item Panier
+\item Paiement
+\item Wishlist
+\item Comparateur
+\end{itemize}
+\end{multicols}
+
+\chapter{ERP UI}
+
+\section{Modules}
+\begin{multicols}{3}
+\begin{itemize}
+\item Dashboard
+\item Employés
+\item Clients
+\item Factures
+\item Projets
+\item Finance
+\item RH
+\end{itemize}
+\end{multicols}
+
+\chapter{CRM UI}
+
+\section{Interfaces}
+\begin{multicols}{3}
+\begin{itemize}
+\item Pipeline
+\item Kanban
+\item Contacts
+\item Messages
+\item Emails
+\item Calendrier
+\end{itemize}
+\end{multicols}
+
+\chapter{AI Center UI}
+
+\section{Composants}
+\begin{multicols}{2}
+\begin{itemize}
+\item Dashboard IA
+\item Agents
+\item Logs
+\item Conversations
+\item Prompts
+\item Ollama
+\item GPU
+\item RAM
+\item CPU
+\end{itemize}
+\end{multicols}
+
+\chapter{Founder Dashboard}
+
+\section{Supervision}
+Le Dashboard du Fondateur permet de superviser :
+\begin{multicols}{2}
+\begin{itemize}
+\item l'ensemble des modules
+\item les performances de l'infrastructure
+\item les agents IA
+\item les projets
+\item les ventes
+\item les revenus
+\item les alertes
+\item les intégrations
+\end{itemize}
+\end{multicols}
+
+\chapter{Animation Library}
+
+\section{Technologies}
+\begin{multicols}{2}
+\begin{itemize}
+\item Framer Motion
+\item GSAP
+\item ThreeJS
+\item Lottie
+\end{itemize}
+\end{multicols}
+
+\section{Animations}
+\begin{multicols}{3}
+\begin{itemize}
+\item Particles
+\item Neural Network
+\item Glow
+\item Hover
+\item Transitions
+\item Cards
+\item Charts
+\item Background
+\item Loading
+\item Success
+\item Error
+\end{itemize}
+\end{multicols}
+
+\chapter{Illustration Library}
+
+\section{Bibliothèque}
+Plus de 2 000 illustrations :
+\begin{multicols}{3}
+\begin{itemize}
+\item Business
+\item Marketing
+\item AI
+\item Robot
+\item Décoration
+\item Architecture
+\item Entreprise
+\item Développement
+\item Formation
+\item Marketplace
+\end{itemize}
+\end{multicols}
+
+\chapter{Icon Library}
+
+\section{Collection}
+Plus de 5 000 icônes :
+\begin{multicols}{3}
+\begin{itemize}
+\item Navigation
+\item CRM
+\item ERP
+\item AI
+\item Commerce
+\item Finance
+\item RH
+\item Sécurité
+\item Cloud
+\item Docker
+\item Ollama
+\end{itemize}
+\end{multicols}
+
+\chapter{Template Library}
+
+\section{Templates}
+Plus de 400 templates :
+\begin{multicols}{3}
+\begin{itemize}
+\item Landing Page
+\item Dashboard
+\item CRM
+\item ERP
+\item Marketplace
+\item AI Center
+\item Formation
+\item Blog
+\item Documentation
+\item Boutique
+\item Affiliés
+\item Clients
+\item Administration
+\end{itemize}
+\end{multicols}
+
+\chapter{Responsive System}
+
+\section{Breakpoints}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{bleuIA}
+\color{white}Device & \color{white}Width \\
+\hline
+Desktop & 1920-2560 px \\
+\hline
+Laptop & 1600 px \\
+\hline
+Tablet & 768-1024 px \\
+\hline
+Mobile & 320-480 px \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{Dark Mode}
+
+\section{Caractéristiques}
+Mode principal recommandé pour les interfaces professionnelles et longues sessions d'utilisation.
+
+\chapter{Light Mode}
+
+\section{Caractéristiques}
+Version claire conservant les mêmes composants, contrastes et hiérarchie visuelle.
+
+\chapter{Accessibility}
+
+\section{Standards}
+\begin{itemize}
+\item Contraste conforme WCAG
+\item Navigation clavier
+\item Gestion du focus
+\item Textes alternatifs
+\item Lecteurs d'écran
+\item Tailles de texte adaptatives
+\end{itemize}
+
+\chapter{Bibliothèque de Maquettes Premium}
+
+\section{Espaces}
+Développer des maquettes haute fidélité pour :
+\begin{multicols}{2}
+\begin{itemize}
+\item Site vitrine
+\item Portfolio
+\item AI Creative Studio
+\item AI Media Center
+\item ERP
+\item CRM
+\item Marketplace
+\item Boutique
+\item Centre de Formation
+\item Blog
+\item Dashboard Fondateur
+\item Dashboard Administrateur
+\item Dashboard Client
+\item Dashboard Affilié
+\item Centre IA
+\end{itemize}
+\end{multicols}
+
+\section{Exigences}
+\begin{itemize}
+\item Version Desktop
+\item Version Tablette
+\item Version Mobile
+\item Prototype interactif
+\item Composants réutilisables
+\end{itemize}
+
+\chapter{Design Tokens}
+
+\section{Variables Centralisées}
+\begin{itemize}
+\item Couleurs
+\item Typographies
+\item Espacements
+\item Rayons de bordure
+\item Ombres
+\item Tailles d'icônes
+\item Animations
+\item Transitions
+\item Profondeurs (z-index)
+\end{itemize}
+
+\appendix
+
+\chapter{Index}
+\begin{enumerate}
+\item Vision Design
+\item Brand Identity
+\item Logo System
+\item Palette Premium
+\item Gradient Library
+\item Typography System
+\item Spacing System
+\item Grid System
+\item Glassmorphism
+\item Neumorphism
+\item Premium Cards
+\item Buttons
+\item Forms
+\item Navigation
+\item Sidebar
+\item Dashboard Widgets
+\item Charts
+\item Marketplace UI
+\item ERP UI
+\item CRM UI
+\item AI Center UI
+\item Founder Dashboard
+\item Animation Library
+\item Illustration Library
+\item Icon Library
+\item Template Library
+\item Responsive System
+\item Dark Mode
+\item Light Mode
+\item Accessibility
+\item Bibliothèque de Maquettes
+\item Design Tokens
+\end{enumerate}
+
+\end{document}
