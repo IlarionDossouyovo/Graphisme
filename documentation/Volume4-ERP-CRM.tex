@@ -1,0 +1,579 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{electronblue}{RGB}{0, 120, 212}
+\definecolor{electronpurple}{RGB}{136, 23, 152}
+\definecolor{electroncyan}{RGB}{0, 190, 255}
+\definecolor{electrongold}{RGB}{255, 185, 0}
+\definecolor{darkbg}{RGB}{15, 23, 42}
+\definecolor{lightbg}{RGB}{249, 250, 251}
+\definecolor{softgray}{RGB}{248, 249, 250}
+\definecolor{mediumgray}{RGB}{107, 114, 128}
+\definecolor{success}{RGB}{34, 197, 94}
+\definecolor{warning}{RGB}{251, 191, 36}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=electronblue,
+    filecolor=electronpurple,
+    urlcolor=electroncyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 4},
+    pdfsubject={ERP & CRM Enterprise}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{electronblue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{electronblue}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{electronpurple}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{electronblue}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{electronpurple}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{darkbg}ERP \& CRM ENTERPRISE}\\[0.3cm]
+{\huge\bfseries\color{darkbg}Le cerveau de l'entreprise}\\[1cm]
+{\Large\bfseries\color{electroncyan}Volume 4}\\[3cm]
+\vspace{2cm}
+{\Large\color{mediumgray}Gérer. Organiser. Automatiser. Développer.}\\[1cm]
+{\Large\color{mediumgray}Là où la créativité rencontre la technologie}\\[3cm]
+{\Large\bfseries\color{electrongold}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume présente l'ERP \& CRM Enterprise, le centre de gestion intégré de la plateforme E-Graphisme by ELECTRON. Ce module centralise toutes les opérations de l'entreprise.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Volume :} 4\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{PRÉSENTATION}
+
+\section{Présentation}
+Le module ERP est le centre de gestion de toute l'entreprise. Il permet d'administrer l'ensemble des activités de E-Graphisme by ELECTRON depuis une seule plateforme.
+
+Chaque département partage les mêmes données en temps réel, ce qui évite les doublons et améliore la coordination.
+
+\chapter{ARCHITECTURE}
+
+\section{Pôles de l'ERP}
+L'ERP est organisé autour de plusieurs pôles :
+\begin{multicols}{2}
+\begin{itemize}
+\item Commercial
+\item Production
+\item Marketing
+\item Développement
+\item Design
+\item Marketplace
+\item Impression
+\item Comptabilité
+\item Ressources Humaines
+\item Administration
+\item Intelligence Artificielle
+\end{itemize}
+\end{multicols}
+
+Tous les modules communiquent entre eux via une architecture modulaire.
+
+\chapter{CRM INTELLIGENT}
+
+\section{Présentation}
+Le CRM centralise toutes les relations avec les clients.
+
+\section{Fiche Client}
+Chaque client possède :
+\begin{multicols}{2}
+\begin{itemize}
+\item Photo
+\item Nom
+\item Entreprise
+\item Téléphone
+\item WhatsApp
+\item Email
+\item Adresse
+\item Pays
+\item Réseaux sociaux
+\item Historique
+\item Documents
+\item Commandes
+\item Paiements
+\item Tickets
+\item Rendez-vous
+\end{itemize}
+\end{multicols}
+
+\section{Interactions Enregistrées}
+Toutes les interactions sont enregistrées :
+\begin{multicols}{2}
+\begin{itemize}
+\item Appels
+\item Emails
+\item WhatsApp
+\item Devis
+\item Contrats
+\item Commandes
+\item Livraisons
+\item Support
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION COMMERCIALE}
+
+\section{Fonctionnalités Commerciales}
+L'équipe commerciale dispose de :
+\begin{multicols}{2}
+\begin{itemize}
+\item Pipeline
+\item Kanban
+\item Calendrier
+\item Relances
+\item Objectifs
+\item Prévisions
+\item Statistiques
+\item Classement
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES CLIENTS}
+
+\section{Classement Automatique}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Catégorie} & \color{white}\textbf{Description} \\
+\hline
+Prospects & Leads en qualification \\
+\hline
+Clients actifs & Clients avec commandes récentes \\
+\hline
+Clients Premium & Clients à fort volume \\
+\hline
+VIP & Clients stratégiques \\
+\hline
+Partenaires & Collaborateurs privilégiés \\
+\hline
+Fournisseurs & Prestataires externes \\
+\hline
+Revendeurs & Distribution \\
+\hline
+Affiliés & Programme de parrainage \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{GESTION DES LEADS}
+
+\section{Sources des Leads}
+\begin{multicols}{2}
+\begin{itemize}
+\item Facebook
+\item Instagram
+\item TikTok
+\item LinkedIn
+\item Google
+\item WhatsApp
+\item QR Code
+\item Site Internet
+\item Marketplace
+\end{itemize}
+\end{multicols}
+
+\section{Attribution Automatique}
+Chaque lead reçoit automatiquement :
+\begin{multicols}{2}
+\begin{itemize}
+\item Score
+\item Probabilité
+\item Priorité
+\item Historique
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES DEVIS}
+
+\section{Services Intégrables}
+Le devis peut intégrer :
+\begin{multicols}{2}
+\begin{itemize}
+\item Services
+\item Produits
+\item Tableaux
+\item Décorations
+\item Développement Web
+\item Applications
+\item Marketing
+\item Impression
+\item Abonnements
+\item Maintenance
+\end{itemize}
+\end{multicols}
+
+\section{Statuts des Devis}
+Les devis peuvent être :
+\begin{itemize}
+\item Signés
+\item Acceptés
+\item Refusés
+\item Convertis en facture
+\end{itemize}
+
+\chapter{FACTURATION}
+
+\section{Fonctionnalités}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Fonctionnalité} & \color{white}\textbf{Description} \\
+\hline
+Factures & Émission de factures \\
+\hline
+Avoirs & Notes de crédit \\
+\hline
+Proforma & Factures proforma \\
+\hline
+Paiements & Suivi des règlements \\
+\hline
+TVA & Gestion de la TVA \\
+\hline
+Export PDF & Génération automatique \\
+\hline
+Historique & Traçabilité complète \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{PAIEMENTS}
+
+\section{Modes de Paiement}
+Le système prend en charge :
+\begin{multicols}{2}
+\begin{itemize}
+\item Carte bancaire
+\item PayPal
+\item Stripe
+\item Mobile Money
+\item Virement bancaire
+\item Paiement fractionné
+\item Multi-devise
+\item Suivi des transactions
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES PROJETS}
+
+\section{Composition d'un Projet}
+Chaque projet contient :
+\begin{multicols}{2}
+\begin{itemize}
+\item Client
+\item Chef de projet
+\item Équipe
+\item Échéances
+\item Documents
+\item Messages
+\item Commentaires
+\item Versions
+\item Livrables
+\item Temps passé
+\item Budget
+\end{itemize}
+\end{multicols}
+
+\section{Vues d'Affichage}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Vue} & \color{white}\textbf{Description} \\
+\hline
+Kanban & Tableau boards \\
+\hline
+Liste & Vue tabulaire \\
+\hline
+Calendrier & Planning \\
+\hline
+Gantt & Diagramme de Gantt \\
+\hline
+Timeline & Chronologie \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{GESTION DES TÂCHES}
+
+\section{Composition d'une Tâche}
+Chaque tâche comprend :
+\begin{multicols}{2}
+\begin{itemize}
+\item Description
+\item Priorité
+\item Assignation
+\item Date limite
+\item Checklist
+\item Commentaires
+\item Pièces jointes
+\item Historique
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DOCUMENTAIRE}
+
+\section{Stockage Sécurisé}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Type} & \color{white}\textbf{Description} \\
+\hline
+PDF & Documents textuels \\
+\hline
+Images & Fichiers visuels \\
+\hline
+Contrats & Accords juridiques \\
+\hline
+Factures & Documents financiers \\
+\hline
+Mockups & Maquettes design \\
+\hline
+Vidéos & Contenus multimédias \\
+\hline
+Archives & Historique \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Fonctionnalités}
+\begin{itemize}
+\item Versioning
+\item Recherche intelligente
+\end{itemize}
+
+\chapter{RESSOURCES HUMAINES}
+
+\section{Gestion RH}
+\begin{multicols}{2}
+\begin{itemize}
+\item Employés
+\item Équipes
+\item Présence
+\item Congés
+\item Planning
+\item Évaluations
+\item Objectifs
+\item Formation
+\end{itemize}
+\end{multicols}
+
+\chapter{COMPTABILITÉ}
+
+\section{Gestion Financière}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Module} & \color{white}\textbf{Description} \\
+\hline
+Recettes & Revenus et factures \\
+\hline
+Dépenses & Coûts opérationnels \\
+\hline
+Budgets & Planning budgétaire \\
+\hline
+Trésorerie & Liquidités \\
+\hline
+Bilans & Situation financière \\
+\hline
+Résultats & Compte de résultat \\
+\hline
+Rapports & Documentation financière \\
+\hline
+Prévisions & Projections \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{BUSINESS INTELLIGENCE}
+
+\section{Rapports Automatiques}
+Le système génère automatiquement :
+\begin{multicols}{2}
+\begin{itemize}
+\item Tableaux de bord
+\item KPIs
+\item Graphiques
+\item Prévisions
+\item Analyse des ventes
+\item Analyse des bénéfices
+\item Performance des équipes
+\item Performance des campagnes
+\item Performance de la Marketplace
+\end{itemize}
+\end{multicols}
+
+\chapter{DASHBOARD PREMIUM}
+
+\section{Widgets Disponibles}
+Le tableau de bord est entièrement personnalisable :
+\begin{multicols}{2}
+\begin{itemize}
+\item Chiffre d'affaires
+\item Ventes
+\item Commandes
+\item Visiteurs
+\item Paiements
+\item Projets
+\item Marketing
+\item Production
+\item Agents IA
+\item Stock
+\item Marketplace
+\item Affiliés
+\item Support
+\item Calendrier
+\item Notifications
+\end{itemize}
+\end{multicols}
+
+\chapter{SÉCURITÉ}
+
+\section{Authentification}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Fonctionnalité} & \color{white}\textbf{Description} \\
+\hline
+JWT & Token d'authentification \\
+\hline
+Double authentification & 2FA par SMS/Email \\
+\hline
+Gestion des rôles & Permissions par utilisateur \\
+\hline
+Journal d'audit & Traçabilité complète \\
+\hline
+Historique des connexions & Logs de connexion \\
+\hline
+Sauvegardes automatiques & Backup quotidien \\
+\hline
+Chiffrement des données & AES-256 \\
+\hline
+Protection & Contre les accès non autorisés \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{ERP INTELLIGENT}
+
+\section{Assistant Décisionnel}
+L'ERP ne se limite pas à la gestion administrative. Il agit comme un véritable assistant décisionnel en mettant à disposition des tableaux de bord, des alertes et des recommandations.
+
+\section{Fonctionnalités Avancées}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electrongold}
+\color{white}\textbf{Fonctionnalité} & \color{white}\textbf{Description} \\
+\hline
+Prévision des ventes & Basée sur l'historique \\
+\hline
+Détection des retards & Projets en retard \\
+\hline
+Analyse de rentabilité & Par service \\
+\hline
+Recommandations & Optimisation des ressources \\
+\hline
+Suivi des objectifs & Commerciaux \\
+\hline
+Indicateurs de satisfaction & Clients \\
+\hline
+Performance marketing & Campagnes \\
+\hline
+Revenus Marketplace & Suivi \\
+\hline
+Gestion des abonnements & Centralisée \\
+\hline
+Tableau de bord affiliés & Partenaires \\
+\hline
+Rapports exportables & PDF, Excel, CSV \\
+\hline
+Notifications intelligentes & Centre d'alertes \\
+\hline
+\end{tabular}
+\end{center}
+
+\appendix
+
+\chapter{Index}
+\begin{enumerate}
+\item Présentation de l'ERP
+\item Architecture générale
+\item CRM Intelligent
+\item Gestion Commerciale
+\item Gestion des Clients
+\item Gestion des Leads
+\item Gestion des Devis
+\item Facturation
+\item Paiements
+\item Gestion des Projets
+\item Gestion des Tâches
+\item Gestion Documentaire
+\item Ressources Humaines
+\item Comptabilité
+\item Business Intelligence
+\item Dashboard Premium
+\item Sécurité
+\item ERP Intelligent
+\end{enumerate}
+
+\end{document}
