@@ -1,0 +1,629 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{noir}{RGB}{9, 9, 11}
+\definecolor{bleuIA}{RGB}{37, 99, 235}
+\definecolor{violet}{RGB}{124, 58, 237}
+\definecolor{cyan}{RGB}{6, 182, 212}
+\definecolor{or}{RGB}{212, 175, 55}
+\definecolor{vert}{RGB}{34, 197, 94}
+\definecolor{rouge}{RGB}{239, 68, 68}
+\definecolor{gris}{RGB}{107, 114, 128}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=bleuIA,
+    filecolor=violet,
+    urlcolor=cyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 8},
+    pdfsubject={Database Enterprise Architecture}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{bleuIA}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{bleuIA}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{violet}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{bleuIA}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{violet}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{noir}DATABASE ENTERPRISE}\\[0.3cm]
+{\huge\bfseries\color{noir}ARCHITECTURE}\\[1cm]
+{\Large\bfseries\color{cyan}Volume 8}\\[3cm]
+\vspace{2cm}
+{\Large\color{gris}Le cerveau numérique de toute la plateforme}\\[3cm]
+{\Large\bfseries\color{or}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume définit l'architecture complète des données de E-Graphisme by ELECTRON.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Volume :} 8\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{VISION DE L'ARCHITECTURE}
+
+\section{Principes}
+Toutes les données de la plateforme doivent être organisées autour d'un Data Hub central.
+
+\section{Organisation}
+Chaque module possède son propre schéma logique tout en partageant des référentiels communs :
+\begin{itemize}
+\item utilisateurs
+\item entreprises
+\item rôles
+\item permissions
+\item médias
+\end{itemize}
+
+\chapter{CHOIX DES TECHNOLOGIES}
+
+\section{Base de données relationnelle}
+PostgreSQL (base principale)
+
+\section{Cache}
+Redis
+
+\section{Recherche}
+OpenSearch ou Elasticsearch (évolution)
+
+\section{Base vectorielle (RAG)}
+pgvector sur PostgreSQL ou base vectorielle dédiée
+
+\section{Stockage objet}
+Compatible S3 (MinIO en local, cloud en production)
+
+\chapter{ARCHITECTURE MULTI-BASE}
+
+\section{Séparations logiques}
+Créer une séparation entre :
+\begin{multicols}{2}
+\begin{itemize}
+\item Base Métier
+\item Base IA
+\item Base ERP
+\item Base CRM
+\item Base Marketplace
+\item Base Boutique
+\item Base Formation
+\item Base Analytics
+\item Base Logs
+\item Base Audit
+\end{itemize}
+\end{multicols}
+
+\chapter{SCHÉMA GLOBAL DES DONNÉES}
+
+\section{Tables principales}
+\begin{multicols}{3}
+\begin{itemize}
+\item Users
+\item Roles
+\item Permissions
+\item Companies
+\item Departments
+\item Employees
+\item Clients
+\item Affiliates
+\item Projects
+\item Tasks
+\item Orders
+\item Services
+\item Products
+\item Artworks
+\item Categories
+\item Payments
+\item Invoices
+\item Files
+\item Messages
+\item Notifications
+\item AI\_Agents
+\item AI\_Workflows
+\item AI\_Conversations
+\item AI\_Knowledge
+\item Audit\_Logs
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES UTILISATEURS}
+
+\section{Informations}
+\begin{multicols}{2}
+\begin{itemize}
+\item profil
+\item authentification
+\item préférences
+\item langue
+\item fuseau horaire
+\item abonnements
+\item historique des connexions
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES ENTREPRISES}
+
+\section{Données par entreprise}
+\begin{multicols}{2}
+\begin{itemize}
+\item identité
+\item logo
+\item domaines
+\item charte graphique
+\item équipes
+\item paramètres
+\item espaces de stockage
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES EMPLOYÉS}
+
+\section{Informations}
+\begin{multicols}{2}
+\begin{itemize}
+\item poste
+\item département
+\item compétences
+\item disponibilités
+\item historique
+\item indicateurs de performance
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES CLIENTS}
+
+\section{Profil client}
+\begin{multicols}{2}
+\begin{itemize}
+\item profil
+\item commandes
+\item paiements
+\item documents
+\item préférences
+\item espace privé
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES AFFILIÉS}
+
+\section{Suivi}
+\begin{multicols}{2}
+\begin{itemize}
+\item liens de parrainage
+\item QR Codes
+\item commissions
+\item retraits
+\item campagnes
+\item statistiques
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES AGENTS IA}
+
+\section{Propriétés}
+\begin{multicols}{2}
+\begin{itemize}
+\item identifiant
+\item rôle
+\item objectifs
+\item modèle IA associé
+\item outils autorisés
+\item mémoire
+\item historique
+\item métriques
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES PROJETS}
+
+\section{Composition}
+\begin{multicols}{2}
+\begin{itemize}
+\item client
+\item équipe
+\item agents IA impliqués
+\item tâches
+\item jalons
+\item livrables
+\item historique
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES COMMANDES}
+
+\section{Workflow}
+\begin{enumerate}
+\item Création
+\item Validation
+\item Production
+\item Contrôle qualité
+\item Livraison
+\item Archivage
+\end{enumerate}
+
+\chapter{GESTION DES SERVICES}
+
+\section{Catalogue}
+\begin{multicols}{3}
+\begin{itemize}
+\item Web
+\item Design
+\item Marketing
+\item IA
+\item Branding
+\item Vidéo
+\item Formation
+\item Conseil
+\end{itemize}
+\end{multicols}
+
+\chapter{MARKETPLACE}
+
+\section{Fonctions}
+\begin{multicols}{2}
+\begin{itemize}
+\item vendeurs
+\item produits
+\item licences
+\item téléchargements
+\item évaluations
+\end{itemize}
+\end{multicols}
+
+\chapter{BOUTIQUE ARTISTIQUE}
+
+\section{Entités}
+\begin{multicols}{2}
+\begin{itemize}
+\item œuvres
+\item collections
+\item artistes
+\item formats
+\item impressions
+\item éditions limitées
+\end{itemize}
+\end{multicols}
+
+\chapter{GESTION DES MÉDIAS}
+
+\section{Organisation}
+\begin{multicols}{2}
+\begin{itemize}
+\item Images
+\item Vidéos
+\item Audio
+\item PDF
+\item Templates
+\item Logos
+\item Animations
+\item Modèles 3D
+\end{itemize}
+\end{multicols}
+
+\section{Fonctionnalités}
+Versioning, métadonnées et recherche.
+
+\chapter{GESTION DOCUMENTAIRE}
+
+\section{Centralisation}
+\begin{multicols}{2}
+\begin{itemize}
+\item contrats
+\item devis
+\item factures
+\item guides
+\item ressources marketing
+\item présentations
+\end{itemize}
+\end{multicols}
+
+\chapter{KNOWLEDGE BASE \& RAG}
+
+\section{Fonctionnalités}
+\begin{multicols}{2}
+\begin{itemize}
+\item import de documents
+\item indexation
+\item recherche sémantique
+\item contrôle des accès
+\item gestion des versions
+\end{itemize}
+\end{multicols}
+
+\chapter{HISTORIQUE \& JOURNALISATION}
+
+\section{Événements tracés}
+\begin{multicols}{2}
+\begin{itemize}
+\item connexions
+\item modifications
+\item actions des utilisateurs
+\item actions des agents IA
+\item erreurs
+\item événements critiques
+\end{itemize}
+\end{multicols}
+
+\chapter{NOTIFICATIONS}
+
+\section{Canaux}
+\begin{multicols}{2}
+\begin{itemize}
+\item email
+\item WhatsApp
+\item SMS
+\item notifications internes
+\item autres connecteurs
+\end{itemize}
+\end{multicols}
+
+\chapter{MESSAGERIE}
+
+\section{Conversations}
+\begin{multicols}{2}
+\begin{itemize}
+\item Client ↔ IA
+\item Client ↔ Employé
+\item Employé ↔ Employé
+\item IA ↔ IA (journal interne)
+\end{itemize}
+\end{multicols}
+
+\chapter{PAIEMENTS}
+
+\section{Gestion}
+\begin{multicols}{2}
+\begin{itemize}
+\item transactions
+\item remboursements
+\item abonnements
+\item reçus
+\end{itemize}
+\end{multicols}
+
+\chapter{FACTURATION}
+
+\section{Types}
+\begin{multicols}{2}
+\begin{itemize}
+\item devis
+\item factures
+\item avoirs
+\item échéances
+\item TVA et taxes paramétrables
+\end{itemize}
+\end{multicols}
+
+\chapter{COMPTABILITÉ}
+
+\section{Modules}
+\begin{multicols}{2}
+\begin{itemize}
+\item journal
+\item grand livre
+\item balance
+\item tableaux financiers
+\end{itemize}
+\end{multicols}
+
+\chapter{CRM}
+
+\section{Données}
+\begin{multicols}{2}
+\begin{itemize}
+\item prospects
+\item pipeline
+\item opportunités
+\item campagnes
+\item relances
+\end{itemize}
+\end{multicols}
+
+\chapter{ERP}
+
+\section{Gestion}
+\begin{multicols}{2}
+\begin{itemize}
+\item ressources
+\item stocks
+\item achats
+\item ventes
+\item planning
+\end{itemize}
+\end{multicols}
+
+\chapter{FORMATION}
+
+\section{Composants}
+\begin{multicols}{2}
+\begin{itemize}
+\item cours
+\item quiz
+\item certifications
+\item progression
+\end{itemize}
+\end{multicols}
+
+\chapter{BLOG}
+
+\section{Éléments}
+\begin{multicols}{2}
+\begin{itemize}
+\item articles
+\item catégories
+\item auteurs
+\item SEO
+\item commentaires
+\end{itemize}
+\end{multicols}
+
+\chapter{CENTRE IA}
+
+\section{Conservation}
+\begin{multicols}{2}
+\begin{itemize}
+\item prompts
+\item modèles
+\item conversations
+\item workflows
+\item statistiques
+\end{itemize}
+\end{multicols}
+
+\chapter{SÉCURITÉ DES DONNÉES}
+
+\section{Mesures}
+\begin{itemize}
+\item chiffrement des données sensibles
+\item contrôle d'accès RBAC
+\item authentification forte
+\item audit des accès
+\item rotation des secrets
+\end{itemize}
+
+\chapter{SAUVEGARDES}
+
+\section{Stratégie}
+\begin{itemize}
+\item sauvegardes automatiques
+\item restauration sélective
+\item tests réguliers de restauration
+\item conservation selon politique
+\end{itemize}
+
+\chapter{ARCHIVAGE}
+
+\section{Éléments archivés}
+\begin{multicols}{2}
+\begin{itemize}
+\item projets terminés
+\item anciennes commandes
+\item anciennes versions de documents
+\item journaux historiques
+\end{itemize}
+\end{multicols}
+
+\chapter{MONITORING}
+
+\section{Indicateurs}
+\begin{multicols}{2}
+\begin{itemize}
+\item santé des bases
+\item performances
+\item temps de réponse
+\item espace disque
+\item réplication
+\item alertes
+\end{itemize}
+\end{multicols}
+
+\chapter{OPTIMISATION}
+
+\section{Techniques}
+\begin{multicols}{2}
+\begin{itemize}
+\item indexation
+\item partitionnement
+\item cache
+\item optimisation des requêtes
+\item maintenance planifiée
+\end{itemize}
+\end{multicols}
+
+\chapter{ÉVOLUTIVITÉ}
+
+\section{Principe}
+L'architecture doit permettre d'ajouter de nouveaux modules sans remettre en cause les données existantes.
+
+\appendix
+
+\chapter{Index}
+\begin{enumerate}
+\item Vision de l'Architecture
+\item Choix des Technologies
+\item Architecture Multi-Base
+\item Schéma Global
+\item Gestion des Utilisateurs
+\item Gestion des Entreprises
+\item Gestion des Employés
+\item Gestion des Clients
+\item Gestion des Affiliés
+\item Gestion des Agents IA
+\item Gestion des Projets
+\item Gestion des Commandes
+\item Gestion des Services
+\item Marketplace
+\item Boutique Artistique
+\item Gestion des Médias
+\item Gestion Documentaire
+\item Knowledge Base
+\item Historique
+\item Notifications
+\item Messagerie
+\item Paiements
+\item Facturation
+\item Comptabilité
+\item CRM
+\item ERP
+\item Formation
+\item Blog
+\item Centre IA
+\item Sécurité des Données
+\item Sauvegardes
+\item Archivage
+\item Monitoring
+\item Optimisation
+\item Évolutivité
+\end{enumerate}
+
+\end{document}
