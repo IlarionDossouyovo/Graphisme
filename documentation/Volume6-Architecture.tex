@@ -1,0 +1,539 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{url}
+
+\definecolor{electronblue}{RGB}{0, 120, 212}
+\definecolor{electronpurple}{RGB}{136, 23, 152}
+\definecolor{electroncyan}{RGB}{0, 190, 255}
+\definecolor{electrongold}{RGB}{255, 185, 0}
+\definecolor{darkbg}{RGB}{15, 23, 42}
+\definecolor{lightbg}{RGB}{249, 250, 251}
+\definecolor{softgray}{RGB}{248, 249, 250}
+\definecolor{mediumgray}{RGB}{107, 114, 128}
+\definecolor{success}{RGB}{34, 197, 94}
+\definecolor{warning}{RGB}{251, 191, 36}
+
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=electronblue,
+    filecolor=electronpurple,
+    urlcolor=electroncyan,
+    pdfauthor={E-Graphisme by ELECTRON},
+    pdftitle={Documentation Enterprise - Volume 6},
+    pdfsubject={Architecture Technique & Infrastructure}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[CE,CO]{\thepage}
+
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{electronblue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{electronblue}}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{electronpurple}}
+{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries\color{electronblue}E-GRAPHISME}\\[0.3cm]
+{\LARGE\bfseries\color{electronpurple}by ELECTRON}\\[2cm]
+\vspace{2cm}
+{\huge\bfseries\color{darkbg}ARCHITECTURE TECHNIQUE}\\[0.3cm]
+{\huge\bfseries\color{darkbg}\& INFRASTRUCTURE}\\[1cm]
+{\Large\bfseries\color{electroncyan}Volume 6}\\[3cm]
+\vspace{2cm}
+{\Large\color{mediumgray}Architecture • Performance • Sécurité • Évolutivité}\\[1cm]
+{\Large\color{mediumgray}Là où la créativité rencontre la technologie}\\[3cm]
+{\Large\bfseries\color{electrongold}Version 2026}\\[2cm]
+\vfill
+\end{center}
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{Préface}
+\addcontentsline{toc}{chapter}{Préface}
+Ce volume présente l'architecture technique et l'infrastructure de la plateforme E-Graphisme by ELECTRON.
+
+\bigskip
+\textbf{Classification :} Document Interne - Partageable\\
+\textbf{Volume :} 6\\
+\textbf{Version :} 2026
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{VISION}
+
+\section{Principes}
+L'architecture de E-Graphisme by ELECTRON est conçue comme une plateforme modulaire, évolutive et hautement disponible.
+
+Chaque composant peut évoluer indépendamment sans interrompre le fonctionnement global.
+
+\section{Modes de Fonctionnement}
+Le système est pensé pour fonctionner :
+\begin{itemize}
+\item entièrement en local ;
+\item sur un serveur privé ;
+\item dans un cloud privé ;
+\item ou en mode hybride.
+\end{itemize}
+
+\chapter{ARCHITECTURE GLOBALE}
+
+\section{Couches de l'Architecture}
+L'application est divisée en plusieurs couches :
+
+\begin{enumerate}
+\item Utilisateurs
+\item Frontend Premium
+\item API Gateway
+\item Services Métiers
+\item AI Orchestrator
+\item Agents IA
+\item Ollama
+\item Base de données
+\item Stockage
+\item Sauvegardes
+\end{enumerate}
+
+Chaque couche est indépendante et communique via des API internes.
+
+\chapter{INFRASTRUCTURE LOCALE}
+
+\section{Composants}
+Le serveur local comprend :
+\begin{multicols}{2}
+\begin{itemize}
+\item Docker Desktop
+\item Ollama
+\item OpenHands
+\item PostgreSQL
+\item Redis
+\item Firebase (optionnel)
+\item Serveur Node.js
+\item Serveur React
+\end{itemize}
+\end{multicols}
+
+Tous les services sont conteneurisés.
+
+\chapter{DOCKER ENTERPRISE}
+
+\section{Isolation des Services}
+Chaque module est isolé dans un conteneur dédié.
+
+\section{Conteneurs Principaux}
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Conteneur} & \color{white}\textbf{Rôle} \\
+\hline
+Frontend & Application web React/Next.js \\
+\hline
+Backend & API Node.js/FastAPI \\
+\hline
+API Gateway & Point d'entrée sécurisé \\
+\hline
+PostgreSQL & Base de données relationnelle \\
+\hline
+Redis & Cache et sessions \\
+\hline
+Ollama & Moteur IA \\
+\hline
+OpenHands & Automatisation \\
+\hline
+AI Orchestrator & Coordination des agents \\
+\hline
+Print Service & Impression \\
+\hline
+Marketplace & Boutique \\
+\hline
+Monitoring & Supervision \\
+\hline
+\end{tabular}
+\end{center}
+
+Chaque conteneur possède :
+\begin{itemize}
+\item logs ;
+\item sauvegardes ;
+\item surveillance ;
+\item redémarrage automatique.
+\end{itemize}
+
+\chapter{OLLAMA AI SERVER}
+
+\section{Présentation}
+Ollama constitue le moteur IA principal. Il fournit les modèles de langage utilisés par les agents.
+
+\section{Gestion des Modèles}
+Chaque agent peut être associé à un modèle spécifique selon sa spécialité.
+
+Le système doit permettre :
+\begin{itemize}
+\item la gestion des modèles installés ;
+\item la sélection du modèle par agent ;
+\item le suivi des performances ;
+\item la mise à jour des modèles.
+\end{itemize}
+
+\chapter{OPENHANDS}
+
+\section{Rôle}
+OpenHands agit comme l'assistant de développement logiciel.
+
+\section{Interventions}
+Il intervient pour :
+\begin{itemize}
+\item générer du code ;
+\item corriger des erreurs ;
+\item proposer des améliorations ;
+\item maintenir la documentation ;
+\item assister les développeurs.
+\end{itemize}
+
+Toutes les actions restent sous validation humaine avant intégration.
+
+\chapter{FRONTEND}
+
+\section{Technologies}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{electronpurple}
+\color{white}\textbf{Technologie} & \color{white}\textbf{Usage} \\
+\hline
+React & Bibliothèque UI \\
+\hline
+Next.js & Framework SSR/SSG \\
+\hline
+TypeScript & Typage statique \\
+\hline
+Tailwind CSS & Framework CSS \\
+\hline
+Framer Motion & Animations \\
+\hline
+Three.js & Graphiques 3D \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Principes}
+\begin{itemize}
+\item responsive ;
+\item accessibilité ;
+\item animations fluides ;
+\item composants réutilisables ;
+\item optimisation SEO.
+\end{itemize}
+
+\chapter{BACKEND}
+
+\section{Modules}
+Le Backend est organisé en modules :
+
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electroncyan}
+\color{white}\textbf{Module} & \color{white}\textbf{Description} \\
+\hline
+Authentification & Connexion et sécurité \\
+\hline
+Utilisateurs & Gestion des comptes \\
+\hline
+Clients & CRM \\
+\hline
+Projets & Suivi projet \\
+\hline
+Marketplace & Boutique en ligne \\
+\hline
+Boutique & Produits \\
+\hline
+Paiements & Transactions \\
+\hline
+IA & Intelligence artificielle \\
+\hline
+Fichiers & Stockage \\
+\hline
+Notifications & Alertes \\
+\hline
+Rapports & Données analytiques \\
+\hline
+\end{tabular}
+\end{center}
+
+Chaque module possède ses propres services et contrôleurs.
+
+\chapter{API GATEWAY}
+
+\section{Fonctions}
+Toutes les communications passent par une passerelle API.
+
+\begin{center}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\rowcolor{electronblue}
+\color{white}\textbf{Fonction} & \color{white}\textbf{Description} \\
+\hline
+Authentification & Vérification des tokens \\
+\hline
+Routage & Distribution des requêtes \\
+\hline
+Limitation de débit & Rate limiting \\
+\hline
+Journalisation & Logging complet \\
+\hline
+Sécurité & Protection \\
+\hline
+\end{tabular}
+\end{center}
+
+\chapter{BASES DE DONNÉES}
+
+\section{Types de Données}
+Le système distingue plusieurs types de données.
+
+\section{PostgreSQL}
+\begin{itemize}
+\item utilisateurs ;
+\item commandes ;
+\item factures ;
+\item projets ;
+\item CRM.
+\end{itemize}
+
+\section{Redis}
+\begin{itemize}
+\item cache ;
+\item sessions ;
+\item files d'attente.
+\end{itemize}
+
+\section{Stockage Documentaire}
+\begin{itemize}
+\item images ;
+\item vidéos ;
+\item PDF ;
+\item contrats ;
+\item maquettes.
+\end{itemize}
+
+\chapter{GESTION DES FICHIERS}
+
+\section{Catégories}
+Les ressources sont classées par catégories :
+\begin{multicols}{2}
+\begin{itemize}
+\item œuvres d'art ;
+\item logos ;
+\item vidéos ;
+\item documents ;
+\item livrables ;
+\item modèles.
+\end{itemize}
+\end{multicols}
+
+\section{Métadonnées}
+Chaque fichier possède :
+\begin{itemize}
+\item un identifiant unique ;
+\item un historique de versions ;
+\item des métadonnées ;
+\item des droits d'accès.
+\end{itemize}
+
+\chapter{SÉCURITÉ}
+
+\section{Niveaux de Protection}
+La sécurité repose sur plusieurs niveaux :
+\begin{itemize}
+\item authentification forte ;
+\item contrôle d'accès par rôles ;
+\item chiffrement des données sensibles ;
+\item journal d'audit ;
+\item sauvegardes régulières ;
+\item surveillance des connexions.
+\end{itemize}
+
+Le Centre IA est accessible uniquement au Fondateur.
+
+\chapter{MONITORING}
+
+\section{Éléments Surveillés}
+Le système surveille en continu :
+\begin{multicols}{2}
+\begin{itemize}
+\item l'état des conteneurs Docker ;
+\item les performances CPU et GPU ;
+\item l'utilisation de la mémoire ;
+\item les bases de données ;
+\item les agents IA ;
+\item les temps de réponse.
+\end{itemize}
+\end{multicols}
+
+Les alertes critiques sont affichées sur le tableau de bord du Fondateur.
+
+\chapter{SAUVEGARDES}
+
+\section{Éléments Sauvegardés}
+Les sauvegardes portent sur :
+\begin{multicols}{2}
+\begin{itemize}
+\item bases de données ;
+\item documents ;
+\item paramètres ;
+\item prompts des agents IA ;
+\item journaux.
+\end{itemize}
+\end{multicols}
+
+Des restaurations ciblées ou complètes peuvent être réalisées.
+
+\chapter{DÉPLOIEMENT}
+
+\section{Plateformes Cibles}
+La plateforme peut être installée sur :
+\begin{itemize}
+\item un ordinateur personnel ;
+\item un serveur local ;
+\item une machine virtuelle ;
+\item un serveur dédié ;
+\item une infrastructure cloud.
+\end{itemize}
+
+Le déploiement est piloté par Docker Compose.
+
+\chapter{ÉVOLUTIONS FUTURES}
+
+\section{Modules Prévus}
+L'architecture est conçue pour intégrer de nouveaux modules :
+\begin{itemize}
+\item application mobile ;
+\item synchronisation multi-sites ;
+\item fédération de plusieurs agences ;
+\item marketplace internationale ;
+\item nouveaux modèles IA ;
+\item services cloud optionnels.
+\end{itemize}
+
+\appendix
+
+\chapter{STRUCTURE DU PROJET}
+
+\section{Organisation}
+Le dépôt source sera organisé en grands espaces fonctionnels :
+
+\section{Applications}
+\begin{itemize}
+\item site public ;
+\item ERP ;
+\item Marketplace ;
+\item Studio IA ;
+\item Portail Client ;
+\item Portail Affilié ;
+\item Centre IA.
+\end{itemize}
+
+\section{Services}
+\begin{itemize}
+\item API ;
+\item moteur d'orchestration IA ;
+\item impression ;
+\item notifications ;
+\item paiements ;
+\item stockage.
+\end{itemize}
+
+\section{Bibliothèques}
+\begin{itemize}
+\item composants UI ;
+\item thèmes ;
+\item icônes ;
+\item utilitaires ;
+\item SDK internes.
+\end{itemize}
+
+\section{Configuration}
+\begin{itemize}
+\item Docker ;
+\item variables d'environnement ;
+\item sécurité ;
+\item journalisation.
+\end{itemize}
+
+\section{Documentation}
+\begin{itemize}
+\item guides ;
+\item API ;
+\item procédures ;
+\item architecture.
+\end{itemize}
+
+\section{Tests}
+\begin{itemize}
+\item unitaires ;
+\item intégration ;
+\item performances ;
+\item sécurité.
+\end{itemize}
+
+Cette organisation facilite la maintenance, les mises à jour et l'ajout de nouveaux modules.
+
+\chapter{Index}
+\begin{enumerate}
+\item Vision de l'Architecture
+\item Architecture Globale
+\item Infrastructure Locale
+\item Docker Enterprise
+\item Ollama AI Server
+\item OpenHands
+\item Frontend
+\item Backend
+\item API Gateway
+\item Bases de données
+\item Gestion des fichiers
+\item Sécurité
+\item Monitoring
+\item Sauvegardes
+\item Déploiement
+\item Évolutions futures
+\item Structure du Projet
+\end{enumerate}
+
+\end{document}
